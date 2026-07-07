@@ -1,0 +1,37 @@
+<div class="accessibility-controls" role="toolbar" aria-label="Панель керування доступністю">
+  <button
+    (click)="accessibilityService.toggleHighContrast()"
+    [attr.aria-pressed]="settings().highContrast">
+    <i class="fas fa-adjust"></i> Висока контрастність
+  </button>
+  <div class="font-controls">
+    <span>Розмір шрифту:</span>
+    <button
+      (click)="accessibilityService.changeFontSize(-1)"
+      [disabled]="settings().fontSize <= -1"
+      aria-label="Зменшити розмір шрифту">
+      A-
+    </button>
+    <button
+      (click)="accessibilityService.changeFontSize(1)"
+      [disabled]="settings().fontSize >= 2"
+      aria-label="Збільшити розмір шрифту">
+      A+
+    </button>
+  </div>
+  <button
+    (click)="accessibilityService.toggleLetterSpacing()"
+    [attr.aria-pressed]="settings().letterSpacing">
+    <i class="fas fa-text-width"></i> Міжлітерний інтервал
+  </button>
+  <button
+    (click)="accessibilityService.toggleHighlightLinks()"
+    [attr.aria-pressed]="settings().highlightLinks">
+    <i class="fas fa-link"></i> Підсвітити посилання
+  </button>
+  <button
+    (click)="accessibilityService.toggleAnimations()"
+    [attr.aria-pressed]="settings().disableAnimations">
+    <i class="fas fa-eye-slash"></i> Вимкнути анімації
+  </button>
+</div>

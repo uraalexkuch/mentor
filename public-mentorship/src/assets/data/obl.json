@@ -1,0 +1,28 @@
+[
+
+  {"name_obl": "Вінницька", "cod_obl": "UA-05"},
+  {"name_obl": "Волинська", "cod_obl": "UA-07"},
+  {"name_obl": "Дніпропетровська", "cod_obl": "UA-12"},
+  {"name_obl": "Донецька", "cod_obl": "UA-14"},
+  {"name_obl": "Житомирська", "cod_obl": "UA-18"},
+  {"name_obl": "Закарпатська", "cod_obl": "UA-21"},
+  {"name_obl": "Запорізька", "cod_obl": "UA-23"},
+  {"name_obl": "Івано-Франківська", "cod_obl": "UA-26"},
+  {"name_obl": "м.Київ", "cod_obl": "UA-80"},
+  {"name_obl": "Київська", "cod_obl": "UA-32"},
+  {"name_obl": "Кіровоградська", "cod_obl": "UA-35"},
+  {"name_obl": "Луганська", "cod_obl": "UA-44"},
+  {"name_obl": "Львівська", "cod_obl": "UA-46"},
+  {"name_obl": "Миколаївська", "cod_obl": "UA-48"},
+  {"name_obl": "Одеська", "cod_obl": "UA-51"},
+  {"name_obl": "Полтавська", "cod_obl": "UA-53"},
+  {"name_obl": "Рівненська", "cod_obl": "UA-56"},
+  {"name_obl": "Сумська", "cod_obl": "UA-59"},
+  {"name_obl": "Тернопільська", "cod_obl": "UA-61"},
+  {"name_obl": "Харківська", "cod_obl": "UA-63"},
+  {"name_obl": "Херсонська", "cod_obl": "UA-65"},
+  {"name_obl": "Хмельницька", "cod_obl": "UA-68"},
+  {"name_obl": "Черкаська", "cod_obl": "UA-71"},
+  {"name_obl": "Чернівецька", "cod_obl": "UA-73"},
+  {"name_obl": "Чернігівська", "cod_obl": "UA-74"}
+]

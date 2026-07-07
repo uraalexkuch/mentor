@@ -1,0 +1,195 @@
+<div *ngIf="!isMobile" style="padding-left: 6% !important;z-index: 100;position: relative; padding-right: 5% !important;">
+  <xng-breadcrumb></xng-breadcrumb>
+</div>
+
+<div class="bodycz">
+  <!-- Hero Section -->
+  <div class="service-type_wrap">
+    <div class="hero-text3" [ngStyle]="!isMobile ? {'top': '-2rem'} : {}">
+      <p class="fw-bold" style="margin-bottom: 2rem;">Менторська підтримка та навчання молодих підприємців</p>
+      <div class="service-info_first-text" style="color: #444; margin-bottom: 2rem; max-width: 900px; text-align: center;">
+        Комплексна урядова програма для молоді віком від 18 до 25 років (Постанова КМУ № 472). 
+        Опануйте основи бізнесу та отримайте підтримку експертів офісів «Зроблено в Україні».
+      </div>
+    </div>
+  </div>
+
+  <!-- Інформаційний блок (спліт-дизайн ОПК) -->
+  <section class="service-info_section">
+    <div class="container acc">
+      <div class="row">
+        <div class="service-info_second col-lg-6 col-md-6">
+          <div class="service-info_content h-100">
+            <div class="service-info_first-item" style="margin-top: 2rem;">
+              <div class="service-info_first-label">Вік кандидата:</div>
+              <div class="service-info_first-text">18–25 років</div>
+            </div>
+            <div class="service-info_second-label">Тривалість програми:</div>
+            <div class="service-info_second-text">
+              <div class="service-info_first-text mb-3">
+                Навчання: до 6 тижнів (30 годин).<br>
+                Менторський супровід: для діючих грантоотримувачів.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="service-info_first col-lg-6 col-md-6">
+          <div class="service-info_content h-100">
+            <div class="service-info_first-label">Переваги програми:</div>
+            <div class="service-info_first-text">
+              Сертифікат про успішне завершення навчання дає право на отримання мікрогранту "Власна справа" <b>без проходження особистої співбесіди</b> в центрі зайнятості.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Категорії участі (Картки ОПК) -->
+  <section style="padding: 1rem 0; background: #fdfdfd; border-top: 1px solid #eee;">
+    <div class="container acc">
+      <div class="col-12 text-center mb-5">
+        <h4 class="fw-bold">Категорії участі</h4>
+      </div>
+
+      <div class="row px-3 justify-content-center">
+        <!-- Картка 1: Єдина заява (Кандидат / Працівник) -->
+        <div class="col-lg-5 col-md-12 mb-4 d-flex">
+          <div class="card service-box fw-bold h-100 w-100 d-flex flex-column text-center p-3">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-bold mb-3" style="font-size: 1.3rem;">Учасник програми</h5>
+              <p class="service-info_first-text small mb-4 flex-grow-1" style="font-weight: 400;">
+                Подайте єдину універсальну заявку. Система автоматично визначить ваш статус та запропонує відповідні заходи: комплексне навчання, індивідуальний менторський супровід або практичну допомогу.
+              </p>
+              <div class="mt-auto">
+                <button class="btn nextbtn w-100" routerLink="/profnavch/mentorship/register">
+                  <span>Подати заявку про потребу у заходах</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Картка 2: Консультанти Зроблено в Україні -->
+        <div class="col-lg-5 col-md-12 mb-4 d-flex">
+          <div class="card service-box fw-bold h-100 w-100 d-flex flex-column text-center p-3">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-bold mb-3" style="font-size: 1.3rem;">Офіси «Зроблено в Україні»</h5>
+              <p class="service-info_first-text small mb-4 flex-grow-1" style="font-weight: 400;">
+                Отримайте безкоштовну консультацію щодо грантових програм, підбору персоналу або розвитку діючого бізнесу безпосередньо від експертів у вашому регіоні.
+              </p>
+              <div class="mt-auto">
+                <button class="btn nextbtn w-100" routerLink="/profnavch/mentorship/consultants">
+                  <span>Перейти до консультантів</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Реєстри та Акордеони (Стиль ОПК) -->
+  <section style="background: #fff; padding: 1rem 0; border-top: 1px solid #eee;">
+    <div class="container acc">
+      <h4 class="fw-bold text-center mb-5 mt-4">Реєстри та інформація</h4>
+      <div class="row px-3">
+        <div class="col-12 mb-4">
+          <mat-accordion>
+            <mat-expansion-panel (click)="handlePanelClick($event)">
+              <mat-expansion-panel-header>Реєстр освітніх програм для навчання молодих підприємців</mat-expansion-panel-header>
+              <div class="mt-4 px-3">
+                <div class="table-responsive" style="border: 1px solid #0e0e0e;">
+                  <table mat-table [dataSource]="dataSourceProf" class="w-100">
+                    <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef> № </th>
+                      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="courseName">
+                      <th mat-header-cell *matHeaderCellDef> Назва курсу </th>
+                      <td mat-cell *matCellDef="let element"> <b>{{element.courseName}}</b> </td>
+                    </ng-container>
+                    <ng-container matColumnDef="duration">
+                      <th mat-header-cell *matHeaderCellDef> Тривалість </th>
+                      <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="format">
+                      <th mat-header-cell *matHeaderCellDef> Формат навчання </th>
+                      <td mat-cell *matCellDef="let element"> {{element.format}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsProf"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsProf;"></tr>
+                  </table>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="col-12 mb-4">
+          <mat-accordion>
+            <mat-expansion-panel (click)="handlePanelClick($event)">
+              <mat-expansion-panel-header>Алгоритм отримання підтримки</mat-expansion-panel-header>
+              <div class="row mt-4 px-3">
+                <div class="col-md-6 itemaccord mb-3">
+                  <b>1. Подання заявки</b>
+                  <p class="mt-2">Заповніть онлайн форму на порталі. Протягом 3 робочих днів ви отримаєте підтвердження участі.</p>
+                </div>
+                <div class="col-md-6 itemaccord mb-3">
+                  <b>2. Проходження навчання</b>
+                  <p class="mt-2">Тримісячний курс з бізнес-планування, управління фінансами та практичних навичок.</p>
+                </div>
+                <div class="col-md-6 itemaccord mb-3">
+                  <b>3. Отримання сертифіката</b>
+                  <p class="mt-2">Після успішного завершення навчання ви отримаєте сертифікат для отримання мікрогранту.</p>
+                </div>
+                <div class="col-md-6 itemaccord mb-3">
+                  <b>4. Менторський супровід</b>
+                  <p class="mt-2">Після 12 місяців діяльності бізнесу ментори нададуть персоналізовану допомогу.</p>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="col-12 mb-4">
+          <mat-accordion>
+            <mat-expansion-panel (click)="handlePanelClick($event)">
+              <mat-expansion-panel-header>Поширені запитання</mat-expansion-panel-header>
+              <div class="row mt-4 px-3">
+                <div style="font-weight: bold" *ngFor="let item of faq; let i = index" class="itemaccord col-lg-6 col-md-12 mb-3">
+                  {{item.title}}
+                  <div class="itemaccord mt-1" style="font-weight: 300;">{{item.content}}</div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="col-12">
+          <mat-accordion>
+            <mat-expansion-panel (click)="handlePanelClick($event)">
+              <mat-expansion-panel-header>
+                Нормативна база
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="service-acc_simple">
+                    <div class="service-acc_simple-text" *ngFor="let link of legalLinks; let i = index;">
+                      <a class="itemaccord" [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+
+    </div>
+
+    <app-scroll-up></app-scroll-up>
+  </section>
+</div>

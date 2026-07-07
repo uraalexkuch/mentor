@@ -1,0 +1,160 @@
+:host {
+  display: block;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.doc-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'e-Ukraine', sans-serif;
+  color: #212529;
+}
+
+.doc-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-top: 2rem;
+}
+
+.doc-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.doc-subtitle {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.section-container {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #000;
+  padding-left: 0.5rem;
+}
+
+.section-box {
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  background-color: #f1f3f5;
+  padding: 2.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+::ng-deep .doc-field .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+::ng-deep .doc-field .mat-mdc-form-field-focus-indicator {
+  display: none;
+}
+
+.field-icon-large {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #6c757d;
+  margin-right: 1.5rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.criteria-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.criteria-item {
+  display: flex;
+  align-items: center;
+  
+  span {
+    font-size: 1.05rem;
+  }
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+}
+
+.btn-doc-submit {
+  border: 1.5px solid #1a237e;
+  color: #1a237e;
+  background: transparent;
+  padding: 12px 60px;
+  border-radius: 40px;
+  font-weight: 700;
+  font-family: 'e-Ukraine', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.1rem;
+
+  &:hover:not(:disabled) {
+    background: #1a237e;
+    color: #fff;
+  }
+
+  &:disabled {
+    border-color: #ccc;
+    color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.w-100 { 
+  width: 100%; 
+}
+
+.gap-4 {
+  gap: 1.5rem;
+}
+
+.border {
+  border: 1px solid #dee2e6;
+}
+
+.rounded {
+  border-radius: 0.375rem;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+@media (max-width: 767px) {
+  .section-box {
+    padding: 1.5rem;
+  }
+  
+  .field-icon-large {
+    display: none; 
+  }
+  
+  .criteria-item span {
+    font-size: 0.95rem;
+  }
+  
+  .doc-title {
+    font-size: 1.2rem;
+  }
+  
+  .btn-doc-submit {
+    width: 100%;
+    padding: 12px 30px;
+  }
+}

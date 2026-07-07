@@ -1,0 +1,21 @@
+.example-container {
+  min-height: 100vh;
+  border: 1px solid #e0e0e0;
+}
+
+.side-nav {
+  width: 300px;
+  background: #f9f9f9;
+  padding: 1rem 0;
+  border-right: 1px solid #e0e0e0;
+}
+
+.page-content {
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .side-nav {
+    width: 250px;
+  }
+}

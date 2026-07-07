@@ -1,0 +1,64 @@
+<div class="page-wrapper" style="padding-left: 5% !important; padding-right: 5%; padding-bottom: 5%;">
+  
+  <div class="d-flex align-items-center py-4">
+    <h2 class="main-title mb-0">Офіси "Зроблено в Україні"</h2>
+  </div>
+
+  <app-dcz-mentorship-consultregion-base [opened]="opened">
+    <div sidenav class="w-100 py-3 bg-white">
+      <div class="d-flex align-items-center mb-3 px-3 text-muted fw-bold">
+        <mat-icon class="me-2">menu</mat-icon> Оберіть область
+      </div>
+      
+      <div class="region-list">
+        <a *ngFor="let reg of regionsList" 
+           routerLink="/profnavch/mentorship/consultants" 
+           [queryParams]="{filter: reg.code}"
+           mat-button 
+           class="w-full region-btn text-start" 
+           (click)="selectItem(reg.code)"
+           [class.selected]="selectedItem === reg.code">
+          {{ reg.name }}
+        </a>
+      </div>
+    </div>
+    
+    <div class="content-area w-100">
+      <div class="offices-container">
+        <div class="office-card d-flex flex-column flex-md-row gap-4 mb-4" *ngFor="let office of offices">
+          
+          <!-- Блок з фотографією -->
+          <div class="office-photo-wrapper">
+            <img [src]="office.photoUrl" class="img-fluid office-photo" alt="Фото офісу {{ office.name }}">
+          </div>
+
+          <!-- Блок з контактною інформацією та кнопкою -->
+          <div class="office-info d-flex flex-column justify-content-between w-100">
+            <div>
+              <h4 class="office-name mb-3">{{ office.name }}</h4>
+              <p class="office-detail"><mat-icon class="align-middle me-2 text-muted">location_on</mat-icon> {{ office.address }}</p>
+              <p class="office-detail"><mat-icon class="align-middle me-2 text-muted">phone</mat-icon> {{ office.phone }}</p>
+              <p class="office-detail">
+                <mat-icon class="align-middle me-2 text-muted">email</mat-icon> 
+                <a [href]="'mailto:' + office.email" class="email-link">{{ office.email }}</a>
+              </p>
+            </div>
+            
+            <!-- Кнопка "Замовити консультацію" -->
+            <div class="mt-4 pt-3 border-top">
+              <button class="btn btn-consult w-100 w-md-auto" (click)="orderConsultation(office)">
+                Замовити консультацію
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="offices.length === 0" class="alert alert-secondary mt-3" style="border-radius: 8px;">
+          Будь ласка, оберіть область зі списку ліворуч.
+        </div>
+      </div>
+    </div>
+    
+  </app-dcz-mentorship-consultregion-base>
+</div>

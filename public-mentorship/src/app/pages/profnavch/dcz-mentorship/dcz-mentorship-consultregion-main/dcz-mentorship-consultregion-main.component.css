@@ -1,0 +1,147 @@
+.page-wrapper {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+.main-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.bg-white {
+  background-color: #fff;
+  height: 100%;
+  border-right: 1px solid #eef0f4;
+}
+
+.content-area {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.region-list {
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+}
+
+/* Перевизначення стилів Angular Material Button під макет Proforient */
+.w-full {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+:host ::ng-deep .mdc-button .mdc-button__label {
+  font-size: 1.15rem;
+  line-height: normal;
+  font-family: 'e-Ukraine', sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+  width: 100%;
+  text-align: left;
+}
+
+:host ::ng-deep .mdc-button.selected {
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  border-left: 4px solid #264493;
+  border-radius: 0;
+}
+
+.region-btn {
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.2rem;
+  color: #333;
+}
+
+.region-btn:hover {
+  background-color: #f8f9fa;
+}
+
+/* Стилi карток офiсiв */
+.offices-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  min-height: 100%;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+.office-card {
+  background: #fff;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.office-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.office-photo-wrapper {
+  flex: 0 0 280px;
+}
+
+.office-photo {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.office-name {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #000;
+}
+
+.office-detail {
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+}
+
+.email-link {
+  color: #264493;
+  text-decoration: none;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+.btn-consult {
+  background: transparent;
+  color: #264493;
+  border: 2px solid #264493;
+  padding: 0.6rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-consult:hover {
+  background: #264493;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .office-photo-wrapper {
+    flex: auto;
+  }
+  .office-photo {
+    height: 200px;
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Заявка на набуття практичних навичок",
+    "content": "(вхід для шукачів)",
+    "link": "/profnavch/navchintern/candidate-profile"
+  },
+  {
+    "id": 2,
+    "title": "Вакансія для набуття практичних навичок",
+    "content": "(вхід для роботодавців)",
+    "link": "/profnavch/navchintern/employer"
+  }
+]

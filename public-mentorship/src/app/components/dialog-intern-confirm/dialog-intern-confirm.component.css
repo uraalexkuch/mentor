@@ -1,0 +1,37 @@
+.dialog-wrapper {
+    border: 1px solid #000036;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.dialog-title {
+    color: #264493;
+    display: flex;
+    justify-content: center;
+    font-family: 'e-Ukraine', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.dialog-content {
+    font-size: 1rem;
+    font-family: 'e-Ukraine', sans-serif;
+    white-space: pre-line;
+    text-align: left;
+    line-height: 1.6;
+    color: #333;
+    overflow-y: auto;
+}
+
+.dialog-actions {
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.dialog-actions button {
+    font-family: 'e-Ukraine', sans-serif;
+    color: #264493;
+    border: 1px solid #264493;
+    border-radius: 2rem;
+    padding: 0.4rem 2rem;
+}

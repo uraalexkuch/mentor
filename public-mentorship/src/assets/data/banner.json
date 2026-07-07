@@ -1,0 +1,9 @@
+[
+    {
+        "id":1,
+        "image":"assets/fonsearch.webp",
+        "title":"Траєкторія твоєї кар'єри!",
+        "text":"Пошук вакансій",
+      "link": "/job"
+    }
+]

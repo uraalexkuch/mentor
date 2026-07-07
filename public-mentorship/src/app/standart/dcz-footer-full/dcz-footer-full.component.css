@@ -1,0 +1,280 @@
+/* General Footer Styles */
+.indownbar {
+
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding: 1rem;
+}
+
+.downbar {
+  font-weight: 500;
+  position: relative;
+  z-index: 15;
+  flex-shrink: 0;
+  background-color: #000 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.downbar .dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.social {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+/* Navigation & Links */
+.menuhead {
+  margin-top: 5%;
+  margin-right: 1rem;
+  font-family: e-Ukraine, sans-serif;
+  text-decoration: none;
+  line-height: 20px;
+  flex-wrap: wrap;
+  color: white;
+  display: inline-flex;
+  border-bottom: 2px solid transparent;
+  justify-content: flex-start;
+}
+
+.nav-item a {
+  white-space: normal;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
+
+.contactfooter {
+  color: white;
+  font-size: .875rem;
+  text-align: center;
+}
+
+/* Copyright */
+.copyright {
+  margin-top: .5rem;
+  justify-items: center;
+  margin-right: 1rem;
+  font-family: e-Ukraine, sans-serif;
+  opacity: .5;
+  font-size: .75rem;
+  line-height: 1.5;
+  font-weight: 300;
+  color: white;
+  display: inline-flex;
+  width: max-content;
+  border-bottom: 2px solid transparent;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.navbar-nav {
+  justify-content: flex-start;
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+/* Logo and Brand */
+.logoheadbrandfooter {
+  text-align: left;
+  text-decoration: none;
+  color: white;
+  font-family: e-UkraineHead;
+  margin: 0;
+  line-height: normal;
+  font-weight: 300;
+  margin-top: 0.3125rem;
+}
+
+.brandfooter {
+  margin-top: 0.4rem;
+  text-align: left;
+  text-decoration: none;
+  color: white;
+  font-family: e-UkraineHead;
+  margin: 0;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.brandfootermini {
+  text-align: left;
+  text-decoration: none;
+  color: white;
+  font-family: e-Ukraine;
+  margin: 0;
+  font-size: .75rem;
+  line-height: .875rem;
+  opacity: .5;
+  font-weight: 300;
+  display: block;
+  margin-top: 0.3125rem;
+}
+
+/* App Store Links */
+.store {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.store-apple {
+  background-image: url(src/assets/images/apple-store.svg);
+}
+
+.store-google {
+  background-image: url("src/assets/images/google-store.svg");
+}
+
+.store-apple,
+.store-google {
+  width: 7rem;
+  height: 2rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: 0 10px 0 0;
+  /* Adjusted margin */
+}
+
+
+/* === STYLES FOR THE BOTTOM BAR === */
+
+/* Container for the bottom block */
+/* Контейнер для нижнього блоку */
+.bottom-bar {
+  background-color: #273043;
+  /* Колір залишається для сумісності */
+  padding: 1rem;
+  /* Відступи залишаються для вирівнювання вмісту */
+
+  /* Додайте ці властивості, щоб розтягнути фон */
+  position: relative;
+  box-shadow: 0 0 0 100vw #273043;
+  clip-path: inset(0 -100vw);
+  margin-top: auto;
+}
+
+/* Beta Version Notice */
+.beta-notice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0.9;
+  font-family: e-Ukraine, sans-serif;
+  font-size: 0.8rem;
+}
+
+.beta-tag {
+  flex-shrink: 0;
+  /* Prevents the tag from shrinking */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-weight: bold;
+  margin-right: 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* Sitemap Link */
+.mapsite {
+  color: white;
+  font-size: .875rem;
+  text-decoration: none;
+}
+
+.mapsite:hover {
+  text-decoration: underline;
+}
+
+/* App store links in the bottom bar */
+.store a {
+  margin-bottom: 0;
+  /* Removes default bottom margin */
+}
+
+
+/* === RESPONSIVENESS === */
+@media all and (max-width: 991.98px) {
+  .logoheadbrandfooter {
+    padding-top: .5rem;
+    padding-left: 0;
+    text-align: left;
+    margin: 0;
+  }
+
+  .contactfooter {
+    margin-top: .5rem;
+  }
+
+  .copyright {
+    text-align: center;
+    margin-right: 0;
+    /* Center copyright on mobile */
+  }
+
+  .social {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: .5rem;
+  }
+
+  .navbar-nav {
+    justify-content: center;
+    flex-grow: 1;
+    padding: 0;
+  }
+
+  .downbar {
+    padding: 1rem;
+  }
+
+  .menuhead {
+    margin-right: 0;
+    padding: 0;
+  }
+
+  .brandfooter {
+    text-align: left;
+    margin: 0;
+  }
+
+  .brandfootermini {
+    text-align: left;
+    margin-top: 0.3125rem;
+    padding: 0;
+  }
+
+  .store {
+    justify-content: center;
+  }
+
+  /* Stacking for the bottom bar */
+  .bottom-bar .col-12 {
+    margin-bottom: 1.25rem;
+    /* Adds vertical space between blocks on mobile */
+  }
+
+  .bottom-bar .col-12:last-child {
+    margin-bottom: 0;
+    /* Removes space for the last element */
+  }
+
+  .beta-text {
+    text-align: left;
+    /* For better readability on narrow screens */
+  }
+}
+
+@media all and (max-width: 320px) {
+  .logoheadbrandfooter {
+    padding-top: .5rem;
+    padding-left: .5rem;
+    text-align: left;
+    margin: 0;
+  }
+}

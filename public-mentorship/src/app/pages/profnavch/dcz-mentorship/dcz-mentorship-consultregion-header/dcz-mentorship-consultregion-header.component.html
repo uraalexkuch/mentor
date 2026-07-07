@@ -1,0 +1,16 @@
+<div *ngIf="!isMobile">
+  <div class="col-12">
+    <xng-breadcrumb></xng-breadcrumb>
+  </div>
+</div>
+<div class="col-12 nameposlug">
+  <h4 class="article-level-1 fw-bold">Офіси "Зроблено в Україні"</h4>
+</div>
+<mat-toolbar class="headregion" style="height: max-content!important;">
+  <button (click)="drawer.emit()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div class="row justify-content-between" style="width: 100vw;">
+    <div class="pl-2 col-8 d-flex flex-wrap h7">{{title}}</div>
+  </div>
+</mat-toolbar>

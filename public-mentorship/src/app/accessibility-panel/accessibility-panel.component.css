@@ -1,0 +1,47 @@
+.accessibility-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.accessibility-controls button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
+}
+.accessibility-controls button:hover {
+  background-color: #e9ecef;
+}
+.accessibility-controls button[aria-pressed='true'] {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+.accessibility-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.font-controls {
+  display: flex;
+  color: black;
+  align-items: center;
+  gap: 10px;
+}
+.font-controls span {
+  flex-grow: 1;
+}
+.font-controls button {
+  width: auto;
+}

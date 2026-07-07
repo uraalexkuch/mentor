@@ -1,0 +1,17 @@
+.back-to-top {
+  text-align: left;
+  justify-items: left;
+  position: fixed;
+  bottom: 24px;
+  left: 24px; /* Adjusted from 'right' to 'left' */
+  height: 64px;
+  z-index: 1000;
+  width: 64px;
+
+  box-shadow: 0 2px 12px #00000040;
+  border-radius: 100%;
+  cursor: pointer;
+  background-color: #000;
+
+  border: 2px solid white;
+}

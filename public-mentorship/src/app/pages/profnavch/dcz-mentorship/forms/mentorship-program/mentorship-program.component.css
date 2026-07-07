@@ -1,0 +1,285 @@
+/* =============================================
+   BASE STYLES & MATERIAL OVERRIDES (OPK STYLE)
+   ============================================= */
+:host ::ng-deep .mat-content {
+  z-index: 1;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  z-index: 100;
+}
+
+.bodycz {
+  font-family: 'e-Ukraine', sans-serif;
+  color: #000;
+}
+
+.container-fluid {
+  height: max-content;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+/* =============================================
+   LAYOUT & CONTENT BLOCKS
+   ============================================= */
+.service-type_wrap {
+  padding: 4.375rem 0;
+  background: #E7EEF3;
+  margin-bottom: 5rem;
+}
+
+.hero-text3 {
+  position: relative;
+  font-size: 3rem;
+  line-height: 1.2;
+  padding-left: 6%;
+  padding-right: 5%;
+}
+
+.service-info_section {
+  margin: 5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.service-info_first {
+  padding: 0.125rem 0.063rem 0.125rem 0.125rem;
+  border-style: solid;
+  border-color: black;
+  border-width: 0.063rem;
+}
+
+.service-info_second {
+  padding: 0.125rem 0.125rem 0.125rem 0.063rem;
+  border-style: solid;
+  border-color: black;
+  border-width: 0.063rem;
+}
+
+.service-info_content {
+  padding: 2.813rem 3.75rem 2.313rem;
+  background: #fff;
+  height: 100%;
+}
+
+.service-info_first-item {
+  margin-bottom: 1.25rem;
+}
+
+.service-info_first-label,
+.service-info_second-label {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.02em;
+  color: #000;
+  font-weight: bold;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+.service-info_second-label {
+  margin-bottom: 1.25rem;
+}
+
+.service-info_first-text {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  letter-spacing: -0.02rem;
+  color: #000;
+  font-family: 'e-Ukraine', sans-serif;
+  text-align: justify;
+}
+
+.service-info_second-text {
+  font-size: 1.25rem;
+  line-height: 2.125rem;
+  letter-spacing: -0.02em;
+  color: #000;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+/* =============================================
+   SERVICE CARDS (OPK STYLE)
+   ============================================= */
+.service-box {
+  border: 1px solid #dde3ee;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(38, 68, 147, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  background: #fff;
+}
+
+.service-box:hover {
+  box-shadow: 0 8px 28px rgba(38, 68, 147, 0.18);
+  transform: translateY(-3px);
+}
+
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 1rem;
+  background: #fff;
+}
+
+/* =============================================
+   BUTTONS (OPK STYLE)
+   ============================================= */
+.nextbtn {
+  border: 1px solid #0e0e0e;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #0e0e0e;
+  border-radius: 2.5rem;
+  padding: 0.875rem 1.5rem;
+  font-family: 'e-Ukraine', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nextbtn:hover {
+  color: #e9edf1 !important;
+  background: #0a4e8d;
+  border-color: #0a4e8d;
+}
+
+/* =============================================
+   ACCORDIONS (OPK STYLE)
+   ============================================= */
+:host ::ng-deep .mat-expansion-panel-header {
+  border-radius: 0;
+  display: flex;
+  font-size: 1.75rem;
+  line-height: normal;
+  padding: 3rem 6rem 3rem 1.5rem;
+  letter-spacing: -0.02em;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+  transition: height 225ms cubic-bezier(0.4, 0, 0.3, 1);
+  border-top: 0.125rem solid #000;
+  font-family: 'e-Ukraine', sans-serif;
+  min-height: 10vh;
+  height: auto;
+}
+
+:host ::ng-deep .mat-expansion-panel-header.mat-expanded {
+  min-height: 10vh;
+  height: auto;
+}
+
+:host ::ng-deep .mat-expansion-panel-header:hover {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 6rem 3rem 5rem;
+  background: linear-gradient(90deg, rgb(54, 49, 49) 0%, #1c1717 100%) !important;
+  color: white;
+  transition: padding .5s, background .5s;
+}
+
+:host ::ng-deep .mat-expansion-indicator::after:hover {
+  color: white !important;
+}
+
+.itemaccord {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.02rem;
+  justify-content: space-between;
+  color: #000;
+  margin: 0px 0 0.938rem;
+  font-weight: 300;
+  font-family: 'e-Ukraine', sans-serif;
+  width: 100%;
+  padding: 0;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.service-acc_simple-text {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: -0.02em;
+  color: #000;
+  margin: 0px 0 0.938rem;
+  font-weight: 300;
+  font-family: 'e-Ukraine', sans-serif;
+  text-align: justify;
+}
+
+/* =============================================
+   TABLES
+   ============================================= */
+table.mat-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell {
+  background-color: #f1f3f5;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 16px;
+  font-family: 'e-Ukraine', sans-serif;
+}
+
+td.mat-cell {
+  padding: 16px;
+  font-size: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* =============================================
+   MOBILE
+   ============================================= */
+@media only screen and (max-width: 767px) {
+  .hero-text3 {
+    font-size: 2rem;
+    line-height: 2rem;
+    padding-top: 10%;
+    padding-bottom: 1%;
+    padding-right: 10%;
+    padding-left: 5%;
+    margin-bottom: 1rem;
+  }
+
+  .service-info_content {
+    padding: 1rem;
+  }
+
+  .service-info_second-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .nextbtn {
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+  }
+
+  :host ::ng-deep .mat-expansion-panel-header {
+    height: auto !important;
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.2rem;
+  }
+
+  :host ::ng-deep .mat-expansion-panel-header:hover {
+    background: white !important;
+    color: black !important;
+    padding: 10px 24px !important;
+  }
+
+  .itemaccord {
+    font-size: 1rem;
+    line-height: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .hero-text3 {
+    font-size: 2.5rem;
+    line-height: 2rem;
+  }
+}

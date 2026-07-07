@@ -1,0 +1,1136 @@
+.mat-drawer {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 100%;
+  background-color: #273043;
+  color: white;
+}
+
+.page-content {
+  display: flex;
+  padding: 1.25rem;
+
+  /* Removed the '@apply' rule because it's specific to Tailwind CSS.
+     If you're using Tailwind, make sure to install and configure it correctly. */
+  /* @apply flex flex-col h-[92vh] p-5; */
+  flex-direction: column;
+  height: 92vh;
+}
+
+
+.mobilebtn {
+  justify-items: center;
+  justify-content: space-between;
+  margin-left: .5rem;
+
+}
+
+.carbonview {
+  width: auto;
+  color: white;
+}
+
+.container {
+  max-width: 100vw;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.row {
+  display: inline-block;
+
+}
+
+.header-top {
+  /*background-image: url(src/assets/back.jpg);*/
+  background: linear-gradient(180deg, #0f0f2f 0%, #000036 100%);
+  width: 100vw;
+}
+
+.cabinet {
+  margin: 0;
+  padding: 0.625rem;
+  font-size: 0.813rem;
+  color: #264493;
+  font-family: e-Ukraine, sans-serif;
+  font-weight: 400;
+  line-height: 1rem;
+  border: 0.0625rem #1c1717 solid;
+  border-radius: 2.5rem;
+  background-image: linear-gradient(90deg, #264493 0%, #4477EEFF 63%);
+  background-size: 0 100%;
+  /* Змініть розмір фону на 0, щоб спочатку його не було видно */
+  background-position: 0 100%;
+  /* Почніть фон з крайнього правого краю */
+  background-repeat: no-repeat;
+  /* Забороніть повторення фону */
+  transition: background-size 0.5s ease;
+  /* Додайте анімацію */
+}
+
+.cabinet:hover {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+.btn {
+  font-family: e-Ukraine, sans-serif;
+  text-indent: 0;
+  font-weight: 500;
+  line-height: normal;
+  width: max-content;
+  height: max-content;
+
+  text-decoration: none;
+  text-align: center;
+  padding: .625rem;
+  margin: 0;
+  display: block;
+  color: #2d5ca6;
+  border: 0.125rem solid #2d5ca6;
+  background-color: #fff;
+
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  color: #fff;
+  background-color: #2d5ca6;
+}
+
+.site-header {
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  color: #1c1717;
+}
+
+header#masthead {
+  margin-bottom: 0.1875rem !important;
+}
+
+.site-header .container {
+  padding: 1.875rem;
+}
+
+.site-header .header-top {
+  background-color: #182a4b;
+  position: relative;
+  height: 18.75rem;
+
+  margin: 0 auto;
+}
+
+.site-header .brand {
+  position: absolute;
+  width: 100%;
+  top: 2.875rem;
+  left: 0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+img {
+  width: 5rem;
+
+}
+
+.site-name {
+  font-family: e-Ukraine;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0.9375rem;
+  margin-bottom: 0.25rem;
+  color: black;
+}
+
+.site-description {
+  font-family: e-Ukraine;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.header-left-box {
+  float: left;
+  position: relative;
+}
+
+.header-left-box a {
+  display: inline-block;
+}
+
+.header-right-box {
+  display: inline-block;
+  vertical-align: top;
+  float: right;
+  margin-top: -8%;
+  text-align: right;
+}
+
+.header-left-box .left-box .icon {
+  position: relative;
+  width: 0.625rem;
+  height: 2.5rem;
+  background-color: #2669e3;
+  margin-right: 0.5rem;
+}
+
+.header-left-box .left-box .icon:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 0.625rem;
+  height: 1.25rem;
+  background-color: #ffe358;
+}
+
+.header-left-box .left-box .domen {
+  color: #1614d3;
+  font-family: e-Ukraine;
+  font-size: 1.5rem;
+  font-weight: 700;
+  height: 1.5rem;
+  line-height: 0.5;
+}
+
+.header-top .header-right-box {
+  position: relative;
+  z-index: 100;
+}
+
+.link-eyeglasses {
+  text-decoration: none;
+  display: block;
+}
+
+.header-top .header-right-box .link-lang {
+  display: flex;
+  float: right;
+  align-items: center;
+
+  visibility: hidden;
+}
+
+.bvi-body .header-top .header-right-box .link-lang {
+  margin-left: 1.25rem;
+}
+
+.header-top .header-right-box .link-eyeglasses {
+  margin-bottom: 1.5625rem;
+}
+
+.header-right-box .link-eyeglasses img {
+  width: 1.5625rem;
+  height: auto;
+  margin-right: 0.5625rem;
+}
+
+.header-right-box .link-lang img {
+  width: 1.875rem;
+  height: auto;
+  margin-right: 0.5625rem;
+}
+
+.header-right-box .link-lang span,
+.header-right-box .link-eyeglasses span {
+  color: #80899a;
+  font-family: e-Ukraine;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.2;
+
+  -moz-transition: color 0.2s ease-in-out;
+  -ms-transition: color 0.2s ease-in-out;
+  -o-transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+}
+
+.header-right-box .link-lang:hover span,
+.header-right-box .link-eyeglasses:hover span {
+  color: #fff;
+}
+
+.header-right-box .link-eyeglasses span {
+  margin-top: 0;
+}
+
+.header-top .left-menu {
+  display: flex;
+  float: left;
+
+  padding-bottom: 1rem;
+}
+
+.header-top .right-menu {
+  width: 13.875rem;
+}
+
+.header-top .right-menu,
+.footer-top .right-menu {
+  display: flex;
+  float: right;
+  position: relative;
+}
+
+.header-top .soc-info,
+.footer-top .soc-info {
+  margin-top: 0.1875rem;
+}
+
+.header-top .soc-info a,
+.footer-top .soc-info a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.header-top .soc-info svg,
+.footer-top .soc-info svg {
+  width: 1.125rem;
+  height: 1.0625rem;
+  margin-left: 0;
+  margin-right: 0.875rem;
+}
+
+.header-top .soc-info a svg .st0,
+.footer-top .soc-info a svg .st0 {
+  -moz-transition: 0.2s ease-in-out;
+  -ms-transition: 0.2s ease-in-out;
+  -o-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.header-top .soc-info a:hover svg .st0,
+.header-top .soc-info a:hover svg {
+  fill: #ffffff;
+}
+
+.footer-top .soc-info a:hover svg .st0,
+.footer-top .soc-info a:hover svg {
+  fill: #004bc1;
+}
+
+.site-header .header-top-menu-container {
+  display: inline-block;
+  width: 100%;
+}
+
+.header-top .menu-box {
+  position: relative;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+#header-top-menu {
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.site-header ul {
+  list-style: none;
+  padding-left: 0;
+  padding-bottom: 0;
+  margin: 0;
+}
+
+#header-top-menu {
+  padding: 0;
+  margin: 0;
+}
+
+#header-top-menu>li {
+  margin-right: 0.625rem;
+  text-align: left;
+  display: inline-block;
+  margin-bottom: 0;
+  line-height: 1.375rem;
+  height: 1.375rem;
+  cursor: pointer;
+}
+
+#header-top-menu li a {
+  text-transform: none;
+  text-decoration: none;
+  color: white;
+  font-family: e-Ukraine;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 1.1875rem 0.75rem;
+  -webkit-transition: color 0.2s ease-in-out;
+  -moz-transition: color 0.2s ease-in-out;
+  -ms-transition: color 0.2s ease-in-out;
+  -o-transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+}
+
+#header-top-menu li a:hover,
+#header-top-menu li a:focus {
+  text-decoration: none;
+
+}
+
+#header-top-menu ul.sub-menu {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  /* --- ЗМІНЕНО --- */
+  /* Компенсуємо глобальний відступ padding-left: 5% на батьківському елементі .header-top */
+  left: -5vw;
+  box-sizing: border-box;
+  margin-top: .7rem;
+  width: 100vw;
+  display: flex;
+  height: max-content;
+  justify-content: left;
+  justify-items: center;
+  text-align: center;
+  color: white !important;
+  background-color: #273043;
+  z-index: 10;
+}
+
+#header-top-menu ul.sub-menu li {
+  margin-right: 0;
+  width: max-content;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  padding-left: 4% !important;
+}
+
+#header-top-menu ul.sub-menu li a {
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1.1;
+  width: 100%;
+  padding: 1.1875rem 0;
+  text-align: left;
+  color: white;
+}
+
+#header-top-menu ul.sub-menu li a:hover {
+  color: #ebe236
+}
+
+#header-top-menu .menu-item-has-children:hover>a,
+#header-top-menu .menu-item-has-children>a:focus,
+#header-top-menu .menu-item-has-children>a.focisin-menu {
+  color: #ebe236 !important;
+  /* background-color: #273043;*/
+
+}
+
+#header-top-menu .menu-item-has-children.active-menu-item>a {
+  color: #ebe236 !important;
+  background-color: #273043;
+}
+
+#header-top-menu .menu-item-has-children>.sub-menu.visible-menu {
+  opacity: 1;
+  color: #ebe236 !important;
+  visibility: visible;
+}
+
+.custom-underline {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+.bvi-body h1 {
+  line-height: 3 !important;
+}
+
+.menu-item-type-taxonomy {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+}
+
+.site-header .header-bottom {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 0;
+  width: 100%;
+
+}
+
+.site-header .header-bottom-menu-container {
+  display: table;
+  width: 100vw;
+}
+
+#header-bottom-menu {
+  display: flex;
+  padding-bottom: 0;
+  padding-left: 1.1rem;
+}
+
+#header-bottom-menu li {
+  text-align: left;
+  display: flex;
+  position: relative;
+  padding-left: 0;
+  padding-bottom: 0;
+  width: max-content;
+  white-space: nowrap;
+}
+
+#header-bottom-menu .menu-item-type-taxonomy {
+  margin-bottom: 0;
+  padding-bottom: 1rem;
+  border-bottom: 0.1875rem transparent solid;
+
+}
+
+#header-bottom-menu .menu-item-type-taxonomy:hover {
+  padding-bottom: -1rem;
+  border-bottom: 0.1875rem #2d5ca6 solid;
+
+}
+
+#header-bottom-menu li a {
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+  text-transform: none;
+  text-decoration: none;
+  color: #273857;
+  font-family: e-Ukraine;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.875rem;
+
+}
+
+#header-bottom-menu li a:hover {
+  color: #164391;
+}
+
+#header-bottom-menu .menu-item-has-children:after {
+  content: ' ';
+  width: 1.5625rem;
+  height: 1.5625rem;
+  background-size: 1.5625rem;
+  background-repeat: no-repeat;
+  display: inline-block;
+  position: absolute;
+  top: 0.1875rem;
+  right: 0.375rem;
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+}
+
+#header-bottom-menu ul.sub-menu {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 100vw;
+  max-height: max-content;
+  overflow: auto;
+  margin: 0 !important;
+  padding-bottom: 0;
+
+  margin-bottom: 0;
+  background-color: white;
+  z-index: 10;
+  -webkit-transition: 0.25s linear opacity;
+  transition: 0.25s linear opacity;
+  -moz-transition: 0.25s linear opacity;
+  -o-transition: 0.25s linear opacity;
+  -webkit-box-shadow: 0rem 0.1875rem 2.6875rem 0.0625rem rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0rem 0.1875rem 2.6875rem 0.0625rem rgba(0, 0, 0, 0.3);
+  box-shadow: 0rem 0.1875rem 2.6875rem 0.0625rem rgba(0, 0, 0, 0.3);
+}
+
+ul.sub-menu {
+  height: min-content !important;
+}
+
+#header-bottom-menu ul.sub-menu li {
+  margin-right: 0;
+  width: 100vw;
+  display: block;
+  position: relative;
+  vertical-align: top;
+
+}
+
+#header-bottom-menu ul.sub-menu li a {
+  display: inline-block;
+  line-height: 1.1;
+  width: 100vw;
+  padding: 0;
+  text-align: left;
+}
+
+.site-header .popup-content {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-bottom {
+
+  padding: 0;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
+.maticon {
+  zoom: 1.2;
+}
+
+@media all and (max-width: 62rem) {
+  .side-nav {
+    width: 80%;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  #header-bottom-menu1 {
+    padding-left: 1rem;
+  }
+
+  .btn {
+    font-family: e-Ukraine, sans-serif;
+    font-weight: 500;
+    line-height: normal;
+    width: max-content;
+    height: max-content;
+    text-decoration: none;
+    text-align: center;
+    margin: 0;
+    display: block;
+    color: #2d5ca6;
+    border: 0.125rem solid #2d5ca6;
+    background-color: #fff;
+    padding: .5rem;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+
+  }
+
+  #header-bottom-menu {
+    display: inline-block
+  }
+
+  #header-top-menu ul.sub-menu li {
+    width: 100vw;
+  }
+
+  .menu-item-type-taxonomy {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  header-top-menu ul.sub-menu li a {
+    display: inline-block;
+    line-height: 1;
+
+    padding: 0;
+
+  }
+
+  .header-top .menu-box {
+    position: relative;
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+.frame-container {
+
+  padding: 1rem;
+  color: white;
+  justify-content: space-between;
+}
+
+.frame-container,
+.parent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.group-parent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.group-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.frame-group {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 45rem);
+  background: linear-gradient(89.01deg, #27515f 15.03%, #1a335a),
+    linear-gradient(90deg, #fffff5 44.31%, #fff9e1);
+  flex-direction: column;
+  padding: 1rem 0 1rem;
+  gap: 1rem;
+  color: white;
+}
+
+.sub-menu {
+  display: none;
+  /* Hide by default */
+}
+
+.visible-menu {
+  display: block;
+  /* Show when .visible-menu class is added */
+}
+
+.app-container ul {
+  list-style-type: none;
+  /* This is traditionally used to remove bullet points from lists */
+}
+
+/* Newer approach to remove markers */
+.app-container li::marker {
+  display: none;
+}
+
+/* --- ВИДАЛЕНО --- */
+/* Ці медіа-запити більше не потрібні, оскільки правило 'left: -5%' працює на всіх екранах. */
+/*
+@media all and (min-width: 120rem) and (max-width: 124.9375rem){
+  #header-top-menu ul.sub-menu {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: -19.5%!important;
+
+      box-sizing: border-box;
+    margin-top: .8rem;
+    width:  100vw;
+    display: flex;
+    height: max-content;
+    justify-content:left;
+    justify-items: center;
+    text-align: center;
+    color: white!important;
+    background-color: #273043;
+    z-index: 10;
+  }
+}
+@media all and (min-width:125rem) {
+  #header-top-menu ul.sub-menu {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: -27%!important;
+      box-sizing: border-box;
+    margin-top: .8rem;
+    width:  100vw;
+    display: flex;
+    height: max-content;
+    justify-content:left;
+    justify-items: center;
+    text-align: center;
+    color: white!important;
+    background-color: #273043;
+    z-index: 10;
+  }
+}
+*/
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  /* Align to the left of the parent element */
+  top: 100%;
+  /* Position it right below the trigger element */
+  width: 26vw;
+  /* Adjust width as needed */
+  height: 50vh;
+  padding: 1rem;
+  overflow: auto;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  /* Ensure it's above other content */
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* --- ДОДАТКОВІ СТИЛІ ДЛЯ АДАПТИВНОСТІ (додайте це в кінець файлу) --- */
+
+/* Загальне правило для адаптивності зображень */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Повертаємо фіксовану ширину логотипу, яку скасувало попереднє правило */
+.site-header .brand img {
+  width: 5rem;
+}
+
+
+/* --- Адаптація для планшетів та мобільних пристроїв (екрани менше 992px) --- */
+@media all and (max-width: 62rem) {
+
+  /* --- Шапка сайту --- */
+  .site-header .header-top {
+    height: auto;
+    /* Робимо висоту шапки гнучкою */
+    padding-bottom: 1rem;
+  }
+
+  .site-header .brand {
+    position: relative;
+    /* Прибираємо абсолютне позиціонування */
+    top: auto;
+    left: auto;
+    padding-top: 1.5rem;
+  }
+
+  .header-left-box,
+  .header-right-box {
+    float: none;
+    /* Вимикаємо обтікання */
+    display: block;
+    text-align: center;
+    margin: 1rem auto 0;
+    /* Центруємо блоки */
+  }
+
+  .header-right-box {
+    margin-top: 1rem;
+    /* Відступ для правого блоку */
+  }
+
+  .site-header .container {
+    padding: 1rem;
+    /* Зменшуємо внутрішні відступи */
+  }
+
+  /* --- Навігаційні меню --- */
+  #header-top-menu,
+  #header-bottom-menu {
+    flex-direction: column;
+    /* Розташовуємо пункти меню вертикально */
+    align-items: center;
+    /* Центруємо їх */
+    display: inline-block;
+    /* Змінюємо для коректної роботи */
+  }
+
+  #header-top-menu>li,
+  #header-bottom-menu>li {
+    display: block;
+    /* Кожен пункт меню - окремий рядок */
+    margin: 0.5rem 0;
+    text-align: center;
+    width: 100%;
+    white-space: normal;
+    /* Дозволяємо перенос довгих назв */
+  }
+
+  #header-bottom-menu {
+    padding-left: 0;
+  }
+
+  #header-top-menu li a,
+  #header-bottom-menu li a {
+    padding: 0.75rem 1rem;
+    display: block;
+    text-align: center;
+  }
+
+  /* --- Випадаюче меню --- */
+  #header-top-menu ul.sub-menu {
+    position: static;
+    /* Робимо підменю частиною потоку */
+    display: none;
+    /* Залишаємо прихованим до активації */
+    flex-direction: column;
+    opacity: 1;
+    visibility: visible;
+    width: 100%;
+    box-shadow: none;
+    background-color: rgba(39, 48, 67, 0.5);
+    /* Робимо фон трохи прозорішим */
+    margin-top: 0.5rem;
+  }
+
+  #header-top-menu .menu-item-has-children:hover>.sub-menu.visible-menu {
+    display: block;
+    /* Показуємо підменю при наведенні */
+  }
+
+  #header-top-menu ul.sub-menu li {
+    padding-left: 0 !important;
+    width: 100%;
+  }
+
+  /* --- Інші елементи --- */
+  .header-top .left-menu,
+  .header-top .right-menu {
+    float: none;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --- Додаткова адаптація для дуже маленьких екранів (менше 480px) --- */
+@media all and (max-width: 30rem) {
+  .site-name {
+    font-size: 1.5rem;
+    /* Зменшуємо шрифт заголовка */
+  }
+
+  .site-description {
+    font-size: 1rem;
+    /* Зменшуємо шрифт опису */
+  }
+
+  .btn {
+    padding: 0.5rem;
+    /* Зменшуємо відступи на кнопках */
+  }
+
+  .page-content {
+    padding: 0.75rem;
+  }
+}
+
+/* =================================================================== */
+/* БЛОК ВИПРАВЛЕНЬ ДЛЯ АДАПТИВНОСТІ (ДОДАТИ В КІНЕЦЬ)         */
+/* Ці стилі не впливають на десктопний вигляд (екрани > 992px)      */
+/* =================================================================== */
+
+@media all and (max-width: 62rem) {
+
+  /* 1. Адаптація шапки */
+  /* ------------------ */
+
+  /* Робимо висоту шапки гнучкою, щоб вмістити контент, що переноситься */
+  .site-header .header-top {
+    height: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Логотип та опис ставимо в нормальний потік документа */
+  .site-header .brand {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding-top: 1.5rem;
+  }
+
+  /* Лівий та правий блоки в шапці ставимо по центру один під одним */
+  .header-left-box,
+  .header-right-box {
+    float: none;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .header-right-box {
+    margin-top: 1.5rem;
+  }
+
+  .header-top .left-menu,
+  .header-top .right-menu {
+    float: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* 2. Адаптація навігаційних меню */
+  /* ----------------------------- */
+
+  /* Дозволяємо пунктам меню переноситись на новий рядок та центруємо їх */
+  #header-top-menu,
+  #header-bottom-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* Забезпечуємо відступи для пунктів меню, що перенеслися */
+  #header-top-menu>li,
+  #header-bottom-menu>li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Коригуємо позиціонування випадаючого меню на мобільних */
+  #header-top-menu ul.sub-menu {
+    left: 0;
+    width: 100%;
+    transform: none;
+    padding: 0;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #header-top-menu ul.sub-menu li {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    text-align: center;
+  }
+
+  #header-bottom-menu .menu-item-type-taxonomy {
+    border-bottom-width: 0;
+    /* Прибираємо анімацію підкреслення на мобільних */
+  }
+
+  #header-bottom-menu .menu-item-type-taxonomy:hover {
+    padding-bottom: 1rem;
+  }
+
+  /* Повертаємо початковий вигляд для цього класу з вашого коду */
+  #header-bottom-menu {
+    display: inline-block;
+  }
+}
+
+.beta-notice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0.9;
+  font-family: e-Ukraine, sans-serif;
+  font-size: 0.8rem;
+}
+
+.beta-tag {
+  flex-shrink: 0;
+  /* Prevents the tag from shrinking */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-weight: bold;
+  margin-right: 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* Додайте цей блок в кінець вашого CSS-файлу */
+
+@media (max-width: 62rem) {
+
+  /* 1. Змінюємо розмір іконки для мобільних пристроїв */
+  .group-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  /* 2. Максимально зменшуємо висоту хедера на мобільних */
+
+  /* Зменшуємо верхній відступ, щоб "підняти" логотип */
+  .frame-container {
+    padding-top: 0.5rem;
+  }
+
+  /* Зменшуємо відступ над меню */
+  .header-top .menu-box {
+    margin-top: 0.5rem;
+  }
+
+  /* Зменшуємо відстань між логотипом та текстом */
+  .group-parent {
+    gap: 0.75rem;
+  }
+
+}
+
+@media (max-width: 62rem) {
+  .menu-box {
+    display: none;
+  }
+}
+
+/* =================================================================== */
+/* -- НОВИЙ БЛОК: СТИЛІ ДЛЯ СПЛИВАЮЧОЇ ПАНЕЛІ ДОСТУПНОСТІ --           */
+/* =================================================================== */
+
+/* 1. Встановлюємо батьківські контейнери як контекст позиціонування,
+      щоб панель з'являлася відносно них. */
+.header-top .d-flex.flex-column.align-items-end,
+/* Для десктопної версії хедера */
+.app-sidenav li.parent[style*="flex-direction: column"]
+
+/* Для мобільної версії в бічному меню */
+  {
+  position: relative;
+}
+
+/* 2. Стилізуємо саму панель як абсолютно позиціонований елемент.
+      Це "вириває" її з потоку документа, і вона не розширює хедер. */
+app-accessibility-panel {
+  position: absolute;
+  z-index: 1001;
+  /* Ставимо вище за інші елементи хедера */
+  margin-top: 8px;
+  /* Невеликий відступ від кнопки-тригера */
+
+  /* Спільний вигляд "спливаючого вікна" для обох версій */
+  background-color: #273043;
+  /* Темний фон, як у хедера */
+  border: 1px solid #4a5568;
+  /* Менш контрастний бордер */
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 300px;
+  /* Фіксована ширина для консистентності */
+  max-width: 90vw;
+  /* Щоб не виходила за межі екрану на малих пристроях */
+}
+
+/* 3. Коригуємо позиціонування для десктопної версії */
+.header-top app-accessibility-panel {
+  top: 100%;
+  /* Розміщуємо під кнопкою */
+  right: 0;
+  /* Притискаємо до правого краю контейнера */
+}
+
+/* 4. Коригуємо позиціонування для мобільної версії (в бічному меню) */
+.app-sidenav app-accessibility-panel {
+  top: 100%;
+  /* Розміщуємо під кнопкою */
+  left: 0;
+  /* Притискаємо до лівого краю контейнера */
+}

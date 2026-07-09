@@ -225,6 +225,10 @@ export class DczMentorshipConsultregionMainComponent implements OnInit {
   }
 
   orderConsultation(office: Office): void {
+    // Перенаправлення на форму запису, передаючи дані обраного офісу
     console.log('Замовлення консультації в:', office.name);
+    this.router.navigate(['/profnavch/mentorship/consultation-form'], {
+      state: { officeData: office }
+    });
   }
 }

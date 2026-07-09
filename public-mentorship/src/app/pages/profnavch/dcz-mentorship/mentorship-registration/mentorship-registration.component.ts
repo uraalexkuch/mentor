@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,8 +7,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BreadcrumbComponent } from 'xng-breadcrumb';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { ScrollUpComponent } from '../../../../components/scroll-up/scroll-up.component';
 import { ConsentDialogComponent } from '../../consent-dialog/consent-dialog.component';
 
@@ -24,6 +29,8 @@ import { ConsentDialogComponent } from '../../consent-dialog/consent-dialog.comp
     MatCheckboxModule,
     MatRadioModule,
     MatIconModule,
+    MatStepperModule,
+    MatButtonModule,
     MatDialogModule,
     BreadcrumbComponent,
     ScrollUpComponent
@@ -31,48 +38,47 @@ import { ConsentDialogComponent } from '../../consent-dialog/consent-dialog.comp
   templateUrl: './mentorship-registration.component.html',
   styleUrls: ['./mentorship-registration.component.css']
 })
-export class MentorshipRegistrationComponent implements OnInit {
+export class MentorshipRegistrationComponent implements OnInit, OnDestroy {
   private fb = new FormBuilder();
+  private destroy$ = new Subject<void>();
   
-  registrationForm!: FormGroup;
+  wizardForm!: FormGroup;
   isSubmitting = false;
   showSuccessMessage = false;
   isMobile = false;
   consentAccepted = false;
+  today: string = new Date().toISOString().split('T')[0];
 
-  constructor(private dialog: MatDialog) {}
-
-  // Імітація списку регіонів
+  // Стандартизоване алфавітне сортування списків
   regions = [
-    { value: 'vin', viewValue: 'Вінницька область' },
-    { value: 'vol', viewValue: 'Волинська область' },
-    { value: 'dnp', viewValue: 'Дніпропетровська область' },
-    { value: 'don', viewValue: 'Донецька область' },
-    { value: 'iro', viewValue: 'Івано-Франківська область' },
-    { value: 'kyh', viewValue: 'Кіровоградська область' },
-    { value: 'lom', viewValue: 'Луганська область' },
-    { value: 'lviv', viewValue: 'Львівська область' },
-    { value: 'myk', viewValue: 'Миколаївська область' },
-    { value: 'odn', viewValue: 'Одеська область' },
-    { value: 'polt', viewValue: 'Полтавська область' },
-    { value: 'rivne', viewValue: 'Рівненська область' },
-    { value: 'smart', viewValue: 'м. Київ' },
-    { value: 'smy', viewValue: 'Сумська область' },
-    { value: 'tern', viewValue: 'Тернопільська область' },
-    { value: 'khark', viewValue: 'Харківська область' },
-    { value: 'kherson', viewValue: 'Херсонська область' },
-    { value: 'khm', viewValue: 'Хмельницька область' },
-    { value: 'cherk', viewValue: 'Черкаська область' },
-    { value: 'chernivtsi', viewValue: 'Чернівецька область' },
-    { value: 'chernih', viewValue: 'Чернігівська область' }
-  ];
+    'Вінницька область', 'Волинська область', 'Дніпропетровська область', 'Донецька область', 
+    'Житомирська область', 'Закарпатська область', 'Запорізька область', 'Івано-Франківська область', 
+    'Київська область', 'Кіровоградська область', 'Луганська область', 'Львівська область', 
+    'Миколаївська область', 'Одеська область', 'Полтавська область', 'Рівненська область', 
+    'Сумська область', 'Тернопільська область', 'Харківська область', 'Херсонська область', 
+    'Хмельницька область', 'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'м. Київ'
+  ].sort((a, b) => a.localeCompare(b));
 
-  centers = [
-    'Київський міський центр зайнятості',
-    'Львівський обласний центр зайнятості',
-    'Одеський обласний центр зайнятості',
-    'Харківський обласний центр зайнятості'
-  ];
+  consultationTopics = [
+    'Державні програми підтримки бізнесу',
+    'Менторський супровід в отриманні мікрогранту',
+    'Підбір грантових програм',
+    'Інше'
+  ].sort((a, b) => a.localeCompare(b));
+
+  officeData: { name: string; address: string; phone: string; email: string } | null = null;
+
+  constructor(private dialog: MatDialog, private router: Router) {
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras?.state?.['officeData']) {
+      this.officeData = nav.extras.state['officeData'];
+    } else {
+      const stateData = history.state?.officeData;
+      if (stateData) {
+        this.officeData = stateData;
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -82,18 +88,22 @@ export class MentorshipRegistrationComponent implements OnInit {
     this.openConsentDialog();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   openConsentDialog(): void {
     const dialogRef = this.dialog.open(ConsentDialogComponent, {
       width: '800px',
       maxWidth: '90vw',
+      disableClose: true,
       data: { title: 'Підтвердження згоди на обробку даних' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.consentAccepted = true;
-        this.registrationForm.get('consentDataProcessing')?.setValue(true);
-        this.registrationForm.get('consentDataProcessing')?.updateValueAndValidity();
       } else {
         alert('Для продовження заповнення форми необхідно надати згоду на обробку персональних даних.');
         this.openConsentDialog();
@@ -106,107 +116,82 @@ export class MentorshipRegistrationComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.registrationForm = this.fb.group({
-      // Блок 1: Персональні дані
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      middleName: [''],
-      birthDate: ['', [Validators.required, this.ageValidator(18, 25)]], // Відповідно до п. 2 Порядку
-      rnokpp: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      passport: ['', Validators.required],
-      centerName: ['', Validators.required],
-
-      // Блок 2: Контакти
-      phone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      region: ['', Validators.required],
-
-      // Блок 3: Динамічний статус згідно з Алгоритмом
-      isActiveEntrepreneur: ['no', Validators.required],
-      receivedGrant: ['no'],
-      grantYear: [''],
-      mainActivity: [''],
-
-      // Блок 4: Потреби (п. 4 Порядку)
-      needsTraining: [false],
-      needsMentorship: [false],
-      needsPracticalHelp: [false],
-      needsGrantHelp: [false],
-
-      // Блок 5: Додаткові статуси (п. 2 Порядку)
-      isIdp: [false],
-      hasDisability: [false],
-
-      // Блок 6: Юридичні згоди
-      consentDataProcessing: [false, Validators.requiredTrue],
-      // НОВА ЗГОДА: Перевірка п. 14 Порядку (Постанова № 1252)
-      notYouthWorker: [false, Validators.requiredTrue],
-      // НОВА ЗГОДА: Перевірка п. 13 Порядку (Податки та робочі місця)
-      consentTaxCheck: [false] 
+    this.wizardForm = this.fb.group({
+      // Крок 1: Ідентифікація
+      step1_identity: this.fb.group({
+        lastName: ['', [Validators.required, Validators.minLength(2)]],
+        firstName: ['', [Validators.required, Validators.minLength(2)]],
+        middleName: [''],
+        birthDate: ['', Validators.required],
+        rnokpp: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+        phone: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        region: ['', Validators.required]
+      }),
+      // Крок 2: Статус та Вибір напрямку
+      step2_needs: this.fb.group({
+        isActiveBusiness: ['no', Validators.required],
+        applicationType: ['MENTORSHIP', Validators.required]
+      }),
+      // Крок 3: Деталізація (Динамічний крок)
+      step3_details: this.fb.group({
+        // Поля для програми Менторства
+        needsTraining: [{ value: false, disabled: true }],
+        needsMentorship: [{ value: false, disabled: true }],
+        notYouthWorker: [{ value: false, disabled: true }, Validators.requiredTrue],
+        
+        // Поля для Офісу
+        consultationTopic: [{ value: '', disabled: true }, Validators.required],
+        desiredDate: [{ value: '', disabled: true }, Validators.required]
+      })
     });
   }
 
-  // Налаштування динамічної появи полів та валідації
   private setupDynamicValidation(): void {
-    // Відслідковуємо зміну "Чи є Ви діючим підприємцем?"
-    this.registrationForm.get('isActiveEntrepreneur')?.valueChanges.subscribe(value => {
-      const receivedGrantCtrl = this.registrationForm.get('receivedGrant');
-      if (value === 'yes') {
-        receivedGrantCtrl?.setValidators(Validators.required);
-      } else {
-        receivedGrantCtrl?.clearValidators();
-        receivedGrantCtrl?.setValue('no');
-      }
-      receivedGrantCtrl?.updateValueAndValidity();
-    });
+    const typeControl = this.wizardForm.get('step2_needs.applicationType');
+    const businessControl = this.wizardForm.get('step2_needs.isActiveBusiness');
+    const step3 = this.wizardForm.get('step3_details');
 
-    // Відслідковуємо зміну "Чи отримували Ви мікрогрант?"
-    this.registrationForm.get('receivedGrant')?.valueChanges.subscribe(value => {
-      const grantYearCtrl = this.registrationForm.get('grantYear');
-      const mainActivityCtrl = this.registrationForm.get('mainActivity');
-      const consentTaxCheckCtrl = this.registrationForm.get('consentTaxCheck');
-      
-      if (value === 'yes') {
-        grantYearCtrl?.setValidators([Validators.required, Validators.pattern(/^(202[2-9])$/)]);
-        mainActivityCtrl?.setValidators(Validators.required);
-        // Згода на перевірку податків стає обов'язковою для грантоотримувачів згідно з п.13
-        consentTaxCheckCtrl?.setValidators(Validators.requiredTrue);
-      } else {
-        grantYearCtrl?.clearValidators();
-        grantYearCtrl?.setValue('');
-        mainActivityCtrl?.clearValidators();
-        mainActivityCtrl?.setValue('');
-        consentTaxCheckCtrl?.clearValidators();
-        consentTaxCheckCtrl?.setValue(false);
-      }
-      grantYearCtrl?.updateValueAndValidity();
-      mainActivityCtrl?.updateValueAndValidity();
-      consentTaxCheckCtrl?.updateValueAndValidity();
-    });
-  }
+    // Автоматичний вибір напрямку в залежності від статусу бізнесу
+    businessControl?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isActive: string) => {
+        if (isActive === 'no') {
+          typeControl?.setValue('MENTORSHIP');
+        } else if (isActive === 'yes') {
+          typeControl?.setValue('OFFICE_CONSULTATION');
+        }
+      });
 
-  private ageValidator(min: number, max: number) {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
-      
-      const birthDate = new Date(control.value);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      return (age >= min && age <= max) ? null : { ageOutOfRange: { currentAge: age, min, max } };
-    };
+    typeControl?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((type: string) => {
+        if (type === 'MENTORSHIP') {
+          // Увімкнути поля менторства
+          step3?.get('needsTraining')?.enable();
+          step3?.get('notYouthWorker')?.enable();
+          
+          // Вимкнути поля офісу
+          step3?.get('consultationTopic')?.disable();
+          step3?.get('desiredDate')?.disable();
+          step3?.get('needsMentorship')?.disable();
+        } else if (type === 'OFFICE_CONSULTATION') {
+          // Увімкнути поля офісу
+          step3?.get('consultationTopic')?.enable();
+          step3?.get('desiredDate')?.enable();
+          step3?.get('needsMentorship')?.enable();
+          
+          // Вимкнути поля менторства
+          step3?.get('needsTraining')?.disable();
+          step3?.get('notYouthWorker')?.disable();
+        }
+      });
   }
 
   formatPhoneNumber(): void {
-    const phoneCtrl = this.registrationForm.get('phone');
+    const phoneCtrl = this.wizardForm.get('step1_identity.phone');
     if (phoneCtrl?.value) {
       let phone = phoneCtrl.value.replace(/\D/g, '');
-      
       if (phone.length >= 10 && phone.length < 12) {
         phone = phone.replace(/^38/, '');
         const formatted = '+38 (' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 8) + '-' + phone.slice(8, 10);
@@ -216,24 +201,35 @@ export class MentorshipRegistrationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Перевірка, чи вибрана хоча б одна послуга
-    const formVal = this.registrationForm.value;
-    const hasService = formVal.needsTraining || formVal.needsMentorship || formVal.needsPracticalHelp || formVal.needsGrantHelp;
-    
-    if (!hasService) {
-      alert('Будь ласка, оберіть хоча б один вид послуги (Блок 4).');
-      return;
-    }
-
-    if (this.registrationForm.invalid) {
-      this.registrationForm.markAllAsTouched();
+    if (this.wizardForm.invalid) {
+      this.wizardForm.markAllAsTouched();
       return;
     }
 
     this.isSubmitting = true;
-    console.log('Дані заяви на менторство:', this.registrationForm.getRawValue());
+    const formData = this.wizardForm.getRawValue();
+
+    // Формування payload згідно з цільовими ідентифікаторами корпоративної БД
+    const payload = {
+      dcz_application_type: formData.step2_needs.applicationType,
+      dcz_applicant_lastname: formData.step1_identity.lastName,
+      dcz_applicant_firstname: formData.step1_identity.firstName,
+      dcz_applicant_middlename: formData.step1_identity.middleName,
+      dcz_applicant_rnokpp: formData.step1_identity.rnokpp,
+      dcz_applicant_birthdate: formData.step1_identity.birthDate,
+      dcz_applicant_phone: formData.step1_identity.phone,
+      dcz_applicant_email: formData.step1_identity.email,
+      dcz_region_code: formData.step1_identity.region,
+      dcz_is_active_entrepreneur: formData.step2_needs.isActiveBusiness === 'yes',
+      dcz_mentorship_needs_training: formData.step3_details.needsTraining || false,
+      dcz_mentorship_needs_support: formData.step3_details.needsMentorship || false,
+      dcz_office_consultation_topic: formData.step3_details.consultationTopic || null,
+      dcz_office_desired_date: formData.step3_details.desiredDate || null
+    };
+
+    console.log('Сформований пакет даних для БД:', payload);
     
-    // Імітація запиту
+    // Імітація обробки
     setTimeout(() => {
       this.isSubmitting = false;
       this.showSuccessMessage = true;
@@ -242,7 +238,19 @@ export class MentorshipRegistrationComponent implements OnInit {
 
   resetForm(): void {
     this.showSuccessMessage = false;
-    this.registrationForm.reset();
+    this.wizardForm.reset();
     this.initForm();
+    this.setupDynamicValidation();
+  }
+
+  // Обробка переходу з Кроку 2
+  onStep2Next(stepper: any): void {
+    if (this.wizardForm.get('step2_needs.applicationType')?.value === 'OFFICE_CONSULTATION') {
+      // Якщо обрано менторську підтримку, переходимо до сторінки офісів
+      this.router.navigate(['/profnavch/mentorship/consultants']);
+    } else {
+      // Інакше йдемо до Кроку 3 (Навчання)
+      stepper.next();
+    }
   }
 }

@@ -1,0 +1,224 @@
+<div class="page-wrapper">
+
+  <!-- Хедер з кнопкою назад -->
+  <div class="page-header">
+    <div class="header-inner">
+      <button class="btn-back" (click)="goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Повернутися до списку офісів
+      </button>
+    </div>
+  </div>
+
+  <div class="doc-container py-4">
+
+    <!-- Успішне відправлення -->
+    <div *ngIf="submitSuccess" class="alert-success mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+      <span>Ваша заявка успішно прийнята. Протягом 3 робочих днів ви отримаєте підтвердження.</span>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #consultForm="ngForm" novalidate *ngIf="!submitSuccess">
+
+      <!-- Заголовок -->
+      <div class="doc-header">
+        <h1 class="doc-title">ФОРМА ЗАМОВЛЕННЯ КОНСУЛЬТАЦІЇ</h1>
+        <p class="doc-subtitle">Індивідуальна онлайн-консультація в рамках програми підтримки підприємців</p>
+      </div>
+
+      <!-- Банер обраного офісу -->
+      <div *ngIf="officeData" class="office-banner mb-4">
+        <div class="office-banner-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a237e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="office-banner-info">
+          <span class="office-banner-label">Обраний офіс</span>
+          <span class="office-banner-name">{{ officeData.name }}</span>
+          <span class="office-banner-address">{{ officeData.address }}</span>
+        </div>
+      </div>
+
+
+
+      <!-- Блок 1: Особисті дані заявника -->
+      <div class="section-container">
+        <h2 class="section-title">1. Особисті дані заявника</h2>
+        <div class="section-box">
+
+          <!-- Рядок 1: Прізвище | Ім'я | По батькові -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.lastName.trim()">
+                <label class="mf-label" for="lastName">Прізвище *</label>
+                <input id="lastName" type="text" class="mf-input" [(ngModel)]="formData.lastName" name="lastName" autocomplete="family-name" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.lastName.trim()">Це поле є обов'язковим</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.firstName.trim()">
+                <label class="mf-label" for="firstName">Ім'я *</label>
+                <input id="firstName" type="text" class="mf-input" [(ngModel)]="formData.firstName" name="firstName" autocomplete="given-name" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.firstName.trim()">Це поле є обов'язковим</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mf">
+                <label class="mf-label" for="middleName">По батькові</label>
+                <input id="middleName" type="text" class="mf-input" [(ngModel)]="formData.middleName" name="middleName" autocomplete="additional-name" />
+                <span class="mf-line"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Рядок 2: Дата народження | Телефон | Електронна пошта -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.birthDate">
+                <label class="mf-label" for="birthDate">Дата народження *</label>
+                <input id="birthDate" type="date" class="mf-input" [(ngModel)]="formData.birthDate" name="birthDate" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.birthDate">Це поле є обов'язковим</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.phone.trim()">
+                <label class="mf-label" for="phone">Телефон *</label>
+                <input id="phone" type="tel" class="mf-input" [(ngModel)]="formData.phone" name="phone" placeholder="+38 (0__) ___-__-__" autocomplete="tel" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.phone.trim()">Це поле є обов'язковим</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.email.trim()">
+                <label class="mf-label" for="email">Електронна пошта *</label>
+                <input id="email" type="email" class="mf-input" [(ngModel)]="formData.email" name="email" placeholder="example@email.com" autocomplete="email" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.email.trim()">Некоректний формат email</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Блок 2: Інформація про бізнес -->
+      <div class="section-container">
+        <h2 class="section-title">2. Інформація про бізнес</h2>
+        <div class="section-box">
+
+          <div class="mb-4">
+            <label class="block-label d-block mb-2">Чи є Ваш бізнес зараз діючим? *</label>
+            <div class="radio-row" [class.radio-row--invalid]="submitted && !formData.isBusinessActive">
+              <label class="radio-opt">
+                <input type="radio" name="isBusinessActive" [(ngModel)]="formData.isBusinessActive" value="yes" id="businessYes" />
+                <span class="radio-disc"></span>
+                <span>Так, маю діючий бізнес</span>
+              </label>
+              <label class="radio-opt">
+                <input type="radio" name="isBusinessActive" [(ngModel)]="formData.isBusinessActive" value="no" id="businessNo" />
+                <span class="radio-disc"></span>
+                <span>Ні, лише планую розпочати</span>
+              </label>
+            </div>
+            <div class="mf-error" *ngIf="submitted && !formData.isBusinessActive">Це поле є обов'язковим</div>
+          </div>
+
+          <div *ngIf="formData.isBusinessActive === 'no'" class="nested-box">
+            <div class="mf" [class.mf--invalid]="submitted && formData.isBusinessActive === 'no' && !formData.inactiveReason.trim()">
+              <label class="mf-label" for="inactiveReason">Зазначте причину *</label>
+              <textarea id="inactiveReason" class="mf-input mf-textarea" [(ngModel)]="formData.inactiveReason" name="inactiveReason" rows="3"></textarea>
+              <span class="mf-line"></span>
+              <div class="mf-error" *ngIf="submitted && formData.isBusinessActive === 'no' && !formData.inactiveReason.trim()">Це поле є обов'язковим</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Блок 3: Теми консультації -->
+      <div class="section-container">
+        <h2 class="section-title">3. Оберіть тему консультації (можна декілька)</h2>
+        <div class="section-box">
+          <div class="criteria-list">
+
+            <div class="criteria-item">
+              <label class="check-opt">
+                <input type="checkbox" id="topicState" [(ngModel)]="formData.consultationTopics.statePrograms" name="topicState" />
+                <span class="check-box"></span>
+              </label>
+              <span><strong>Державні програми</strong> підтримки бізнесу</span>
+            </div>
+
+            <div class="criteria-item">
+              <label class="check-opt">
+                <input type="checkbox" id="topicGrant" [(ngModel)]="formData.consultationTopics.grantSelection" name="topicGrant" />
+                <span class="check-box"></span>
+              </label>
+              <span><strong>Підбір грантових програм</strong> на створення або розвиток власної справи</span>
+            </div>
+
+            <div class="criteria-item">
+              <label class="check-opt">
+                <input type="checkbox" id="topicMentor" [(ngModel)]="formData.consultationTopics.mentorSupport" name="topicMentor" />
+                <span class="check-box"></span>
+              </label>
+              <span><strong>Менторський супровід</strong> в отриманні мікрогранту/гранту</span>
+            </div>
+
+            <div class="criteria-item">
+              <label class="check-opt">
+                <input type="checkbox" id="topicOther" [(ngModel)]="formData.consultationTopics.other" name="topicOther" />
+                <span class="check-box"></span>
+              </label>
+              <span><strong>Інше</strong> (зазначити, що саме)</span>
+            </div>
+
+          </div>
+          <div class="mf-error mt-2" *ngIf="submitted && !formData.consultationTopics.statePrograms && !formData.consultationTopics.grantSelection && !formData.consultationTopics.mentorSupport && !formData.consultationTopics.other">
+            Будь ласка, оберіть хоча б одну тему
+          </div>
+
+          <div *ngIf="formData.consultationTopics.other" class="nested-box mt-3">
+            <div class="mf" [class.mf--invalid]="submitted && formData.consultationTopics.other && !formData.otherTopic.trim()">
+              <label class="mf-label" for="otherTopic">Зазначте що саме *</label>
+              <textarea id="otherTopic" class="mf-input mf-textarea" [(ngModel)]="formData.otherTopic" name="otherTopic" rows="2"></textarea>
+              <span class="mf-line"></span>
+              <div class="mf-error" *ngIf="submitted && formData.consultationTopics.other && !formData.otherTopic.trim()">Це поле є обов'язковим</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Блок 4: Бажана дата консультації -->
+      <div class="section-container">
+        <h2 class="section-title">4. Бажана дата консультації</h2>
+        <div class="section-box">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="mf" [class.mf--invalid]="submitted && !formData.desiredDate">
+                <label class="mf-label" for="desiredDate">Бажана дата отримання консультації *</label>
+                <input id="desiredDate" type="date" class="mf-input" [(ngModel)]="formData.desiredDate" name="desiredDate" [min]="today" />
+                <span class="mf-line"></span>
+                <div class="mf-error" *ngIf="submitted && !formData.desiredDate">Це поле є обов'язковим</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кнопка відправки -->
+      <div class="submit-container">
+        <button type="submit" class="btn-doc-submit">Надіслати заявку</button>
+      </div>
+
+    </form>
+
+    <div class="submit-container" *ngIf="submitSuccess">
+      <button class="btn-doc-submit" (click)="resetForm()">Подати нову заявку</button>
+    </div>
+
+  </div>
+</div>

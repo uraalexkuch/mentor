@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,15 +17,26 @@ export interface Office {
 
 @Component({
   selector: 'app-dcz-mentorship-consultregion-main',
-  templateUrl: './dcz-mentorship-consultregion-main.component.html',
-  styleUrls: ['./dcz-mentorship-consultregion-main.component.css'],
   standalone: true,
-  imports: [CommonModule, DczMentorshipConsultregionBaseComponent, MatButtonModule, MatIconModule, RouterLink]
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterLink, DczMentorshipConsultregionBaseComponent],
+  templateUrl: './dcz-mentorship-consultregion-main.component.html',
+  styleUrls: ['./dcz-mentorship-consultregion-main.component.css']
 })
 export class DczMentorshipConsultregionMainComponent implements OnInit {
-  selectedItem: string | null = null;
-  opened = true;
-  offices: Office[] = [];
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  // Signals для станів
+  selectedItem = signal<string | null>(null);
+  opened = signal(true);
+
+  // Computed сигнал для фільтрації офісів
+  filteredOffices = computed(() => {
+    const filter = this.selectedItem();
+    return filter 
+      ? this.allOffices.filter(o => o.regionCode === filter)
+      : this.allOffices;
+  });
 
   regionsList = [
     { code: 'UA05', name: 'Вінницька' },
@@ -193,42 +204,34 @@ export class DczMentorshipConsultregionMainComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  constructor() {}
 
   ngOnInit(): void {
     // Початкове завантаження з snapshot
     const initialFilter = this.route.snapshot.queryParams['filter'];
     if (initialFilter) {
-      this.selectedItem = initialFilter;
-      this.offices = this.allOffices.filter(o => o.regionCode === initialFilter);
-    } else {
-      this.offices = this.allOffices;
+      this.selectedItem.set(initialFilter);
     }
     
     // Підписка на зміну query params
     this.route.queryParams.subscribe(params => {
       const filterValue = params['filter'];
       if (filterValue) {
-        this.selectedItem = filterValue;
-        this.offices = this.allOffices.filter(o => o.regionCode === filterValue);
+        this.selectedItem.set(filterValue);
       } else {
-        this.offices = this.allOffices;
+        this.selectedItem.set(null);
       }
     });
   }
 
   selectItem(id: string): void {
-    this.selectedItem = id;
+    this.selectedItem.set(id);
   }
 
   orderConsultation(office: Office): void {
-    // Перенаправлення на форму запису, передаючи дані обраного офісу
+    // Перенаправлення на форму запису, передаючи дані обраного офісу через sessionStorage
     console.log('Замовлення консультації в:', office.name);
-    this.router.navigate(['/profnavch/mentorship/consultation-form'], {
-      state: { officeData: office }
-    });
+    sessionStorage.setItem('selectedOfficeData', JSON.stringify(office));
+    this.router.navigate(['/profnavch/mentorship/consultation-form']);
   }
 }

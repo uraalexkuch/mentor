@@ -1,7 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
+interface ConsultationFormData {
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  birthDate: string;
+  phone: string;
+  email: string;
+  isBusinessActive: '' | 'yes' | 'no';
+  inactiveReason: string;
+  consultationTopics: {
+    statePrograms: boolean;
+    grantSelection: boolean;
+    mentorSupport: boolean;
+    other: boolean;
+  };
+  otherTopic: string;
+  desiredDate: string;
+}
 
 @Component({
   selector: 'app-consultation-form',
@@ -10,9 +29,33 @@ import { Router } from '@angular/router';
   templateUrl: './consultation-form.component.html',
   styleUrls: ['./consultation-form.component.css']
 })
-export class ConsultationFormComponent implements OnInit {
-  officeData: { name: string; address: string; phone: string; email: string } | null = null;
-  today: string = new Date().toISOString().split('T')[0];
+export class ConsultationFormComponent {
+  private router = inject(Router);
+
+  // Signals для даних форми
+  formData = signal<ConsultationFormData>({
+    lastName: '',
+    firstName: '',
+    middleName: '',
+    birthDate: '',
+    phone: '',
+    email: '',
+    isBusinessActive: '',
+    inactiveReason: '',
+    consultationTopics: {
+      statePrograms: false,
+      grantSelection: false,
+      mentorSupport: false,
+      other: false
+    },
+    otherTopic: '',
+    desiredDate: ''
+  });
+
+  officeData = signal<{ name: string; address: string; phone: string; email: string } | null>(null);
+  submitted = signal(false);
+  submitSuccess = signal(false);
+  today = signal(new Date().toISOString().split('T')[0]);
 
   // Список областей
   regions = [
@@ -43,81 +86,121 @@ export class ConsultationFormComponent implements OnInit {
     'м. Київ'
   ];
 
-  // Дані форми
-  formData = {
-    lastName: '',
-    firstName: '',
-    middleName: '',
-    birthDate: '',
-    phone: '',
-    email: '',
-    isBusinessActive: '' as '' | 'yes' | 'no',
-    inactiveReason: '',
-    consultationTopics: {
-      statePrograms: false,
-      grantSelection: false,
-      mentorSupport: false,
-      other: false
-    },
-    otherTopic: '',
-    desiredDate: ''
-  };
+  // Computed сигнал для перевірки віку (не старше 25)
+  isAgeValid = computed(() => {
+    const data = this.formData();
+    const birthDateStr = data.birthDate;
+    if (!birthDateStr) return true; // valid initially, required handles emptiness
+    
+    const birthDate = new Date(birthDateStr);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age <= 25;
+  });
 
-  submitted = false;
-  submitSuccess = false;
+  // Computed сигнал для валідації форми
+  isFormValid = computed(() => {
+    const data = this.formData();
+    const hasConsultationTopic = 
+      data.consultationTopics.statePrograms ||
+      data.consultationTopics.grantSelection ||
+      data.consultationTopics.mentorSupport ||
+      (data.consultationTopics.other && data.otherTopic.trim().length > 0);
 
-  constructor(private router: Router) {}
+    const businessValid = 
+      data.isBusinessActive === 'yes' ||
+      (data.isBusinessActive === 'no' && data.inactiveReason.trim().length > 0);
 
-  ngOnInit(): void {
-    const nav = this.router.getCurrentNavigation();
-    const stateData = nav?.extras?.state || history.state;
+    return (
+      data.lastName.trim().length > 0 &&
+      data.firstName.trim().length > 0 &&
+      data.birthDate.length > 0 &&
+      data.phone.trim().length > 0 &&
+      data.email.trim().length > 0 &&
+      data.isBusinessActive !== '' &&
+      businessValid &&
+      hasConsultationTopic &&
+      this.isAgeValid() &&
+      data.desiredDate.length > 0
+    );
+  });
 
-    if (stateData?.['officeData']) {
-      this.officeData = stateData['officeData'];
+  constructor() {
+    // Спочатку намагаємося отримати дані з sessionStorage (надійніший спосіб)
+    const officeDataJson = sessionStorage.getItem('selectedOfficeData');
+    if (officeDataJson) {
+      try {
+        this.officeData.set(JSON.parse(officeDataJson));
+      } catch (e) {
+        console.error('Помилка парсингу даних офісу:', e);
+      }
     }
 
-    if (stateData?.['personalData']) {
+    // Отримуємо персональні дані з sessionStorage (з форми реєстрації)
+    const personalDataJson = sessionStorage.getItem('consultationPersonalData');
+    if (personalDataJson) {
+      try {
+        const p = JSON.parse(personalDataJson);
+        this.formData.update(current => ({
+          ...current,
+          lastName: p.lastName || '',
+          firstName: p.firstName || '',
+          middleName: p.middleName || '',
+          birthDate: p.birthDate || '',
+          phone: p.phone || '',
+          email: p.email || ''
+        }));
+      } catch (e) {
+        console.error('Помилка парсингу персональних даних:', e);
+      }
+    }
+
+    // Фоллбек на router state для сумісності
+    const nav = this.router.getCurrentNavigation();
+    const stateData = nav?.extras?.state;
+
+    if (!this.officeData() && stateData?.['officeData']) {
+      this.officeData.set(stateData['officeData']);
+    }
+
+    if (!personalDataJson && stateData?.['personalData']) {
       const p = stateData['personalData'];
-      this.formData.lastName = p.lastName || '';
-      this.formData.firstName = p.firstName || '';
-      this.formData.middleName = p.middleName || '';
-      this.formData.birthDate = p.birthDate || '';
-      this.formData.phone = p.phone || '';
-      this.formData.email = p.email || '';
+      this.formData.update(current => ({
+        ...current,
+        lastName: p.lastName || '',
+        firstName: p.firstName || '',
+        middleName: p.middleName || '',
+        birthDate: p.birthDate || '',
+        phone: p.phone || '',
+        email: p.email || ''
+      }));
     }
   }
 
-  get isFormValid(): boolean {
-    const hasConsultationTopic =
-      this.formData.consultationTopics.statePrograms ||
-      this.formData.consultationTopics.grantSelection ||
-      this.formData.consultationTopics.mentorSupport ||
-      (this.formData.consultationTopics.other && this.formData.otherTopic.trim().length > 0);
+  // Helper методи для оновлення даних
+  updateField<K extends keyof ConsultationFormData>(field: K, value: ConsultationFormData[K]): void {
+    this.formData.update(current => ({ ...current, [field]: value }));
+  }
 
-    const businessValid =
-      this.formData.isBusinessActive === 'yes' ||
-      (this.formData.isBusinessActive === 'no' && this.formData.inactiveReason.trim().length > 0);
-
-    return (
-      this.formData.lastName.trim().length > 0 &&
-      this.formData.firstName.trim().length > 0 &&
-      this.formData.birthDate.length > 0 &&
-      this.formData.phone.trim().length > 0 &&
-      this.formData.email.trim().length > 0 &&
-      this.formData.isBusinessActive !== '' &&
-      businessValid &&
-      hasConsultationTopic &&
-      this.formData.desiredDate.length > 0
-    );
+  updateConsultationTopic(topic: keyof ConsultationFormData['consultationTopics'], value: boolean): void {
+    this.formData.update(current => ({
+      ...current,
+      consultationTopics: { ...current.consultationTopics, [topic]: value }
+    }));
   }
 
   onSubmit(): void {
-    this.submitted = true;
-    if (!this.isFormValid) return;
-
-    // Тут можна відправити дані на сервер
-    console.log('Форма відправлена:', this.formData, 'Офіс:', this.officeData);
-    this.submitSuccess = true;
+    if (!this.isFormValid()) return;
+    
+    this.submitted.set(true);
+    console.log('Форма відправлена:', this.formData(), 'Офіс:', this.officeData());
+    this.submitSuccess.set(true);
   }
 
   goBack(): void {
@@ -125,25 +208,13 @@ export class ConsultationFormComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.submitSuccess = false;
-    this.submitted = false;
-    this.formData = {
-      lastName: '',
-      firstName: '',
-      middleName: '',
-      birthDate: '',
-      phone: '',
-      email: '',
-      isBusinessActive: '',
-      inactiveReason: '',
-      consultationTopics: {
-        statePrograms: false,
-        grantSelection: false,
-        mentorSupport: false,
-        other: false
-      },
-      otherTopic: '',
-      desiredDate: ''
-    };
+    this.submitSuccess.set(false);
+    this.submitted.set(false);
+    this.formData.update(() => ({
+      lastName: '', firstName: '', middleName: '', birthDate: '',
+      phone: '', email: '', isBusinessActive: '', inactiveReason: '',
+      consultationTopics: { statePrograms: false, grantSelection: false, mentorSupport: false, other: false },
+      otherTopic: '', desiredDate: ''
+    }));
   }
 }

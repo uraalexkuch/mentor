@@ -1,5 +1,5 @@
 <div class="offices-container">
-  <div class="office-card d-flex flex-column flex-md-row gap-4 mb-4" *ngFor="let office of offices">
+  <div class="office-card d-flex flex-column flex-md-row gap-4 mb-4" *ngFor="let office of filteredOffices()">
     
     <!-- Блок з фотографією -->
     <div class="office-photo-wrapper">
@@ -28,7 +28,7 @@
 
   </div>
 
-  <div *ngIf="offices.length === 0" class="alert alert-secondary mt-3" style="border-radius: 8px;">
+  <div *ngIf="filteredOffices().length === 0" class="alert alert-secondary mt-3" style="border-radius: 8px;">
     Будь ласка, оберіть область зі списку ліворуч.
   </div>
 </div>

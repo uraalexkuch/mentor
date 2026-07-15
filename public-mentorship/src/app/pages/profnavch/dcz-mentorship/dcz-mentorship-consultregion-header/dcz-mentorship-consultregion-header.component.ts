@@ -1,20 +1,21 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BreadcrumbComponent } from 'xng-breadcrumb';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-dcz-mentorship-consultregion-header',
-  templateUrl: './dcz-mentorship-consultregion-header.component.html',
-  styleUrls: ['./dcz-mentorship-consultregion-header.component.css'],
   standalone: true,
-  imports: [NgIf, BreadcrumbComponent, MatToolbarModule, MatButtonModule, MatIconModule]
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+  templateUrl: './dcz-mentorship-consultregion-header.component.html',
+  styleUrls: ['./dcz-mentorship-consultregion-header.component.css']
 })
-export class DczMentorshipConsultregionHeaderComponent implements OnInit {
-  @Input() title = 'Оберіть область';
-  @Output() drawer = new EventEmitter<void>();
+export class DczMentorshipConsultregionHeaderComponent {
+  // Використання input() замість @Input() (Angular 21)
+  title = input<string>('Оберіть область');
+
+  // Використання output() замість @Output() (Angular 21)
+  drawer = output<void>();
 
   isMobile = false;
 
@@ -25,5 +26,9 @@ export class DczMentorshipConsultregionHeaderComponent implements OnInit {
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth < 768;
+  }
+
+  onDrawerToggle(): void {
+    this.drawer.emit();
   }
 }

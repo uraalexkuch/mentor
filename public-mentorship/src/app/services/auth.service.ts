@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3001/api/auth';
-  private currentUserSubject = new BehaviorSubject<any>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private apiUrl = `${environment.apiBaseUrl}${environment.api.auth}`;
+  public currentUser = signal<any>(null);
 
   constructor(private http: HttpClient) {
     this.checkToken();
@@ -22,7 +22,7 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       this.http.get(`${this.apiUrl}/me`).subscribe({
-        next: (user) => this.currentUserSubject.next(user),
+        next: (user) => this.currentUser.set(user),
         error: () => this.logout()
       });
     }
@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(res => {
         localStorage.setItem('access_token', res.access_token);
-        this.currentUserSubject.next(res.user);
+        this.currentUser.set(res.user);
       })
     );
   }
@@ -41,13 +41,13 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/register`, data).pipe(
       tap(res => {
         localStorage.setItem('access_token', res.access_token);
-        this.currentUserSubject.next(res.user);
+        this.currentUser.set(res.user);
       })
     );
   }
 
   logout() {
     localStorage.removeItem('access_token');
-    this.currentUserSubject.next(null);
+    this.currentUser.set(null);
   }
 }

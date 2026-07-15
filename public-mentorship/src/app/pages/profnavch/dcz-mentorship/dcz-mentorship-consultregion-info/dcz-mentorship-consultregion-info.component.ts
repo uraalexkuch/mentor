@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface Office {
   id: number;
@@ -15,15 +17,25 @@ export interface Office {
 
 @Component({
   selector: 'app-dcz-mentorship-consultregion-info',
-  templateUrl: './dcz-mentorship-consultregion-info.component.html',
-  styleUrls: ['./dcz-mentorship-consultregion-info.component.css'],
   standalone: true,
-  imports: [CommonModule, MatIconModule]
+  imports: [CommonModule, MatIconModule],
+  templateUrl: './dcz-mentorship-consultregion-info.component.html',
+  styleUrls: ['./dcz-mentorship-consultregion-info.component.css']
 })
 export class DczMentorshipConsultregionInfoComponent implements OnInit {
-  offices: Office[] = [];
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  // Мокові дані з доданими фотографіями
+  // Signals для даних
+  filterParam = toSignal(this.route.queryParams.pipe(), { initialValue: {} });
+  
+  filteredOffices = computed(() => {
+    const filter = (this.filterParam() as any)['filter'];
+    return filter 
+      ? this.allOffices.filter(o => o.regionCode === filter)
+      : this.allOffices;
+  });
+
   allOffices: Office[] = [
     {
       id: 1,
@@ -171,25 +183,15 @@ export class DczMentorshipConsultregionInfoComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const filterValue = params['filter'];
-      if (filterValue) {
-        this.offices = this.allOffices.filter(o => o.regionCode === filterValue);
-      } else {
-        this.offices = this.allOffices;
-      }
-    });
+    // Signals автоматично оновлюються через computed з toSignal
   }
 
   orderConsultation(office: Office): void {
-    // Перенаправлення на форму запису, передаючи дані обраного офісу
     console.log('Замовлення консультації в:', office.name);
-   this.router.navigate(['/profnavch/mentorship/consultation-form'], { state: { officeData: office } });
+    sessionStorage.setItem('selectedOfficeData', JSON.stringify(office));
+    this.router.navigate(['/profnavch/mentorship/consultation-form']);
   }
 }

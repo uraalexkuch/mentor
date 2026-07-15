@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -22,10 +22,12 @@ import { ScrollUpComponent } from '../../../../../components/scroll-up/scroll-up
   templateUrl: './mentorship-program.component.html',
   styleUrls: ['./mentorship-program.component.css']
 })
-export class MentorshipProgramComponent implements OnInit {
-  router = inject(Router);
-  panelOpenState = false;
-  isMobile = false;
+export class MentorshipProgramComponent {
+  private router = inject(Router);
+
+  // Signals для станів
+  panelOpenState = signal(false);
+  isMobile = signal(false);
 
   ngOnInit(): void {
     this.checkScreenSize();
@@ -33,11 +35,16 @@ export class MentorshipProgramComponent implements OnInit {
   }
 
   checkScreenSize(): void {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile.set(window.innerWidth < 768);
+  }
+
+  togglePanel(): void {
+    this.panelOpenState.update(state => !state);
   }
 
   // Дані для Реєстру освітніх програм
   displayedColumnsProf: string[] = ['id', 'courseName', 'duration', 'format'];
+  
   dataSourceProf = [
     { id: 1, courseName: 'Основи підприємницької діяльності та бізнес-планування', duration: '30 годин (6 тижнів)', format: 'Змішаний (Офлайн/Онлайн)' },
     { id: 2, courseName: 'Управління фінансами для мікробізнесу', duration: '20 годин (4 тижні)', format: 'Онлайн' },

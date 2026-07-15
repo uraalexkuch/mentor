@@ -1,17 +1,24 @@
-<div *ngIf="!isMobile" style="padding-left: 6% !important;z-index: 100;position: relative; padding-right: 5% !important;">
+<div *ngIf="!isMobile()" style="padding-left: 6% !important;z-index: 100;position: relative; padding-right: 5% !important;">
   <xng-breadcrumb></xng-breadcrumb>
 </div>
 
 <div class="bodycz">
   <!-- Hero Section -->
   <div class="service-type_wrap">
-    <div class="hero-text3" [ngStyle]="!isMobile ? {'top': '-2rem'} : {}">
+    <div class="hero-text3" [ngStyle]="!isMobile() ? {'top': '-2rem'} : {}">
       <p class="fw-bold" style="margin-bottom: 2rem;">Менторська підтримка та навчання молодих підприємців</p>
       <div class="service-info_first-text" style="color: #444; margin-bottom: 2rem; max-width: 900px; text-align: center;">
         Комплексна урядова програма для молоді віком від 18 до 25 років (Постанова КМУ № 472). 
         Опануйте основи бізнесу та отримайте підтримку експертів офісів «Зроблено в Україні».
       </div>
     </div>
+      <div class="hero-text3 text-center" [ngStyle]="!isMobile() ? {'top': '-2rem'} : {}">
+          <button type="button" class="btn btn-primary rounded-pill px-5 py-3 fw-bold" 
+                  style="font-size: 1.1rem; background-color: #4a86e8; border-color: #4a86e8; min-width: 250px;" 
+                  routerLink="/profnavch/mentorship/register">
+          <span>Перейти до заповнення заявки</span>
+      </button>
+  </div>
   </div>
 
   <!-- Інформаційний блок (спліт-дизайн ОПК) -->
@@ -27,8 +34,8 @@
             <div class="service-info_second-label">Тривалість програми:</div>
             <div class="service-info_second-text">
               <div class="service-info_first-text mb-3">
-                Навчання: до 6 тижнів (30 годин).<br>
-                Консультації та менторський супровід: від експертів Офісу «Зроблено в Україні».
+                Навчання: до 6 тижнів.<br>
+                Консультаційний супровід: від експертів Офісу «Зроблено в Україні».
               </div>
             </div>
           </div>
@@ -46,32 +53,6 @@
     </div>
   </section>
 
-  <!-- Категорії участі (Єдина точка входу) -->
-  <section style="padding: 1rem 0; background: #fdfdfd; border-top: 1px solid #eee;">
-    <div class="container acc">
-      <div class="col-12 text-center mb-5">
-        <h4 class="fw-bold">Отримання підтримки</h4>
-      </div>
-
-      <div class="row px-3 justify-content-center">
-        <div class="col-lg-8 col-md-12 mb-4 d-flex">
-          <div class="card service-box fw-bold h-100 w-100 d-flex flex-column text-center p-4" style="border: 2px solid #264493;">
-            <div class="card-body d-flex flex-column align-items-center">
-              <h5 class="fw-bold mb-3" style="font-size: 1.5rem; color: #264493;">Універсальна заявка на підтримку</h5>
-              <p class="service-info_first-text mb-4 text-center" style="font-weight: 400; max-width: 600px;">
-                Подайте єдину універсальну заявку. Система автоматично визначить ваш статус та запропонує відповідні заходи: участь у комплексній програмі навчання, запис на безкоштовну консультацію або індивідуальний менторський супровід безпосередньо від експертів Офісів «Зроблено в Україні» у вашому регіоні.
-              </p>
-              <div class="mt-auto w-100" style="max-width: 400px;">
-                <button class="btn nextbtn w-100" style="background-color: #264493; color: white; border-radius: 30px; padding: 12px;" routerLink="/profnavch/mentorship/register">
-                  <span>Перейти до заповнення заявки</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Реєстри та Акордеони (Стиль ОПК) -->
   <section style="background: #fff; padding: 1rem 0; border-top: 1px solid #eee;">

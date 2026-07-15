@@ -4,7 +4,7 @@
     <h2 class="main-title mb-0">Офіси "Зроблено в Україні"</h2>
   </div>
 
-  <app-dcz-mentorship-consultregion-base [opened]="opened">
+  <app-dcz-mentorship-consultregion-base [opened]="opened()">
     <div sidenav class="w-100 py-3 bg-white">
       <div class="d-flex align-items-center mb-3 px-3 text-muted fw-bold">
         <mat-icon class="me-2">menu</mat-icon> Оберіть область
@@ -17,7 +17,7 @@
            mat-button 
            class="w-full region-btn text-start" 
            (click)="selectItem(reg.code)"
-           [class.selected]="selectedItem === reg.code">
+           [class.selected]="selectedItem() === reg.code">
           {{ reg.name }}
         </a>
       </div>
@@ -25,7 +25,7 @@
     
     <div class="content-area w-100">
       <div class="offices-container">
-        <div class="office-card d-flex flex-column flex-md-row gap-4 mb-4" *ngFor="let office of offices">
+        <div class="office-card d-flex flex-column flex-md-row gap-4 mb-4" *ngFor="let office of filteredOffices()">
           
           <!-- Блок з фотографією -->
           <div class="office-photo-wrapper">
@@ -54,7 +54,7 @@
 
         </div>
 
-        <div *ngIf="offices.length === 0" class="alert alert-secondary mt-3" style="border-radius: 8px;">
+        <div *ngIf="filteredOffices().length === 0" class="alert alert-secondary mt-3" style="border-radius: 8px;">
           Будь ласка, оберіть область зі списку ліворуч.
         </div>
       </div>

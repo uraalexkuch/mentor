@@ -13,7 +13,7 @@ export class ScrollUpComponent {
 
   constructor(private elementRef: ElementRef) {}
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onWindowScroll() {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const footerElement = this.elementRef.nativeElement.querySelector('.footer');

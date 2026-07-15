@@ -75,11 +75,12 @@
           <!-- Рядок 2: Дата народження | Телефон | Електронна пошта -->
           <div class="row g-4 mb-4">
             <div class="col-md-4">
-              <div class="mf" [class.mf--invalid]="submitted && !formData.birthDate">
+              <div class="mf" [class.mf--invalid]="submitted && (!formData.birthDate || !isAgeValid())">
                 <label class="mf-label" for="birthDate">Дата народження *</label>
                 <input id="birthDate" type="date" class="mf-input" [(ngModel)]="formData.birthDate" name="birthDate" />
                 <span class="mf-line"></span>
                 <div class="mf-error" *ngIf="submitted && !formData.birthDate">Це поле є обов'язковим</div>
+                <div class="mf-error" *ngIf="submitted && formData.birthDate && !isAgeValid()">Участь у програмі можлива лише до 25 років</div>
               </div>
             </div>
             <div class="col-md-4">

@@ -1,4 +1,4 @@
-<div *ngIf="!isMobile" style="padding-left: 6% !important; z-index: 100; position: relative; padding-right: 5% !important;">
+<div *ngIf="!isMobile()" style="padding-left: 6% !important; z-index: 100; position: relative; padding-right: 5% !important;">
   <xng-breadcrumb></xng-breadcrumb>
 </div>
 
@@ -8,17 +8,17 @@
     <p class="doc-subtitle">Програма підтримки молодих підприємців та Офіси «Зроблено в Україні»</p>
   </div>
 
-  <div *ngIf="showSuccessMessage" class="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center" style="border-radius: 20px; background-color: #e8f5e9; padding: 1.5rem; color: #2e7d32;">
+  <div *ngIf="showSuccessMessage()" class="alert alert-success border-0 shadow-sm mb-4 d-flex align-items-center" style="border-radius: 20px; background-color: #e8f5e9; padding: 1.5rem; color: #2e7d32;">
     <mat-icon class="me-2">check_circle</mat-icon>
     Ваша заявка успішно прийнята та маршрутизована до відповідного підрозділу. Протягом 3 робочих днів ви отримаєте підтвердження.
   </div>
 
-  <div *ngIf="!showSuccessMessage" class="section-box bg-white p-0 overflow-hidden">
+  <div *ngIf="!showSuccessMessage()" class="section-box bg-white p-0 overflow-hidden">
     <mat-stepper [linear]="true" #stepper class="bg-transparent">
       
       <!-- КРОК 1: Ідентифікація -->
-      <mat-step [stepControl]="wizardForm.get('step1_identity')!">
-        <form [formGroup]="wizardForm.get('step1_identity')!">
+      <mat-step [stepControl]="getStepGroup('step1_identity')">
+        <form [formGroup]="getStepGroup('step1_identity')">
           <ng-template matStepLabel>Особисті дані</ng-template>
           
           <div class="p-4">
@@ -48,6 +48,9 @@
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Дата народження *</mat-label>
                   <input matInput type="date" formControlName="birthDate">
+                  <mat-error *ngIf="wizardForm.get('step1_identity.birthDate')?.hasError('maxAgeInvalid')">
+                    Участь у програмі можлива лише до 25 років
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
@@ -60,7 +63,7 @@
                 <mat-form-field appearance="fill" class="w-100">
                   <mat-label>Регіон *</mat-label>
                   <mat-select formControlName="region">
-                    <mat-option *ngFor="let reg of regions" [value]="reg">{{ reg }}</mat-option>
+                    <mat-option *ngFor="let reg of regions()" [value]="reg">{{ reg }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -89,8 +92,8 @@
       </mat-step>
 
       <!-- КРОК 2: Вибір напрямку -->
-      <mat-step [stepControl]="wizardForm.get('step2_needs')!">
-        <form [formGroup]="wizardForm.get('step2_needs')!">
+      <mat-step [stepControl]="getStepGroup('step2_needs')">
+        <form [formGroup]="getStepGroup('step2_needs')">
           <ng-template matStepLabel>Вибір підтримки</ng-template>
           
           <div class="p-4">
@@ -123,8 +126,8 @@
       </mat-step>
 
       <!-- КРОК 3: Деталізація запиту (Динамічний) -->
-      <mat-step [stepControl]="wizardForm.get('step3_details')!">
-        <form [formGroup]="wizardForm.get('step3_details')!">
+      <mat-step [stepControl]="getStepGroup('step3_details')">
+        <form [formGroup]="getStepGroup('step3_details')">
           <ng-template matStepLabel>Деталі</ng-template>
           
           <div class="p-4">
@@ -149,9 +152,9 @@
 
             <div class="d-flex justify-content-between mt-5 pt-3 border-top">
               <button class="btn btn-outline-secondary px-4 rounded-pill" matStepperPrevious>Назад</button>
-              <button class="btn btn-doc-submit px-5" (click)="onSubmit()" [disabled]="wizardForm.invalid || isSubmitting">
-                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
-                {{ isSubmitting ? 'Обробка...' : 'Надіслати заявку' }}
+              <button class="btn btn-doc-submit px-5" (click)="onSubmit()" [disabled]="wizardForm.invalid || isSubmitting()">
+                <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isSubmitting() ? 'Обробка...' : 'Надіслати заявку' }}
               </button>
             </div>
 
@@ -162,7 +165,7 @@
     </mat-stepper>
   </div>
 
-  <div class="submit-container" *ngIf="showSuccessMessage">
+  <div class="submit-container" *ngIf="showSuccessMessage()">
     <button class="btn-doc-submit" (click)="resetForm()">Подати нову заявку</button>
   </div>
 </div>

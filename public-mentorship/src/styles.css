@@ -232,6 +232,7 @@ html.high-contrast .xng-breadcrumb-link {
 
 .acc {
   max-width: 90vw !important;
+  margin: 0 auto !important;
 }
 
 .xng-breadcrumb-root {

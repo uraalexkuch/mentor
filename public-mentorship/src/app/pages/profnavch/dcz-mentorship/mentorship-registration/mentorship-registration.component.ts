@@ -287,8 +287,33 @@ export class MentorshipRegistrationComponent {
           isBusinessActive: needsData?.isActiveBusiness || ''
         }));
       }
+      const regionMap: Record<string, string> = {
+        'Вінницька область': 'UA05',
+        'Волинська область': 'UA07',
+        'Дніпропетровська область': 'UA12',
+        'Житомирська область': 'UA18',
+        'Закарпатська область': 'UA21',
+        'Запорізька область': 'UA23',
+        'Івано-Франківська область': 'UA26',
+        'м. Київ': 'UA80',
+        'Київська область': 'UA32',
+        'Кіровоградська область': 'UA35',
+        'Луганська область': 'UA44',
+        'Львівська область': 'UA46',
+        'Миколаївська область': 'UA48',
+        'Одеська область': 'UA51',
+        'Полтавська область': 'UA53',
+        'Рівненська область': 'UA56'
+      };
+      
+      let filterParam = null;
+      if (identityData?.region) {
+        filterParam = regionMap[identityData.region] || null;
+      }
+      
       // Перенаправляємо на сторінку офісів
-      this.router.navigate(['/profnavch/mentorship/consultants']);
+      const navExtras = filterParam ? { queryParams: { filter: filterParam } } : {};
+      this.router.navigate(['/profnavch/mentorship/consultants'], navExtras);
     } else {
       // Інакше йдемо до Кроку 3 (Навчання)
       stepper.next();

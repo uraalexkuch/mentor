@@ -165,9 +165,9 @@ export class MentorshipRegistrationComponent {
       // Крок 3: Деталізація (Динамічний крок)
       step3_details: this.fb.group({
         // Поля для програми Менторства
-        needsTraining: [{ value: false, disabled: true }],
+        needsTraining: [{ value: false, disabled: false }],
         needsMentorship: [{ value: false, disabled: true }],
-        notYouthWorker: [{ value: false, disabled: true }, Validators.requiredTrue],
+        notYouthWorker: [{ value: false, disabled: false }, Validators.requiredTrue],
         
         // Поля для Офісу
         consultationTopic: [{ value: '', disabled: true }, Validators.required],

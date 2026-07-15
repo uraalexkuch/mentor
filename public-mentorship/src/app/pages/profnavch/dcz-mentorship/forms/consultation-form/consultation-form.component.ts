@@ -32,8 +32,8 @@ interface ConsultationFormData {
 export class ConsultationFormComponent {
   private router = inject(Router);
 
-  // Signals для даних форми
-  formData = signal<ConsultationFormData>({
+  // Дані форми
+  formData: ConsultationFormData = {
     lastName: '',
     firstName: '',
     middleName: '',
@@ -50,63 +50,44 @@ export class ConsultationFormComponent {
     },
     otherTopic: '',
     desiredDate: ''
-  });
+  };
 
-  officeData = signal<{ name: string; address: string; phone: string; email: string } | null>(null);
-  submitted = signal(false);
-  submitSuccess = signal(false);
-  today = signal(new Date().toISOString().split('T')[0]);
+  officeData: { name: string; address: string; phone: string; email: string } | null = null;
+  submitted = false;
+  submitSuccess = false;
+  today = new Date().toISOString().split('T')[0];
 
   // Список областей
   regions = [
-    'Вінницька область',
-    'Волинська область',
-    'Дніпропетровська область',
-    'Донецька область',
-    'Житомирська область',
-    'Закарпатська область',
-    'Запорізька область',
-    'Івано-Франківська область',
-    'Київська область',
-    'Кіровоградська область',
-    'Луганська область',
-    'Львівська область',
-    'Миколаївська область',
-    'Одеська область',
-    'Полтавська область',
-    'Рівненська область',
-    'Сумська область',
-    'Тернопільська область',
-    'Харківська область',
-    'Херсонська область',
-    'Хмельницька область',
-    'Черкаська область',
-    'Чернівецька область',
-    'Чернігівська область',
-    'м. Київ'
+    'Вінницька область', 'Волинська область', 'Дніпропетровська область', 'Донецька область',
+    'Житомирська область', 'Закарпатська область', 'Запорізька область', 'Івано-Франківська область',
+    'Київська область', 'Кіровоградська область', 'Луганська область', 'Львівська область',
+    'Миколаївська область', 'Одеська область', 'Полтавська область', 'Рівненська область',
+    'Сумська область', 'Тернопільська область', 'Харківська область', 'Херсонська область',
+    'Хмельницька область', 'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'м. Київ'
   ];
 
-  // Computed сигнал для перевірки віку (не старше 25)
-  isAgeValid = computed(() => {
-    const data = this.formData();
+  // Перевірка віку (не старше 25)
+  get isAgeValid(): boolean {
+    const data = this.formData;
     const birthDateStr = data.birthDate;
     if (!birthDateStr) return true; // valid initially, required handles emptiness
     
     const birthDate = new Date(birthDateStr);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
+    const todayDate = new Date();
+    let age = todayDate.getFullYear() - birthDate.getFullYear();
+    const m = todayDate.getMonth() - birthDate.getMonth();
     
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    if (m < 0 || (m === 0 && todayDate.getDate() < birthDate.getDate())) {
       age--;
     }
     
     return age <= 25;
-  });
+  }
 
-  // Computed сигнал для валідації форми
-  isFormValid = computed(() => {
-    const data = this.formData();
+  // Валідація форми
+  get isFormValid(): boolean {
+    const data = this.formData;
     const hasConsultationTopic = 
       data.consultationTopics.statePrograms ||
       data.consultationTopics.grantSelection ||
@@ -126,39 +107,41 @@ export class ConsultationFormComponent {
       data.isBusinessActive !== '' &&
       businessValid &&
       hasConsultationTopic &&
-      this.isAgeValid() &&
+      this.isAgeValid &&
       data.desiredDate.length > 0
     );
-  });
+  }
 
   constructor() {
     // Спочатку намагаємося отримати дані з sessionStorage (надійніший спосіб)
-    const officeDataJson = sessionStorage.getItem('selectedOfficeData');
-    if (officeDataJson) {
-      try {
-        this.officeData.set(JSON.parse(officeDataJson));
-      } catch (e) {
-        console.error('Помилка парсингу даних офісу:', e);
+    if (typeof sessionStorage !== 'undefined') {
+      const officeDataJson = sessionStorage.getItem('selectedOfficeData');
+      if (officeDataJson) {
+        try {
+          this.officeData = JSON.parse(officeDataJson);
+        } catch (e) {
+          console.error('Помилка парсингу даних офісу:', e);
+        }
       }
-    }
 
-    // Отримуємо персональні дані з sessionStorage (з форми реєстрації)
-    const personalDataJson = sessionStorage.getItem('consultationPersonalData');
-    if (personalDataJson) {
-      try {
-        const p = JSON.parse(personalDataJson);
-        this.formData.update(current => ({
-          ...current,
-          lastName: p.lastName || '',
-          firstName: p.firstName || '',
-          middleName: p.middleName || '',
-          birthDate: p.birthDate || '',
-          phone: p.phone || '',
-          email: p.email || '',
-          isBusinessActive: p.isBusinessActive || ''
-        }));
-      } catch (e) {
-        console.error('Помилка парсингу персональних даних:', e);
+      // Отримуємо персональні дані з sessionStorage (з форми реєстрації)
+      const personalDataJson = sessionStorage.getItem('consultationPersonalData');
+      if (personalDataJson) {
+        try {
+          const p = JSON.parse(personalDataJson);
+          this.formData = {
+            ...this.formData,
+            lastName: p.lastName || '',
+            firstName: p.firstName || '',
+            middleName: p.middleName || '',
+            birthDate: p.birthDate || '',
+            phone: p.phone || '',
+            email: p.email || '',
+            isBusinessActive: p.isBusinessActive || ''
+          };
+        } catch (e) {
+          console.error('Помилка парсингу персональних даних:', e);
+        }
       }
     }
 
@@ -166,14 +149,14 @@ export class ConsultationFormComponent {
     const nav = this.router.getCurrentNavigation();
     const stateData = nav?.extras?.state;
 
-    if (!this.officeData() && stateData?.['officeData']) {
-      this.officeData.set(stateData['officeData']);
+    if (!this.officeData && stateData?.['officeData']) {
+      this.officeData = stateData['officeData'];
     }
 
-    if (!personalDataJson && stateData?.['personalData']) {
+    if (stateData?.['personalData'] && typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('consultationPersonalData')) {
       const p = stateData['personalData'];
-      this.formData.update(current => ({
-        ...current,
+      this.formData = {
+        ...this.formData,
         lastName: p.lastName || '',
         firstName: p.firstName || '',
         middleName: p.middleName || '',
@@ -181,28 +164,16 @@ export class ConsultationFormComponent {
         phone: p.phone || '',
         email: p.email || '',
         isBusinessActive: p.isBusinessActive || ''
-      }));
+      };
     }
   }
 
-  // Helper методи для оновлення даних
-  updateField<K extends keyof ConsultationFormData>(field: K, value: ConsultationFormData[K]): void {
-    this.formData.update(current => ({ ...current, [field]: value }));
-  }
-
-  updateConsultationTopic(topic: keyof ConsultationFormData['consultationTopics'], value: boolean): void {
-    this.formData.update(current => ({
-      ...current,
-      consultationTopics: { ...current.consultationTopics, [topic]: value }
-    }));
-  }
-
   onSubmit(): void {
-    if (!this.isFormValid()) return;
+    if (!this.isFormValid) return;
     
-    this.submitted.set(true);
-    console.log('Форма відправлена:', this.formData(), 'Офіс:', this.officeData());
-    this.submitSuccess.set(true);
+    this.submitted = true;
+    console.log('Форма відправлена:', this.formData, 'Офіс:', this.officeData);
+    this.submitSuccess = true;
   }
 
   goBack(): void {
@@ -210,13 +181,13 @@ export class ConsultationFormComponent {
   }
 
   resetForm(): void {
-    this.submitSuccess.set(false);
-    this.submitted.set(false);
-    this.formData.update(() => ({
+    this.submitSuccess = false;
+    this.submitted = false;
+    this.formData = {
       lastName: '', firstName: '', middleName: '', birthDate: '',
       phone: '', email: '', isBusinessActive: '', inactiveReason: '',
       consultationTopics: { statePrograms: false, grantSelection: false, mentorSupport: false, other: false },
       otherTopic: '', desiredDate: ''
-    }));
+    };
   }
 }

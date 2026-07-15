@@ -154,7 +154,8 @@ export class ConsultationFormComponent {
           middleName: p.middleName || '',
           birthDate: p.birthDate || '',
           phone: p.phone || '',
-          email: p.email || ''
+          email: p.email || '',
+          isBusinessActive: p.isBusinessActive || ''
         }));
       } catch (e) {
         console.error('Помилка парсингу персональних даних:', e);
@@ -178,7 +179,8 @@ export class ConsultationFormComponent {
         middleName: p.middleName || '',
         birthDate: p.birthDate || '',
         phone: p.phone || '',
-        email: p.email || ''
+        email: p.email || '',
+        isBusinessActive: p.isBusinessActive || ''
       }));
     }
   }

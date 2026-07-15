@@ -152,7 +152,7 @@ export class MentorshipRegistrationComponent {
         firstName: ['', [Validators.required, Validators.minLength(2)]],
         middleName: [''],
         birthDate: ['', [Validators.required, ageValidator(25)]],
-        rnokpp: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+        rnokpp: ['', [Validators.required, Validators.pattern(/^(?:\d{10}|\d{9}|[А-ЯІЇЄҐа-яіїєґA-Za-z]{2}\d{6})$/)]],
         phone: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         region: ['', Validators.required]
@@ -183,9 +183,7 @@ export class MentorshipRegistrationComponent {
 
     // Автоматичний вибір напрямку в залежності від статусу бізнесу
     businessControl?.valueChanges.subscribe((isActive: string) => {
-      if (isActive === 'no') {
-        typeControl?.setValue('MENTORSHIP');
-      } else if (isActive === 'yes') {
+      if (isActive === 'yes') {
         typeControl?.setValue('OFFICE_CONSULTATION');
       }
     });
@@ -277,6 +275,7 @@ export class MentorshipRegistrationComponent {
     if (this.wizardForm.get('step2_needs.applicationType')?.value === 'OFFICE_CONSULTATION') {
       // Зберігаємо персональні дані в sessionStorage для форми консультації
       const identityData = this.wizardForm.get('step1_identity')?.value;
+      const needsData = this.wizardForm.get('step2_needs')?.value;
       if (identityData) {
         sessionStorage.setItem('consultationPersonalData', JSON.stringify({
           lastName: identityData.lastName,
@@ -284,7 +283,8 @@ export class MentorshipRegistrationComponent {
           middleName: identityData.middleName,
           birthDate: identityData.birthDate,
           phone: identityData.phone,
-          email: identityData.email
+          email: identityData.email,
+          isBusinessActive: needsData?.isActiveBusiness || ''
         }));
       }
       // Перенаправляємо на сторінку офісів

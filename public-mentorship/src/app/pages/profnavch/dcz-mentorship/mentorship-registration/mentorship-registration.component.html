@@ -55,8 +55,8 @@
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="fill" class="w-100">
-                  <mat-label>РНОКПП (ІПН) *</mat-label>
-                  <input matInput formControlName="rnokpp" maxlength="10" placeholder="10 цифр">
+                  <mat-label>РНОКПП / Номер паспорта *</mat-label>
+                  <input matInput formControlName="rnokpp" maxlength="10" placeholder="10 або 9 цифр, чи АА123456">
                 </mat-form-field>
               </div>
               <div class="col-md-4">
@@ -109,9 +109,9 @@
               <label class="form-label fw-bold d-block mb-3" style="font-size: 1.1rem; color: #1a237e;">Яка підтримка вам необхідна? *</label>
               <mat-radio-group formControlName="applicationType" class="d-flex flex-column gap-3">
                 <mat-radio-button value="MENTORSHIP" color="primary" *ngIf="wizardForm.get('step2_needs.isActiveBusiness')?.value === 'no'">
-                  <b>Комплексне навчання</b> (Постанова №472: інтенсивне навчання для молоді)
+                  <b>Навчання</b> (Постанова №472: навчання для молоді)
                 </mat-radio-button>
-                <mat-radio-button value="OFFICE_CONSULTATION" color="primary" *ngIf="wizardForm.get('step2_needs.isActiveBusiness')?.value === 'yes'">
+                <mat-radio-button value="OFFICE_CONSULTATION" color="primary">
                   <b>Консультація та менторська підтримка в Офісі «Зроблено в Україні»</b> (гранти, супровід експертом, масштабування)
                 </mat-radio-button>
               </mat-radio-group>

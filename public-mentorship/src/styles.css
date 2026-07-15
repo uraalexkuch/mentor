@@ -177,7 +177,7 @@ html.high-contrast .xng-breadcrumb-link {
   justify-content: center;
 }
 
-.acc { max-width: 90vw !important; }
+.acc { max-width: 90vw !important; margin: 0 auto !important; }
 .xng-breadcrumb-root { font-size:  0.875rem; }
 .xng-breadcrumb-link:hover { text-decoration: underline; color: #000 !important; }
 .container{ padding-left: 0; padding-right: 0; max-width: 100%; } /* ДОДАНО: max-width */

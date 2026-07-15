@@ -2,15 +2,13 @@
 html {
   height: 100vh;
   width: 100vw;
-  font-size: 1rem;
-  /* 16px. Базовий розмір, від якого все буде масштабуватися. */
+  font-size: 1rem; /* 16px. Базовий розмір, від якого все буде масштабуватися. */
 }
 
 body {
   margin: 0;
   font-family: e-Ukraine, sans-serif !important;
   height: 100vh !important;
-  overflow: auto;
   width: 100vw;
   overflow-x: hidden;
   min-height: 100vh;
@@ -28,8 +26,7 @@ body {
   -ms-overflow-style: none;
 }
 
-body::-webkit-scrollbar,
-html::-webkit-scrollbar {
+body::-webkit-scrollbar, html::-webkit-scrollbar {
   width: 0;
   height: 0;
   background: transparent;
@@ -38,21 +35,9 @@ html::-webkit-scrollbar {
 /* --- ДОДАНО: Правила доступності тепер застосовуються до <html> --- */
 
 /* Font Size Adjustment */
-html.font-size-small {
-  font-size: 0.875rem !important;
-}
-
-/* 14px */
-html.font-size-large {
-  font-size: 1.1875rem !important;
-}
-
-/* 19px */
-html.font-size-xlarge {
-  font-size: 1.375rem !important;
-}
-
-/* 22px */
+html.font-size-small { font-size: 0.875rem !important; } /* 14px */
+html.font-size-large { font-size: 1.1875rem !important; } /* 19px */
+html.font-size-xlarge { font-size: 1.375rem !important; } /* 22px */
 
 /* Letter Spacing */
 html.increased-letter-spacing p,
@@ -80,41 +65,15 @@ html.high-contrast body {
   background-color: #000 !important;
   color: #fff !important;
 }
-
-html.high-contrast a {
-  color: #ffff00 !important;
-}
-
+html.high-contrast a { color: #ffff00 !important; }
 html.high-contrast button,
-html.high-contrast .btn {
-  background-color: #333 !important;
-  color: #fff !important;
-  border: 0.0625rem solid #fff !important;
-}
-
-html.high-contrast .mat-icon {
+html.high-contrast .btn { background-color: #333 !important; color: #fff !important; border: 0.0625rem solid #fff !important; }
+html.high-contrast .mat-icon { color: #fff !important; }
+html.high-contrast .header-top, html.high-contrast .header-bottom { background-color: #000 !important; }
+html.high-contrast .service-box { border-color: white !important; }
+html.high-contrast h1, html.high-contrast h2, html.high-contrast h3, html.high-contrast h4, html.high-contrast h5, html.high-contrast h6, html.high-contrast span {
   color: #fff !important;
 }
-
-html.high-contrast .header-top,
-html.high-contrast .header-bottom {
-  background-color: #000 !important;
-}
-
-html.high-contrast .service-box {
-  border-color: white !important;
-}
-
-html.high-contrast h1,
-html.high-contrast h2,
-html.high-contrast h3,
-html.high-contrast h4,
-html.high-contrast h5,
-html.high-contrast h6,
-html.high-contrast span {
-  color: #fff !important;
-}
-
 html.high-contrast .xng-breadcrumb-link {
   color: #ffff00 !important;
 }
@@ -127,10 +86,9 @@ html.high-contrast .xng-breadcrumb-link {
   flex-grow: 1;
 }
 
-.pagination {
+.pagination{
   margin-right: 0 !important;
 }
-
 .ngx-pagination {
   padding: 1.188rem 0;
   border-top: 0.125rem solid #000;
@@ -142,16 +100,14 @@ html.high-contrast .xng-breadcrumb-link {
   align-items: center;
   width: 86vw;
 }
-
 .ngx-pagination .current {
   width: max-content !important;
-  flex: 0 0 2.75rem !important;
-  /* ~44px */
-  height: 2.75rem !important;
+  flex: 0 0 2rem !important;
+  height: 2rem !important;
   border-radius: 50%;
-  margin: 0 0.125rem;
-  font-size: 1rem;
-  line-height: 2.75rem;
+  margin: 0 0.0625rem;
+  font-size: 0.813rem;
+  line-height: 2rem;
   display: flex;
   align-items: center !important;
   background: whitesmoke !important;
@@ -159,197 +115,97 @@ html.high-contrast .xng-breadcrumb-link {
   justify-content: center !important;
   border: 0.125rem solid #000 !important;
 }
-
 .ngx-pagination .current:hover {
   border: 0.125rem solid #000 !important;
   border-radius: 50%;
 }
-
 .pagination-previous.disabled.ng-star-inserted {
   width: max-content !important;
 }
-
 .ngx-pagination li {
-  flex: 0 0 2.75rem !important;
+  flex: 0 0 2rem !important;
   border: 0.125rem solid transparent !important;
   border-radius: 50%;
-  margin: 0 0.125rem;
-  font-size: 1rem;
-  line-height: 2.75rem;
+  margin: 0 0.0625rem;
+  font-size: 0.813rem;
+  line-height: 2rem;
   width: auto;
   align-items: center !important;
   color: #000;
   justify-content: center;
   display: inline-flex;
 }
-
 .ngx-pagination li a:hover {
-  height: 2.75rem !important;
+  height: 2rem !important;
   color: #000;
-  flex: 0 0 2.75rem !important;
+  flex: 0 0 2.5rem !important;
   display: flex;
   border: 0.125rem solid #000;
-  font-size: 1rem;
+  font-size: 0.813rem;
   border-radius: 50%;
   justify-content: center;
   background-color: transparent;
   align-items: center;
   width: max-content !important;
 }
-
 .ngx-pagination li:first-child {
   margin-right: auto;
   color: #000;
   display: inline-flex;
   width: max-content !important;
 }
-
 .ngx-pagination li:last-child {
   margin-left: auto;
   color: #000;
   display: inline-flex;
 }
-
 .pagination li.active span {
   color: #000;
   border: 0.125rem solid #000;
 }
-
-.pagination li a,
-.pagination li span {
-  flex: 0 0 2.75rem;
-  height: 2.75rem;
+.pagination li a, .pagination li span {
+  flex: 0 0 2.125rem;
+  height: 2rem;
   border: 0.125rem solid transparent;
   border-radius: 50%;
-  margin: 0 0.125rem;
-  font-size: 1rem;
-  line-height: 2.75rem;
+  margin: 0 0.0625rem;
+  font-size: 0.8125rem;
+  line-height: 2rem;
   display: flex;
   align-items: center;
   color: #000;
   justify-content: center;
 }
 
-.acc {
-  max-width: 90vw !important;
-  margin: 0 auto !important;
-}
+.acc { max-width: 90vw !important; }
+.xng-breadcrumb-root { font-size:  0.875rem; }
+.xng-breadcrumb-link:hover { text-decoration: underline; color: #000 !important; }
+.container{ padding-left: 0; padding-right: 0; max-width: 100%; } /* ДОДАНО: max-width */
+.body { flex: 1; padding-left: 5%; padding-right: 5%; }
+.header-top{ padding-left: 5%; padding-right: 5%; }
+.header-bottom{ padding-left: 5% !important; }
+footer { flex-shrink: 0; padding-left: 5% !important; padding-right: 5% !important; }
+.faq_item-answer-link { font-size: 1.125rem; line-height: 1.75rem; letter-spacing: -0.02em; color: #000; }
 
-.xng-breadcrumb-root {
-  font-size: 0.875rem;
-}
+h1, h2, h3, h4, h5, h6 { font-family: e-Ukraine, sans-serif; }
+h1 { font-family: e-UkraineHead, sans-serif !important; font-size: 3.75rem; }
+h2 { font-family: e-Ukraine, sans-serif !important; font-size: 2.5rem; }
+h3 { font-family: e-Ukraine, sans-serif !important; font-size:1.875rem; }
+h4 { font-family: e-Ukraine, sans-serif !important; font-size:1.625rem; }
+h5 { font-family: e-Ukraine, sans-serif !important; font-size:1.5rem; }
+h6 { font-family: e-Ukraine, sans-serif !important; font-size:1.25rem; }
+.h7 { font-family: e-Ukraine, sans-serif !important; font-size:1rem !important; }
 
-.xng-breadcrumb-link:hover {
-  text-decoration: underline;
-  color: #000 !important;
-}
-
-.container {
-  padding-left: 0;
-  padding-right: 0;
-  max-width: 100%;
-}
-
-/* ДОДАНО: max-width */
-.body {
-  flex: 1;
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.header-top {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.header-bottom {
-  padding-left: 5% !important;
-}
-
-footer {
-  flex-shrink: 0;
-  padding-left: 5% !important;
-  padding-right: 5% !important;
-}
-
-.faq_item-answer-link {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  letter-spacing: -0.02em;
-  color: #000;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: e-Ukraine, sans-serif;
-}
-
-h1 {
-  font-family: e-UkraineHead, sans-serif !important;
-  font-size: 3.75rem;
-}
-
-h2 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 2.5rem;
-}
-
-h3 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 1.875rem;
-}
-
-h4 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 1.625rem;
-}
-
-h5 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 1.5rem;
-}
-
-h6 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 1.25rem;
-}
-
-.h7 {
-  font-family: e-Ukraine, sans-serif !important;
-  font-size: 1rem !important;
-}
-
-@font-face {
-  font-family: e-Ukraine;
-  src: url('assets/fonts/e-Ukraine-Regular.ttf');
-}
-
-@font-face {
-  font-family: e-UkraineHead;
-  src: url('assets/fonts/e-UkraineHead-Bold.ttf');
-}
-
-@font-face {
-  font-family: e-UkraineMedium;
-  src: url('assets/fonts/e-Ukraine-Medium.ttf');
-}
-
-@font-face {
-  font-family: e-UkraineBold;
-  src: url('assets/fonts/e-Ukraine-Bold.ttf');
-}
+@font-face { font-family: e-Ukraine; src: url('src/assets/fonts/e-Ukraine-Regular.ttf'); }
+@font-face { font-family: e-UkraineHead; src: url('src/assets/fonts/e-UkraineHead-Bold.ttf'); }
+@font-face { font-family: e-UkraineMedium; src: url('src/assets/fonts/e-Ukraine-Medium.ttf'); }
+@font-face { font-family: e-UkraineBold; src: url('src/assets/fonts/e-Ukraine-Bold.ttf'); }
 
 /* --- ОСНОВНИЙ МЕДІА-ЗАПИТ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ --- */
 @media only screen and (max-width: 767px) {
   html {
-    font-size: 0.875rem;
-    /* 14px */
+    font-size: 0.875rem; /* 14px */
   }
-
   body {
     overflow-x: hidden;
   }
@@ -358,54 +214,41 @@ h6 {
 
   /* Зменшуємо розміри заголовків */
   h1 {
-    font-size: 2.5rem;
-    /* Було 3.75rem */
+    font-size: 2.5rem; /* Було 3.75rem */
     line-height: 1.2;
   }
-
   h2 {
     font-size: 1.75rem;
   }
-
   .hero-text3 {
-    font-size: 2rem;
-    /* Було 3rem */
+    font-size: 2rem; /* Було 3rem */
     line-height: 2.5rem;
   }
 
   /* Зменшуємо вертикальні відступи для секцій */
   .section {
-    /* padding-top: 2rem; */
-    /* padding-bottom: 2rem; */
+    padding-top: 2rem; /* Було 3.75rem */
+    padding-bottom: 2rem; /* Було 3.75rem */
   }
-
   .service-info_section {
-    margin: 2.5rem 0;
-    /* Було 5rem 0 */
+    margin: 2.5rem 0; /* Було 5rem 0 */
   }
-
   .service-type_wrap {
-    padding: 2.5rem 0;
-    /* Було 4.37rem 0 */
-    margin-bottom: 2.5rem;
-    /* Було 5rem */
+    padding: 2.5rem 0; /* Було 4.37rem 0 */
+    margin-bottom: 2.5rem; /* Було 5rem */
   }
 
   /* Адаптуємо картки, щоб вони йшли в стовпчик */
   .team-card {
-    width: 90% !important;
-    /* Було 30% */
-    margin-bottom: 1.5rem;
-    /* Додаємо відступ знизу для розділення */
+    width: 90% !important; /* Було 30% */
+    margin-bottom: 1.5rem; /* Додаємо відступ знизу для розділення */
   }
-
   /* Якщо картки знаходяться у flex-контейнері, може знадобитися:
    .your-flex-container { flex-direction: column; align-items: center; } */
 
   /* Адаптуємо пагінацію */
   .ngx-pagination {
-    width: 90vw;
-    /* Було 86vw, даємо трохи більше простору */
+    width: 90vw; /* Було 86vw, даємо трохи більше простору */
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
@@ -414,360 +257,761 @@ h6 {
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   html {
-    font-size: 0.9375rem;
-    /* 15px */
+    font-size: 0.9375rem; /* 15px */
   }
 }
 
 @media only screen and (min-width: 1024px) {
   html {
-    font-size: 1rem;
-    /* 16px */
+    font-size: 1rem; /* 16px */
   }
 }
-
 @media only screen and (min-width: 1537px) {
   html {
-    font-size: 1.125rem;
-    /* 18px */
+    font-size: 1.125rem; /* 18px */
   }
 }
-
 @media only screen and (min-width: 1921px) {
   html {
-    font-size: 1.25rem;
-    /* 20px */
+    font-size: 1.25rem; /* 20px */
   }
 }
 
 /* --- Решта ваших стилів --- */
-.team-card {
-  width: 30%;
-  background-color: rgba(255, 255, 255, 0.39);
-}
-
-.service-box a {
-  text-decoration: none !important;
-}
-
-.service-box a:hover {
-  text-decoration: underline !important;
-  color: black !important;
-}
-
-.service-box {
-  padding: 0.9375rem;
-  text-align: center;
-  border: 0.0625rem solid #ccc;
-  background: transparent;
-  color: #1b1d1d;
-  display: flex;
-  text-decoration: none;
-  justify-content: flex-start;
-  width: 100%;
-  background-size: 0 100%;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-}
-
-.section {
-  padding: 3.75rem 0;
-}
-
-a {
-  color: black;
-}
-
-.nameposlug {
-  padding-bottom: 2%;
-}
-
-.article-level-1 {
-  line-height: 2rem;
-  font-weight: 400;
-}
-
-.service-box:hover {
-  transition: ease-in-out 0.3s;
-  border-color: #fff;
-  box-shadow: 0 0 1.5625rem 0 rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  background-color: #FFFFFF;
-  background-size: 100% 100%;
-  color: #1b1d1d;
-}
-
-.service-boxtitle {
-  color: #080E1A;
-  font-family: e-Ukraine;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  display: flex;
-  justify-content: flex-start;
-  text-align: start;
-  text-decoration: none;
-}
-
-.service-boxtext {
-  color: #080E1A;
-  font-family: e-Ukraine;
-  font-weight: 300;
-  line-height: normal;
-  display: flex;
-  justify-content: flex-start;
-  text-align: start;
-  text-decoration: none;
-}
-
-.service-boxbtn {
-  color: #264493;
-  text-align: start;
-  font-family: e-Ukraine;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-decoration: none;
-  display: flex;
-  justify-content: flex-start;
-  max-width: 50%;
-  cursor: pointer;
-}
+.team-card { width: 30%; background-color: rgba(255,255,255,0.39); }
+.service-box a { text-decoration: none !important; }
+.service-box a:hover { text-decoration: underline !important; color: black !important; }
+.service-box { padding: 0.9375rem; text-align: center; border: 0.0625rem solid #ccc; background: transparent; color: #1b1d1d; display: flex; text-decoration: none; justify-content: flex-start; width: 100%; background-size: 0 100%; background-position: 0 100%; background-repeat: no-repeat; }
+.section{ padding: 3.75rem 0; }
+a { color:black; }
+.nameposlug { padding-bottom: 2%; }
+.article-level-1 { line-height: 2rem; font-weight: 400; }
+.service-box:hover{ transition: ease-in-out 0.3s; border-color: #fff; box-shadow: 0 0 1.5625rem 0 rgba(0, 0, 0, 0.1); cursor: pointer; background-color: #FFFFFF; background-size: 100% 100%; color: #1b1d1d; }
+.service-boxtitle{ color: #080E1A; font-family: e-Ukraine; font-style: normal; font-weight: 600; line-height: normal; display: flex; justify-content: flex-start; text-align: start; text-decoration: none; }
+.service-boxtext{ color: #080E1A; font-family: e-Ukraine; font-weight: 300; line-height: normal; display: flex; justify-content: flex-start; text-align: start; text-decoration: none; }
+.service-boxbtn{ color: #264493; text-align: start; font-family: e-Ukraine; font-style: normal; font-weight: 700; line-height: normal; text-decoration: none; display: flex; justify-content: flex-start; max-width: 50%; cursor: pointer; }
 
 @media all and (min-width:1920px) {
-  .container {
-    padding-left: 0;
-    padding-right: 0;
-    margin-right: 0;
-    margin-left: 0;
-  }
+  .container{ padding-left: 0; padding-right: 0; margin-right: 0; margin-left: 0; }
 }
 
-.section {
-  flex: 1;
-  /* padding-left: 5% !important; */
-  /* padding-right: 5% !important; */
-}
+.section { flex: 1; padding-left: 5% !important; padding-right: 5% !important; }
+.itemaccord { font-size: 1rem; line-height: 1.5rem; letter-spacing: -0.02rem; justify-content: space-between; color: #000; margin: 0 0 0.938rem; font-weight: 300; font-family: e-Ukraine, sans-serif; display: block; width: 100%;  padding: 1rem; z-index: 1000; text-align: justify; cursor: pointer; }
+.back-to-top { position: fixed; bottom: 1.5rem; right: 1.5rem; height: 4rem; z-index: 1000; width: 4rem; box-shadow: 0 0.125rem 0.75rem #00000040; border-radius: 100%; cursor: pointer; background-color: #000; border: 0.125rem solid white; }
 
-.itemaccord {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  letter-spacing: -0.02rem;
-  justify-content: space-between;
-  color: #000;
-  margin: 0 0 0.938rem;
-  font-weight: 300;
-  font-family: e-Ukraine, sans-serif;
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  z-index: 1000;
-  text-align: justify;
-  cursor: pointer;
-}
-
-.back-to-top {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  height: 4rem;
-  z-index: 1000;
-  width: 4rem;
-  box-shadow: 0 0.125rem 0.75rem #00000040;
-  border-radius: 100%;
-  cursor: pointer;
-  background-color: #000;
-  border: 0.125rem solid white;
-}
-
-.hero-text3 {
-  font-weight: 400;
-  word-break: keep-all;
-  word-wrap: break-word;
-  font-family: e-Ukraine, sans-serif;
-  font-size: 3rem;
-  line-height: 3.5rem;
-  text-align: center;
-  letter-spacing: -.02rem;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  padding-top: 5%;
-  background-size: cover;
-  background-position: center;
-  left: 0;
-  padding-left: 5% !important;
-  padding-right: 5% !important;
-}
-
-.service-info_section {
-  margin: 5rem 0;
-  display: flex;
-  justify-content: center;
-}
-
-.service-type_wrap {
-  background-color: #E7EEF3 !important;
-  padding: 4.37rem 0;
-  margin-bottom: 5rem;
-}
-
-.bodycz {
-  position: relative;
-  top: -2rem;
-}
-
-.aspect-ratio-box img.img-fluid {
-  max-width: 100%;
-  height: auto;
-  /* ЗМІНЕНО: для гнучких зображень */
-  object-fit: cover;
-}
+.hero-text3{ font-weight: 400; word-break: keep-all; word-wrap: break-word; font-family: e-Ukraine,sans-serif; font-size: 3rem; line-height: 3.5rem; text-align: center; letter-spacing: -.02rem; color: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; width: 100%; padding-top: 5%; background-size: cover; background-position: center; left: 0; padding-left: 5% !important; padding-right: 5% !important; }
+.service-info_section { margin: 5rem 0; display: flex; justify-content: center; }
+.service-type_wrap { background-color: #E7EEF3 !important; padding: 4.37rem 0; margin-bottom: 5rem; }
+.bodycz{ position: relative; top:-2rem; }
+.aspect-ratio-box img.img-fluid { max-width: 100%; height: auto; /* ЗМІНЕНО: для гнучких зображень */ object-fit: cover; }
 
 @media (max-width: 480px) {
-  .aspect-ratio-box img.img-fluid {
-    max-height: 20.07875rem;
-  }
+  .aspect-ratio-box img.img-fluid { max-height: 20.07875rem; }
 }
-
-.mat-mdc-card-title,
-.mat-mdc-card-subtitle {
-  margin-bottom: 0.9375rem;
-  padding: 0 0.9375rem;
-}
-
-.mat-card-title {
-  padding: 1rem !important;
-}
-
-.mat-mdc-button {
-  margin-bottom: 0 !important;
-}
-
-
-/* --- INTERN50 SHARED FORM STYLES --- */
-.nextbtn {
-  box-shadow: none;
-  z-index: 1;
-  background-color: transparent;
-  color: #264493;
-  font-family: e-Ukraine;
-  font-weight: 400;
-  border: 1px #264493 solid;
-  letter-spacing: -0.02em;
-  margin: 0.938rem auto;
-  display: inline-block;
-  border-radius: 2.5rem;
-  padding: 0.625rem 2rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  position: relative;
-  max-width: 100%;
-  text-align: center;
-  background-image: linear-gradient(90deg, #264493 0%, #4477EEFF 100%);
-  background-size: 0 100%;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 0.5s ease, color 0.3s ease;
-  cursor: pointer;
-}
-
-.nextbtn:hover {
-  background-size: 100% 100%;
-  color: #fff;
-}
-
-.nazva {
-  margin: 1rem 0;
-  padding: 1rem 0;
-  color: #000036;
-  font-weight: bold;
-}
-
-.nameposlug {
-  padding-bottom: 2rem;
-}
-
-.form-field {
-  margin-bottom: 1.5rem;
-}
-
-.h7 {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #444;
-}
-
-.required {
-  color: red;
-  font-weight: bold;
-  margin-left: 4px;
-}
-
-.form-block {
-  border: #000036 solid 1px;
-  border-radius: 1rem;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  background: #fff;
-}
-
-.do-uvagy-link {
-  display: inline-block;
-  font-family: 'e-Ukraine', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #d97706;
-  text-decoration: none;
-  border-bottom: 2px dashed #d97706;
-  padding-bottom: 2px;
-  cursor: pointer;
-  transition: color 0.3s ease, border-color 0.3s ease;
-  margin-bottom: 1.5rem;
-}
-
-.do-uvagy-link:hover {
-  color: #b45309;
-  border-color: #b45309;
-}
-
-.info-style-box {
-  display: inline-block;
-  background: #fff9db;
-  border: 1px solid #fab005;
-  border-left: 6px solid #fab005;
-  color: #856404;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 2rem;
-  text-align: center;
-  font-family: 'e-Ukraine', sans-serif;
-  font-size: 1.05rem;
-  width: auto;
-  min-width: 300px;
-}
-
-.info-style-box:hover {
-  background: #fff3bf;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  border-color: #f08c00;
-}
-
+.mat-mdc-card-title, .mat-mdc-card-subtitle{ margin-bottom: 0.9375rem; padding: 0 0.9375rem; }
+.mat-card-title{ padding:1rem !important; }
+.mat-mdc-button{ margin-bottom: 0 !important; }
 /* Додайте цей код в кінець файлу src/styles.scss або src/styles.css */
 
 .rounded-dialog-container .mat-mdc-dialog-surface {
   background: transparent !important;
   box-shadow: none !important;
 }
+
+/* === КРОК 14: SKIP LINK (Перейти до головного контенту) === */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #ffca08;
+  color: #000;
+  padding: 8px 16px;
+  z-index: 10000;
+  transition: top 0.2s ease;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+main#main-content:focus {
+  outline: none;
+}
+
+/* === КРОК 16: ЗУПИНКА АНІМАЦІЙ (Reduced Motion) === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html.disable-animations *,
+html.disable-animations *::before,
+html.disable-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ==========================================================================
+   ГЛОБАЛЬНЕ ВИПРАВЛЕННЯ ДЛЯ КАРТОК-ПОСИЛАНЬ (Stretched Links)
+   ========================================================================== */
+
+/* Забороняємо Bootstrap/браузеру робити картки синіми та підкресленими */
+a.stretched-link,
+.card a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+a.stretched-link:hover,
+a.stretched-link:focus,
+.card a:hover,
+.card a:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* ==========================================================================
+   ГЛОБАЛЬНІ ПРАВИЛА ДЛЯ РЕЖИМУ ВИСОКОГО КОНТРАСТУ
+   ========================================================================== */
+
+/* Коли увімкнено режим високого контрасту (клас додається в AccessibilityService) */
+html.high-contrast .card,
+html.high-contrast .service-box {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+}
+
+/* Гарантуємо, що весь текст всередині карток білий у звичайному стані */
+html.high-contrast .card *,
+html.high-contrast .service-box * {
+  color: #fff !important;
+}
+
+/* При наведенні (Hover) інвертуємо кольори, щоб уникнути ефекту "біле на білому" */
+html.high-contrast .card:hover,
+html.high-contrast .service-box:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+/* Примусово робимо весь текст всередині картки чорним при наведенні */
+html.high-contrast .card:hover *,
+html.high-contrast .service-box:hover * {
+  color: #000 !important;
+}
+
+/* Додаємо підкреслення лише для заголовків карток при наведенні, а не для всього блоку */
+html.high-contrast .card:hover .card-title,
+html.high-contrast .service-box:hover .service-boxtitle {
+  text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   ГЛОБАЛЬНЕ ВИПРАВЛЕННЯ ДОСТУПНОСТІ (HIGH CONTRAST) - ОНОВЛЕНО
+   ========================================================================== */
+
+/* 1. Видаляємо всі примусові рамки навколо тексту в меню */
+html.high-contrast app-dcz-head-new button.btn-unstyled,
+html.high-contrast app-dcz-head-new .menu-item a,
+html.high-contrast app-dcz-head-new .parent {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-image: none !important;
+}
+
+/* 2. Виправляємо видимість нижньої панелі (Громадянам, Бізнесу тощо) */
+html.high-contrast #header-bottom-menu li a,
+html.high-contrast #header-bottom-menu li button.btn-unstyled {
+    color: #ffffff !important; /* Робимо весь текст білим */
+    text-decoration: none !important; /* Прибираємо підкреслення іконок */
+}
+
+/* 3. Окремо виправляємо іконки FontAwesome (щоб вони не були сірими) */
+html.high-contrast #header-bottom-menu i.fas {
+    color: #ffffff !important;
+}
+
+/* 4. Ефект наведення (Hover) - повертаємо жовтий колір */
+html.high-contrast #header-top-menu li a:hover,
+html.high-contrast #header-top-menu li button.btn-unstyled:hover,
+html.high-contrast #header-bottom-menu li a:hover,
+html.high-contrast #header-bottom-menu li button.btn-unstyled:hover {
+    color: #ebe236 !important;
+    text-decoration: underline !important;
+}
+
+/* 5. Виправлення для "Електронного кабінету" та "Оберіть область" */
+html.high-contrast .cabinet {
+    border: 2px solid #ebe236 !important;
+    background: transparent !important;
+}
+
+/* 6. Захист логотипа від зайвих ліній */
+html.high-contrast .group-parent,
+html.high-contrast .group-parent * {
+    border: none !important;
+    text-decoration: none !important;
+}
+
+/* ==========================================================================
+   ГЛОБАЛЬНИЙ ФІКС КОНТРАСТНОСТІ ТА ДИЗАЙНУ (ДСТУ EN 301 549)
+   ========================================================================== */
+
+/* 1. Виправляємо фон всього сайту та секцій у темному режимі */
+html.high-contrast body,
+html.high-contrast .content-wrapper,
+html.high-contrast main,
+html.high-contrast section,
+html.high-contrast .bg-gray-100,
+html.high-contrast .section {
+  background-color: #000 !important; /* Тільки чорний фон */
+  background-image: none !important;
+  color: #fff !important;
+}
+
+/* 2. Прибираємо рамки (коробки) навколо кнопок у хедері */
+html.high-contrast app-dcz-head-new button.btn-unstyled,
+html.high-contrast app-dcz-head-new .menu-item,
+html.high-contrast app-dcz-head-new .parent,
+html.high-contrast #header-bottom-menu li button.btn-unstyled {
+  border: none !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 3. Окремо виправляємо кнопку "Оберіть Вашу область" */
+html.high-contrast #header-bottom-menu li button.btn-unstyled {
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 4. Робимо всі іконки білими для видимості */
+html.high-contrast i.fas,
+html.high-contrast mat-icon {
+  color: #ffffff !important;
+}
+
+/* 5. Виправлення для "Електронного кабінету" - залишаємо рамку жовтою */
+html.high-contrast .cabinet {
+  border: 2px solid #ebe236 !important;
+  background: transparent !important;
+  color: #ebe236 !important;
+}
+
+/* 6. Повертаємо жовтий колір та підкреслення при наведенні (Hover) */
+html.high-contrast a:hover,
+html.high-contrast button.btn-unstyled:hover {
+  color: #ebe236 !important;
+  text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   ФІКС ГЕРО-СЕКЦІЇ ТА КНОПОК ПОШУКУ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Повністю прибираємо фонове зображення та робимо фон чорним */
+html.high-contrast .service-type_wrap,
+html.high-contrast .upimage,
+html.high-contrast .bodycz,
+html.high-contrast section[style*="background-image"] {
+    background-color: #000 !important;
+    background-image: none !important; /* Прибирає фото клавіатури */
+    background: #000 !important;
+}
+
+/* 2. Робимо головний заголовок яскраво-білим */
+html.high-contrast .hero-text3 p,
+html.high-contrast .textheader,
+html.high-contrast h1,
+html.high-contrast h2 {
+    color: #ffffff !important;
+    text-shadow: none !important; /* Прибираємо тіні, які заважають читанню */
+}
+
+/* 3. Виправляємо кнопки "Пошук вакансій" та "Пошук вакансій ШІ" */
+html.high-contrast .hero-text3 button,
+html.high-contrast .hero-text3 .btn,
+html.high-contrast .btnvaucher,
+html.high-contrast .startbtn {
+    background-color: #000 !important;
+    color: #ebe236 !important;     /* Наш доступний жовтий */
+    border: 2px solid #ebe236 !important;
+    box-shadow: none !important;
+}
+
+/* Ефект при наведенні на кнопки в режимі контрасту */
+html.high-contrast .hero-text3 button:hover,
+html.high-contrast .hero-text3 .btn:hover {
+    background-color: #ebe236 !important;
+    color: #000 !important;
+}
+
+/* 4. Додатково ховаємо будь-які напівпрозорі плашки */
+html.high-contrast .service-type_login-text {
+    background-color: #333 !important;
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+/* ==========================================================================
+   ФІКС ІНФО-БЛОКІВ ТА АКОРДЕОНІВ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Робимо фон інформаційних карток чорним та додаємо білу рамку */
+html.high-contrast .service-info_content,
+html.high-contrast .service-info_first,
+html.high-contrast .service-info_second {
+    background-color: #000 !important;
+    background: #000 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+/* 2. Виправлення для акордеонів (Mat-Expansion-Panel) */
+html.high-contrast mat-expansion-panel,
+html.high-contrast .mat-expansion-panel-header,
+html.high-contrast .mat-expansion-panel-content {
+    background-color: #000 !important;
+    background: #000 !important;
+    color: #fff !important;
+    border-bottom: 1px solid #fff !important;
+}
+
+/* 3. Текст всередині акордеонів та мітки */
+html.high-contrast .service-info_first-label,
+html.high-contrast .service-info_second-label,
+html.high-contrast .mat-expansion-panel-header-title {
+    color: #ebe236 !important; /* Робимо назви полів жовтими для акценту */
+}
+
+/* 4. Іконки стрілок в акордеонах */
+html.high-contrast .mat-expansion-indicator::after {
+    color: #fff !important;
+}
+
+/* 5. Видалення фонових градієнтів, які можуть залишатися в контейнерах */
+html.high-contrast .acc,
+html.high-contrast .container.acc {
+    background: transparent !important;
+}
+
+/* 6. Посилання всередині тексту акордеонів */
+html.high-contrast mat-expansion-panel a {
+    color: #ebe236 !important;
+    text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   ФІКС ПАНЕЛІ КОНСУЛЬТАНТІВ ТА СПИСКУ ОБЛАСТЕЙ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Робимо фон лівої панелі вибору області чорним */
+html.high-contrast .mat-drawer,
+html.high-contrast .mat-sidenav,
+html.high-contrast .side-nav,
+html.high-contrast .region-selection-wrapper {
+    background-color: #000 !important;
+    border-right: 1px solid #fff !important;
+}
+
+/* 2. Текст "Оберіть область" та іконка меню поруч */
+html.high-contrast .mat-drawer-container,
+html.high-contrast .mat-list-item,
+html.high-contrast .div.h7 {
+    color: #ffffff !important;
+}
+
+/* 3. Виправлення білого фону під кнопками "Замовити консультацію" */
+html.high-contrast .consultant-card,
+html.high-contrast .consultant-info-block {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid #fff !important;
+}
+
+/* 4. Стилізація кнопок у блоці консультантів */
+html.high-contrast button.btn-outline-yellow,
+html.high-contrast .consultant-card button {
+    border: 2px solid #ebe236 !important; /* Наш доступний жовтий */
+    color: #ebe236 !important;
+    background: transparent !important;
+}
+
+/* 5. Виправлення для списку областей (посилання у бічній панелі) */
+html.high-contrast .mat-nav-list a,
+html.high-contrast .region-link {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+html.high-contrast .mat-nav-list a:hover {
+    color: #ebe236 !important;
+    background-color: #333 !important;
+    text-decoration: underline !important;
+}
+
+/* 6. Примусове виправлення для скролбара (якщо він білий) */
+html.high-contrast ::-webkit-scrollbar-track {
+    background: #000 !important;
+}
+html.high-contrast ::-webkit-scrollbar-thumb {
+    background: #fff !important;
+    border: 1px solid #000 !important;
+}
+
+/* ==========================================================================
+   ВИПРАВЛЕННЯ НЕВИДИМОГО ТЕКСТУ (HIGH CONTRAST) — ПУНКТ 9.1.4.3
+   ========================================================================== */
+
+/* 1. Робимо весь текст всередині інформаційних блоків білим */
+html.high-contrast .service-info_first-text,
+html.high-contrast .service-info_second-text,
+html.high-contrast .service-info_content p,
+html.high-contrast .service-info_content span,
+html.high-contrast .service-acc_simple-text,
+html.high-contrast .editor-content p,
+html.high-contrast .zajavaPS {
+    color: #ffffff !important; /* Примусово білий колір для всього контенту */
+}
+
+/* 2. Виділяємо підзаголовки яскраво-жовтим для кращої навігації */
+html.high-contrast .service-info_first-label,
+html.high-contrast .service-info_second-label,
+html.high-contrast .docfact {
+    color: #ebe236 !important; /* Яскравий доступний жовтий */
+    font-weight: bold !important;
+}
+
+/* 3. Гарантуємо видимість посилань всередині блоків */
+html.high-contrast .service-info_content a,
+html.high-contrast .service-acc_simple-text a {
+    color: #ebe236 !important;
+    text-decoration: underline !important;
+}
+
+/* 4. Виправлення для акордеонів (Expansion Panels) */
+html.high-contrast .mat-expansion-panel-header-title,
+html.high-contrast .article-level-1 {
+    color: #ffffff !important;
+}
+
+/* 5. Додаємо білу тонку рамку для блоків, щоб вони не зливалися */
+html.high-contrast .service-info_first,
+html.high-contrast .service-info_second,
+html.high-contrast .service-info_content {
+    border: 1px solid #ffffff !important;
+    background-color: #000000 !important;
+}
+
+/* ==========================================================================
+   ВИПРАВЛЕННЯ ТЕКСТУ В АКОРДЕОНАХ (FAQ) — HIGH CONTRAST (ПУНКТ 9.1.4.3)
+   ========================================================================== */
+
+/* 1. Робимо ВЕСЬ текст всередині розгорнутих панелей білим */
+html.high-contrast mat-expansion-panel-content,
+html.high-contrast .mat-expansion-panel-body,
+html.high-contrast .mat-expansion-panel-body p,
+html.high-contrast .mat-expansion-panel-body span,
+html.high-contrast .mat-expansion-panel-body div,
+html.high-contrast .mat-expansion-panel-body li {
+    color: #ffffff !important; /* Білий текст на чорному фоні */
+    background-color: transparent !important;
+}
+
+/* 2. Гарантуємо, що заголовки розгорнутих панелей залишаються білими */
+html.high-contrast .mat-expansion-panel-header-title,
+html.high-contrast .mat-expansion-panel-header-description {
+    color: #ffffff !important;
+}
+
+/* 3. Окреме правило для посилань у FAQ, щоб вони не втрачали жовтий колір */
+html.high-contrast .mat-expansion-panel-body a {
+    color: #ebe236 !important; /* Доступний жовтий */
+    text-decoration: underline !important;
+    font-weight: bold !important;
+}
+
+/* 4. Покращення видимості іконок розгортання (стрілочок) */
+html.high-contrast .mat-expansion-indicator::after {
+    color: #ffffff !important;
+    border-width: 0 3px 3px 0 !important; /* Робимо стрілочку товстішою */
+}
+
+/* 5. Додаємо тонку білу лінію розділення між питаннями */
+html.high-contrast mat-expansion-panel {
+    border-bottom: 1px solid #ffffff !important;
+}
+
+/* ==========================================================================
+   ФІНАЛЬНЕ ВИПРАВЛЕННЯ: МЕНЮ ТА ГОЛОВНИЙ ЕКРАН (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. ПРИБИРАЄМО СІРІ ФОНИ (КОРОБКИ) У ВЕРХНЬОМУ МЕНЮ */
+html.high-contrast app-dcz-head-new .header-top,
+html.high-contrast app-dcz-head-new .parent,
+html.high-contrast app-dcz-head-new button.btn-unstyled,
+html.high-contrast app-dcz-head-new .menu-item a {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. ГОЛОВНИЙ ЕКРАН: ПРИБИРАЄМО ФОТО КЛАВІАТУРИ ТА РОБИМО ФОН ЧОРНИМ */
+html.high-contrast .service-type_wrap,
+html.high-contrast .upimage,
+html.high-contrast section.bodycz,
+html.high-contrast div[style*="background-image"] {
+    background-color: #000000 !important;
+    background-image: none !important; /* Критично: прибирає фото клавіатури */
+    background: #000000 !important;
+}
+
+/* 3. ТЕКСТ "ТРАЄКТОРІЯ ТВОЄЇ КАР'ЄРИ": РОБИМО ЧІТКИМ ТА БІЛИМ */
+html.high-contrast .hero-text3 p,
+html.high-contrast .textheader,
+html.high-contrast h1.textheader {
+    color: #ffffff !important;
+    text-shadow: none !important; /* Прибираємо тіні для кращої чіткості */
+}
+
+/* 4. КНОПКИ ПОШУКУ: ЖОВТА РАМКА ТА ЖОВТИЙ ТЕКСТ */
+html.high-contrast .hero-text3 button,
+html.high-contrast .btnvaucher,
+html.high-contrast .startbtn {
+    background-color: #000000 !important;
+    color: #ebe236 !important; /* Доступний жовтий */
+    border: 2px solid #ebe236 !important;
+    box-shadow: none !important;
+}
+
+/* 5. НИЖНЯ ЧОРНА ПАНЕЛЬ МЕНЮ (Громадянам, Бізнесу тощо) */
+/* Переконуємось, що там немає зайвих рамок */
+html.high-contrast #header-bottom-menu {
+    border-top: 1px solid #ffffff !important;
+    background-color: #000000 !important;
+}
+
+html.high-contrast #header-bottom-menu li button.btn-unstyled,
+html.high-contrast #header-bottom-menu li a {
+    border: none !important;
+}
+
+/* ==========================================================================
+   ПОВНЕ ПЕРЕЗАВАНТАЖЕННЯ КОЛЬОРІВ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. РОБИМО МЕНЮ ОДНОРІДНИМ: ПРИБИРАЄМО СІРІ ТА СИНІ ПЛАШКИ */
+html.high-contrast app-dcz-head-new .header-top,
+html.high-contrast app-dcz-head-new .parent,
+html.high-contrast app-dcz-head-new button,
+html.high-contrast app-dcz-head-new .menu-item a,
+html.high-contrast app-dcz-head-new li {
+    background-color: transparent !important;
+    background: transparent !important; /* Прибирає сірий фон як на скріншоті */
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. ПРИМУСОВИЙ КОЛІР ТЕКСТУ В МЕНЮ */
+html.high-contrast app-dcz-head-new .header-top a,
+html.high-contrast app-dcz-head-new .header-top button {
+    color: #ffffff !important; /* Усі пункти стають білими */
+}
+
+/* 3. ОСОБЛИВІ ПУНКТИ (ЯК-ОТ "ЗРОБЛЕНО В УКРАЇНІ") - РОБИМО ЖОВТИМИ */
+html.high-contrast app-dcz-head-new a[style*="color: yellow"],
+html.high-contrast app-dcz-head-new .yellow-text,
+html.high-contrast app-dcz-head-new .cabinet {
+    color: #ebe236 !important; /* Доступний жовтий */
+}
+
+/* 4. ГОЛОВНИЙ ЕКРАН: РОБИМО ФОН ПОВНІСТЮ ЧОРНИМ (ПРИБИРАЄМО КЛАВІАТУРУ) */
+html.high-contrast .service-type_wrap,
+html.high-contrast .upimage,
+html.high-contrast section[style*="background-image"],
+html.high-contrast .bodycz {
+    background-color: #000000 !important;
+    background-image: none !important; /* Видаляємо фото клавіатури */
+    background: #000000 !important;
+}
+
+/* 5. ТЕКСТ "ТРАЄКТОРІЯ...": РОБИМО БІЛИМ ТА ВЕЛИКИМ */
+html.high-contrast .hero-text3 p,
+html.high-contrast .textheader,
+html.high-contrast h1 {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+/* 6. КНОПКИ ПОШУКУ: ЧОРНИЙ ФОН + ЖОВТА РАМКА */
+html.high-contrast .hero-text3 button,
+html.high-contrast .hero-text3 .btn {
+    background-color: #000000 !important;
+    color: #ebe236 !important;
+    border: 2px solid #ebe236 !important;
+}
+
+/* ==========================================================================
+   ВИПРАВЛЕННЯ БАНЕРА "ТРАЄКТОРІЯ" (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Ховаємо картинку з клавіатурою та робимо фон секції чорним */
+html.high-contrast .static-banner {
+    background-color: #000000 !important;
+}
+
+html.high-contrast .static-banner img.image-fit {
+    opacity: 0 !important; /* Робимо картинку невидимою */
+    visibility: hidden !important;
+}
+
+/* 2. Виправляємо заголовок (перебиваємо клас .text-custom-black) */
+html.high-contrast .static-banner .text-custom-black {
+    color: #ffffff !important;
+}
+
+/* 3. Стилізуємо кнопки "Пошук вак��нсій" та "Пошук вакансій ШІ" */
+html.high-contrast .static-banner button.cabinet {
+    background-color: #000000 !important;
+    color: #ebe236 !important; /* Наш доступний жовтий */
+    border: 2px solid #ebe236 !important;
+    box-shadow: none !important;
+}
+
+html.high-contrast .static-banner button.cabinet:hover {
+    background-color: #ebe236 !important;
+    color: #000000 !important;
+}
+
+/* 4. Виправляємо картки з лічильниками внизу банера */
+html.high-contrast .service-box {
+    background-color: #000000 !important;
+    border: 1px solid #ffffff !important;
+}
+
+html.high-contrast .service-boxtitle,
+html.high-contrast .counter-value {
+    color: #ffffff !important; /* Усі цифри та підписи стають білими */
+}
+
+/* Робимо цифри жовтими для акценту (опціонально) */
+html.high-contrast .counter-value {
+    color: #ebe236 !important;
+}
+
+/* ==========================================================================
+   ФІКС ПАНЕЛІ НАЛАШТУВАНЬ ДОСТУПНОСТІ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Робимо фон самої панелі та її елементів чорним */
+html.high-contrast .accessibility-panel,
+html.high-contrast [class*="accessibility-menu"],
+html.high-contrast .dropdown-settings {
+    background-color: #000 !important;
+    background: #000 !important;
+    border: 2px solid #fff !important; /* Біла рамка навколо меню */
+}
+
+/* 2. Примусово робимо весь текст та іконки всередині панелі білими */
+html.high-contrast .accessibility-panel *,
+html.high-contrast [class*="accessibility-menu"] *,
+html.high-contrast .accessibility-panel span,
+html.high-contrast .accessibility-panel i {
+    color: #ffffff !important;
+}
+
+/* 3. Окремо виправляємо кнопки зміни шрифту (A- та A+) */
+html.high-contrast .accessibility-panel button,
+html.high-contrast .accessibility-panel .font-size-btn {
+    background-color: #000 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+/* 4. Виділяємо активні перемикачі жовтим кольором */
+html.high-contrast .accessibility-panel .active,
+html.high-contrast .accessibility-panel [class*="active"] {
+    border-color: #ebe236 !important;
+    color: #ebe236 !important;
+}
+
+/* 5. Ефект при наведенні у меню */
+html.high-contrast .accessibility-panel li:hover,
+html.high-contrast .accessibility-panel button:hover {
+    background-color: #333 !important;
+}
+
+/* ==========================================================================
+   ФІНАЛЬНИЙ BRUTE-FORCE ФІКС ПАНЕЛІ (HIGH CONTRAST)
+   ========================================================================== */
+
+/* 1. Максимально широкий захват панелі та всіх її вкладень */
+html.high-contrast [class*="accessibility"],
+html.high-contrast [id*="accessibility"],
+html.high-contrast [class*="asb-panel"],
+html.high-contrast .dropdown-menu {
+  background-color: #000000 !important;
+  background: #000000 !important;
+  border: 3px solid #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* 2. Примусове перефарбування ВСЬОГО контенту всередині панелі */
+html.high-contrast [class*="accessibility"] *,
+html.high-contrast [id*="accessibility"] *,
+html.high-contrast [class*="asb-panel"] * {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* 3. Окремо виправляємо іконки та SVG всередині віджета */
+html.high-contrast [class*="accessibility"] i,
+html.high-contrast [class*="accessibility"] svg,
+html.high-contrast [class*="asb-panel"] i {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+/* 4. Виправлення активних перемикачів (жовтий для чіткості) */
+html.high-contrast [class*="accessibility"] .active,
+html.high-contrast [class*="accessibility"] [class*="selected"],
+html.high-contrast [class*="accessibility"] button:focus {
+  color: #ebe236 !important;
+  border: 2px solid #ebe236 !important;
+}
+
+/* 5. Адаптивність: зсуваємо на десктопі, центруємо на мобілці */
+@media (min-width: 992px) {
+  html.high-contrast [class*="accessibility-menu"],
+  html.high-contrast [id*="accessibility-panel"] {
+    right: 350px !important; /* Відсуваємо від Кабінету */
+  }
+}
+
+@media (max-width: 767px) {
+  html.high-contrast [class*="accessibility-menu"],
+  html.high-contrast [id*="accessibility-panel"] {
+    left: 5% !important;
+    right: 5% !important;
+    width: 90% !important;
+  }
+}
+body { overflow-x: hidden; }
+
+.mat-drawer-content { overflow: visible !important; }

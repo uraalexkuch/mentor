@@ -181,12 +181,8 @@ export class MentorshipRegistrationComponent {
     const businessControl = this.wizardForm.get('step2_needs.isActiveBusiness');
     const step3 = this.wizardForm.get('step3_details');
 
-    // Автоматичний вибір напрямку в залежності від статусу бізнесу
-    businessControl?.valueChanges.subscribe((isActive: string) => {
-      if (isActive === 'yes') {
-        typeControl?.setValue('OFFICE_CONSULTATION');
-      }
-    });
+    // Автоматичний вибір напрямку в залежності від статусу бізнесу прибрано,
+    // щоб дозволити вільний вибір обох опцій для всіх користувачів.
 
     typeControl?.valueChanges.subscribe((type: string) => {
       if (type === 'MENTORSHIP') {

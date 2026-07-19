@@ -1,0 +1,65 @@
+<div class="admin-layout" [class.collapsed]="sidebarCollapsed()">
+  <!-- Sidebar -->
+  <aside class="sidebar" [style.width.px]="sidebarCollapsed() ? 60 : 260">
+    <div class="sidebar-header">
+      @if (!sidebarCollapsed()) {
+        <h1 class="logo">🇺🇦 Адмінка</h1>
+      } @else {
+        <button class="logo-small" title="Home">🇺🇦</button>
+      }
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        {{ sidebarCollapsed() ? '→' : '←' }}
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of menuItems; track item.id) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="nav-item"
+          (click)="currentRoute.set(item.id)"
+          [title]="item.label"
+        >
+          <span class="nav-icon">{{ item.icon }}</span>
+          @if (!sidebarCollapsed()) {
+            <span class="nav-label">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      @if (!sidebarCollapsed()) {
+        <div class="user-info">
+          <div class="user-avatar">АД</div>
+          <div class="user-details">
+            <span class="user-name">Адмін Д.</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="breadcrumb">
+        <span class="breadcrumb-home">Адмінка</span>
+        <span class="breadcrumb-sep">›</span>
+        <h2>{{ currentLabel() }}</h2>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" title="Сповіщення">🔔</button>
+        <a class="icon-btn" [routerLink]="'/admin/settings'" title="Налаштування">⚙️</a>
+      </div>
+    </header>
+
+    <!-- Router Outlet -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

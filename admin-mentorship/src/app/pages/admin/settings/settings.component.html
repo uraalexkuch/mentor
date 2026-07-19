@@ -1,0 +1,144 @@
+<div class="settings-page">
+  <div class="page-header">
+    <h1 class="page-title">⚙️ Налаштування</h1>
+    <p class="page-subtitle">Конфігурація адміністративної панелі</p>
+  </div>
+
+  <div class="settings-layout">
+
+    <!-- Settings Navigation -->
+    <nav class="settings-nav">
+      <button class="settings-nav-item" [class.active]="activeSection() === 'general'" (click)="setSection('general')">
+        <span>🏠</span> Загальні
+      </button>
+      <button class="settings-nav-item" [class.active]="activeSection() === 'notifications'" (click)="setSection('notifications')">
+        <span>🔔</span> Сповіщення
+      </button>
+      <button class="settings-nav-item" [class.active]="activeSection() === 'security'" (click)="setSection('security')">
+        <span>🔒</span> Безпека
+      </button>
+    </nav>
+
+    <!-- Settings Content -->
+    <div class="settings-content">
+
+      <!-- Success Message -->
+      @if (saveSuccess()) {
+        <div class="alert-success">
+          <span>✅</span> Налаштування успішно збережено
+        </div>
+      }
+
+      <!-- General Settings -->
+      @if (activeSection() === 'general') {
+        <div class="settings-section">
+          <h2 class="section-title">Загальні налаштування</h2>
+
+          <div class="form-group">
+            <label class="form-label">Назва системи</label>
+            <input type="text" class="form-input" [value]="siteName()" (input)="siteName.set($any($event.target).value)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Контактний email</label>
+            <input type="email" class="form-input" [value]="contactEmail()" (input)="contactEmail.set($any($event.target).value)" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Рік програми</label>
+              <select class="form-select" [value]="programYear()" (change)="programYear.set(+$any($event.target).value)">
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Максимум учасників</label>
+              <input type="number" class="form-input" [value]="maxParticipants()" min="1" max="9999"
+                (input)="maxParticipants.set(+$any($event.target).value)" />
+            </div>
+          </div>
+
+          <div class="info-box">
+            <span class="info-icon">ℹ️</span>
+            <span>Параметри програми відповідають вимогам Постанови Кабінету Міністрів України щодо підтримки молодіжного підприємництва.</span>
+          </div>
+
+          <button class="btn-save" (click)="saveSettings()">💾 Зберегти налаштування</button>
+        </div>
+      }
+
+      <!-- Notifications Settings -->
+      @if (activeSection() === 'notifications') {
+        <div class="settings-section">
+          <h2 class="section-title">Налаштування сповіщень</h2>
+          <p class="section-desc">Оберіть, про які події ви хочете отримувати сповіщення на email.</p>
+
+          <div class="notification-list">
+            @for (notif of notifications(); track notif.id) {
+              <div class="notification-item">
+                <div class="notif-info">
+                  <span class="notif-label">{{ notif.label }}</span>
+                  <span class="notif-desc">{{ notif.description }}</span>
+                </div>
+                <button
+                  class="toggle-switch"
+                  [class.on]="notif.enabled"
+                  (click)="toggleNotification(notif.id)"
+                  [attr.aria-label]="notif.label"
+                >
+                  <span class="toggle-knob"></span>
+                </button>
+              </div>
+            }
+          </div>
+
+          <button class="btn-save" (click)="saveSettings()">💾 Зберегти</button>
+        </div>
+      }
+
+      <!-- Security Settings -->
+      @if (activeSection() === 'security') {
+        <div class="settings-section">
+          <h2 class="section-title">Безпека</h2>
+
+          <div class="form-group">
+            <label class="form-label">Поточний пароль</label>
+            <input type="password" class="form-input" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Новий пароль</label>
+            <input type="password" class="form-input" placeholder="Мінімум 8 символів" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Підтвердити новий пароль</label>
+            <input type="password" class="form-input" placeholder="Повторіть новий пароль" />
+          </div>
+
+          <div class="security-info">
+            <div class="security-item">
+              <span class="sec-icon">🔐</span>
+              <div>
+                <strong>Двофакторна аутентифікація</strong>
+                <p>Захист облікового запису через SMS або додаток</p>
+              </div>
+              <span class="badge-disabled">Вимкнено</span>
+            </div>
+            <div class="security-item">
+              <span class="sec-icon">📋</span>
+              <div>
+                <strong>Журнал активності</strong>
+                <p>Останній вхід: 17.07.2026, 16:43</p>
+              </div>
+              <button class="btn-outline">Переглянути</button>
+            </div>
+          </div>
+
+          <button class="btn-save" (click)="saveSettings()">🔒 Оновити пароль</button>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

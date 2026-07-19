@@ -1,0 +1,144 @@
+<div class="dashboard">
+  <div class="dash-header">
+    <div>
+      <h1 class="page-title">Панель керування</h1>
+      <p class="page-subtitle">Програма менторства молодих підприємців ДЦЗ · {{ today | date:'dd.MM.yyyy' }}</p>
+    </div>
+  </div>
+
+  <!-- ===== Статистичні картки ===== -->
+  <div class="stats-grid">
+
+    <div class="stat-card total" routerLink="/admin/participants">
+      <div class="stat-icon">📋</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalApplications() }}</span>
+        <span class="stat-label">Всього заявок</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card new" routerLink="/admin/participants">
+      <div class="stat-icon">🆕</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ submittedCount() }}</span>
+        <span class="stat-label">Нових заявок</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card pending" routerLink="/admin/participants">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ processingCount() }}</span>
+        <span class="stat-label">На перевірці</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card approved" routerLink="/admin/participants">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ confirmedCount() }}</span>
+        <span class="stat-label">Підтверджено</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card rejected" routerLink="/admin/participants">
+      <div class="stat-icon">❌</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ rejectionCount() }}</span>
+        <span class="stat-label">Відхилено</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card completion" routerLink="/admin/reports">
+      <div class="stat-icon">📊</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ completionRate() }}%</span>
+        <span class="stat-label">Рівень завершення</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card consult" routerLink="/admin/consultations">
+      <div class="stat-icon">💬</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalConsultations() }}</span>
+        <span class="stat-label">Консультацій</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+    <div class="stat-card certs" routerLink="/admin/certificates">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ totalCertificates() }}</span>
+        <span class="stat-label">Сертифікатів</span>
+      </div>
+      <span class="stat-arrow">›</span>
+    </div>
+
+  </div>
+
+  <!-- ===== Швидкий перехід ===== -->
+  <div class="quick-nav">
+    <a class="quick-nav-card" routerLink="/admin/participants">
+      <span class="qn-icon">👥</span>
+      <span class="qn-label">Учасники</span>
+    </a>
+    <a class="quick-nav-card" routerLink="/admin/consultations">
+      <span class="qn-icon">💬</span>
+      <span class="qn-label">Консультації</span>
+    </a>
+    <a class="quick-nav-card" routerLink="/admin/certificates">
+      <span class="qn-icon">🏆</span>
+      <span class="qn-label">Сертифікати</span>
+    </a>
+    <a class="quick-nav-card" routerLink="/admin/reports">
+      <span class="qn-icon">📈</span>
+      <span class="qn-label">Звіти</span>
+    </a>
+    <a class="quick-nav-card" routerLink="/admin/settings">
+      <span class="qn-icon">⚙️</span>
+      <span class="qn-label">Налаштування</span>
+    </a>
+  </div>
+
+  <!-- ===== Останні заявки (preview) ===== -->
+  <div class="recent-section">
+    <div class="recent-header">
+      <h2 class="recent-title">Останні заявки</h2>
+      <a class="recent-link" routerLink="/admin/participants">Переглянути всі →</a>
+    </div>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ПІБ</th>
+            <th>Регіон</th>
+            <th>Статус</th>
+            <th>Дата</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (app of recentApplications(); track app.id) {
+            <tr>
+              <td>{{ app.fullName }}</td>
+              <td>{{ getRegionName(app.regionCode) }}</td>
+              <td>
+                <span class="status-badge" [class]="getStatusClass(app.status)">
+                  {{ getStatusLabel(app.status) }}
+                </span>
+              </td>
+              <td>{{ app.createdAt | date:'dd.MM.yyyy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

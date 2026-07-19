@@ -1,0 +1,87 @@
+<div class="certificate-registry">
+  <div class="header-section">
+    <h1 class="page-title">Реєстр сертифікатів</h1>
+    
+    <!-- Статистика -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value">{{ totalCertificates() }}</span>
+        <span class="stat-label">Всього сертифікатів</span>
+      </div>
+      <div class="stat-item current-year">
+        <span class="stat-value">{{ certificatesThisYear() }}</span>
+        <span class="stat-label">За поточний рік</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Пошук -->
+  <div class="search-section">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Пошук за ПІБ, номером сертифіката або програмою..."
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Таблиця сертифікатів -->
+  <div class="table-container">
+    @if (isLoading()) {
+      <div class="loading-indicator">Завантаження...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="col-number">№</th>
+            <th class="col-cert">Номер сертифіката</th>
+            <th class="col-year">Рік</th>
+            <th class="col-participant">ПІБ підприємця</th>
+            <th class="col-program">Програма</th>
+            <th class="col-institution">Заклад</th>
+            <th class="col-edrpoU">ЄДРПОУ</th>
+            <th class="col-date">Дата видачі</th>
+            <th class="col-note">Примітка</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cert of filteredCertificates(); track cert.id) {
+            <tr [class.valid-format]="isValidCertificateFormat(cert.certificateNumber)"
+                [class.invalid-format]="!isValidCertificateFormat(cert.certificateNumber)">
+              <td class="col-number">{{ cert.number }}</td>
+              <td class="col-cert">
+                <span class="certificate-number" [title]="cert.certificateNumber">
+                  {{ cert.certificateNumber }}
+                </span>
+                @if (!isValidCertificateFormat(cert.certificateNumber)) {
+                  <span class="format-warning">⚠</span>
+                }
+              </td>
+              <td class="col-year">{{ cert.year }}</td>
+              <td class="col-participant">{{ cert.participantFullName }}</td>
+              <td class="col-program">{{ cert.programName }}</td>
+              <td class="col-institution">{{ cert.institutionName }}</td>
+              <td class="col-edrpoU">{{ cert.edrpoUCode }}</td>
+              <td class="col-date">{{ formatDate(cert.issueDate) }}</td>
+              <td class="col-note">{{ cert.note || '-' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- Легенда формату -->
+  <div class="format-legend">
+    <h3>Формат номера сертифіката: ХХХХХХХХ/УУ-ZZ</h3>
+    <div class="format-example">
+      <span class="example-part eight-digits">8 цифр</span>
+      <span>/</span>
+      <span class="example-part year-digits">2 цифри року</span>
+      <span>-</span>
+      <span class="example-part sequence-num">номер послідовності</span>
+    </div>
+    <p class="format-description">Приклад: 12345678/26-01 = 12345678 / 2026 рік / 01-й сертифікат</p>
+  </div>
+</div>

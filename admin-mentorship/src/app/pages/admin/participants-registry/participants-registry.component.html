@@ -1,0 +1,105 @@
+<div class="participants-registry">
+  <div class="header-section">
+    <h1 class="page-title">Реєстр учасників менторства</h1>
+    
+    <!-- Статистика -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value">{{ totalParticipants() }}</span>
+        <span class="stat-label">Всього учасників</span>
+      </div>
+      <div class="stat-item confirmed">
+        <span class="stat-value">{{ confirmedCount() }}</span>
+        <span class="stat-label">Підтверджено</span>
+      </div>
+      <div class="stat-item pending">
+        <span class="stat-value">{{ pendingCount() }}</span>
+        <span class="stat-label">Очікує на розгляд</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Пошук -->
+  <div class="search-section">
+    <input type="text" class="form-input" placeholder="ПІБ, телефон або email..."
+          [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+      </div>
+
+  <!-- Таблиця учасників -->
+  <div class="table-container">
+    @if (isLoading()) {
+      <div class="loading-indicator">Завантаження даних...</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="col-number">№ з/п</th>
+            <th class="col-name">ПІБ</th>
+            <th class="col-region">Регіон</th>
+            <th class="col-age">Вік</th>
+            <th class="col-entrepreneur">Діючий ПП</th>
+            <th class="col-need-training">Навчання</th>
+            <th class="col-need-mentorship">Менторство</th>
+            <th class="col-need-practical">Допомога</th>
+            <th class="col-need-grant">Грант</th>
+            <th class="col-status">Статус</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (participant of filteredParticipants(); track participant.id) {
+            <tr 
+              [class.eligible]="isAgeEligible(participant.age)" 
+              [class.not-eligible]="!isAgeEligible(participant.age)">
+              
+              <td class="col-number">{{ participant.number }}</td>
+              <td class="col-name">{{ participant.fullName }}</td>
+              <td class="col-region">{{ participant.region }}</td>
+              <td class="col-age">
+                <span [class.eligible]="isAgeEligible(participant.age)" 
+                      [class.not-eligible]="!isAgeEligible(participant.age)">
+                  {{ participant.age }}
+                </span>
+              </td>
+              
+              <!-- ЧЕКБОКСИ (Правило 1: тільки чекбокси, заборонено текстові поля) -->
+              <td class="col-entrepreneur">
+                <input type="checkbox" [checked]="participant.isActiveEntrepreneur" disabled />
+              </td>
+              <td class="col-need-training">
+                <input type="checkbox" [checked]="participant.needsTraining" disabled />
+              </td>
+              <td class="col-need-mentorship">
+                <input type="checkbox" [checked]="participant.needsMentorship" disabled />
+              </td>
+              <td class="col-need-practical">
+                <input type="checkbox" [checked]="participant.needsPracticalHelp" disabled />
+              </td>
+              <td class="col-need-grant">
+                <input type="checkbox" [checked]="participant.needsGrantSupport" disabled />
+              </td>
+              
+              <!-- Dropdown для зміни статусу -->
+              <td class="col-status">
+                <select 
+                  [value]="participant.status"
+                  (change)="updateStatus(participant.id, $any($event.target).value)"
+                  class="status-select">
+                  @for (status of statusOptions; track status) {
+                    <option [value]="status">{{ getStatusLabel(status) }}</option>
+                  }
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- Легенда -->
+  <div class="legend">
+    <p><strong>Вікове обмеження:</strong> Цільова аудиторія — молодь 18-25 років</p>
+    <p><strong>Потреби:</strong> ��изначаються виключно через чекбокси (згідно з бізнес-правилами ДЦЗ)</p>
+    <p class="prohibition"><strong>⚠ ЗАБОРОНЕНО:</strong> КЕКВ, ручний аналіз за Постановою 738</p>
+  </div>
+</div>

@@ -75,12 +75,12 @@
           <!-- Рядок 2: Дата народження | Телефон | Електронна пошта -->
           <div class="row g-4 mb-4">
             <div class="col-md-4">
-              <div class="mf" [class.mf--invalid]="submitted && (!formData.birthDate || !isAgeValid())">
+              <div class="mf" [class.mf--invalid]="submitted && (!formData.birthDate || !isAgeValid)">
                 <label class="mf-label" for="birthDate">Дата народження *</label>
                 <input id="birthDate" type="date" class="mf-input" [(ngModel)]="formData.birthDate" name="birthDate" />
                 <span class="mf-line"></span>
                 <div class="mf-error" *ngIf="submitted && !formData.birthDate">Це поле є обов'язковим</div>
-                <div class="mf-error" *ngIf="submitted && formData.birthDate && !isAgeValid()">Участь у програмі можлива лише до 25 років</div>
+                <div class="mf-error" *ngIf="submitted && formData.birthDate && !isAgeValid">Участь у програмі можлива лише для осіб віком 18-25 років</div>
               </div>
             </div>
             <div class="col-md-4">
@@ -104,89 +104,148 @@
         </div>
       </div>
 
-      <!-- Блок 2: Інформація про бізнес -->
+      <!-- Блок 2: Інформація про заявника -->
       <div class="section-container">
-        <h2 class="section-title">2. Інформація про бізнес</h2>
+        <h2 class="section-title">2. Інформація про заявника</h2>
         <div class="section-box">
 
+          <!-- Питання 1: Чи є діючим підприємцем? -->
           <div class="mb-4">
-            <label class="block-label d-block mb-2">Чи є Ваш бізнес зараз діючим? *</label>
+            <label class="block-label d-block mb-2">1) Чи Ви є діючим підприємцем? *</label>
             <div class="radio-row" [class.radio-row--invalid]="submitted && !formData.isBusinessActive">
               <label class="radio-opt">
                 <input type="radio" name="isBusinessActive" [(ngModel)]="formData.isBusinessActive" value="yes" id="businessYes" />
                 <span class="radio-disc"></span>
-                <span>Так, маю діючий бізнес</span>
+                <span>Так</span>
               </label>
               <label class="radio-opt">
                 <input type="radio" name="isBusinessActive" [(ngModel)]="formData.isBusinessActive" value="no" id="businessNo" />
                 <span class="radio-disc"></span>
-                <span>Ні, лише планую розпочати</span>
+                <span>Ні</span>
               </label>
             </div>
             <div class="mf-error" *ngIf="submitted && !formData.isBusinessActive">Це поле є обов'язковим</div>
           </div>
 
-          <div *ngIf="formData.isBusinessActive === 'no'" class="nested-box">
-            <div class="mf" [class.mf--invalid]="submitted && formData.isBusinessActive === 'no' && !formData.inactiveReason.trim()">
-              <label class="mf-label" for="inactiveReason">Зазначте причину *</label>
-              <textarea id="inactiveReason" class="mf-input mf-textarea" [(ngModel)]="formData.inactiveReason" name="inactiveReason" rows="3"></textarea>
-              <span class="mf-line"></span>
-              <div class="mf-error" *ngIf="submitted && formData.isBusinessActive === 'no' && !formData.inactiveReason.trim()">Це поле є обов'язковим</div>
+          <!-- Питання 2: Мікрогрант «Власна справа» — тільки якщо «Так» на питання 1 -->
+          <div *ngIf="formData.isBusinessActive === 'yes'" class="nested-box mb-4">
+            <label class="block-label d-block mb-2">
+              2) Чи Ви отримували мікрогрант/грант за програмою «Власна справа» на створення або розвиток власного бізнесу? *
+            </label>
+            <div class="radio-row" [class.radio-row--invalid]="submitted && formData.isBusinessActive === 'yes' && !formData.receivedMicrogrant">
+              <label class="radio-opt">
+                <input type="radio" name="receivedMicrogrant" [(ngModel)]="formData.receivedMicrogrant" value="yes" id="micrograntYes" />
+                <span class="radio-disc"></span>
+                <span>Так</span>
+              </label>
+              <label class="radio-opt">
+                <input type="radio" name="receivedMicrogrant" [(ngModel)]="formData.receivedMicrogrant" value="no" id="micrograntNo" />
+                <span class="radio-disc"></span>
+                <span>Ні</span>
+              </label>
+            </div>
+            <div class="mf-error" *ngIf="submitted && formData.isBusinessActive === 'yes' && !formData.receivedMicrogrant">Це поле є обов'язковим</div>
+
+            <!-- Питання 3: Поля мікрогранту — тільки якщо «Так» на питання 2 -->
+            <div *ngIf="formData.receivedMicrogrant === 'yes'" class="nested-box mt-3">
+              <div class="row g-4">
+
+                <!-- Рік отримання мікрогранту -->
+                <div class="col-md-4">
+                  <div class="mf" [class.mf--invalid]="submitted && formData.receivedMicrogrant === 'yes' && !formData.micrograntYear">
+                    <label class="mf-label" for="micrograntYear">Рік отримання мікрогранту *</label>
+                    <select id="micrograntYear" class="mf-input mf-select" [(ngModel)]="formData.micrograntYear" name="micrograntYear">
+                      <option value="">— оберіть рік —</option>
+                      <option *ngFor="let yr of micrograntYears" [value]="yr">{{ yr }}</option>
+                    </select>
+                    <span class="mf-line"></span>
+                    <div class="mf-error" *ngIf="submitted && formData.receivedMicrogrant === 'yes' && !formData.micrograntYear">Це поле є обов'язковим</div>
+                  </div>
+                </div>
+
+                <!-- Основний вид діяльності -->
+                <div class="col-md-8">
+                  <div class="mf" [class.mf--invalid]="submitted && formData.receivedMicrogrant === 'yes' && !formData.primaryBusinessActivity.trim()">
+                    <label class="mf-label" for="primaryBusinessActivity">Основний вид діяльності *</label>
+                    <input id="primaryBusinessActivity" type="text" class="mf-input" [(ngModel)]="formData.primaryBusinessActivity" name="primaryBusinessActivity" />
+                    <span class="mf-line"></span>
+                    <div class="mf-error" *ngIf="submitted && formData.receivedMicrogrant === 'yes' && !formData.primaryBusinessActivity.trim()">Це поле є обов'язковим</div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- Блок 3: Теми консультації -->
+
+      <!-- Блок 3: Тип заявки -->
       <div class="section-container">
-        <h2 class="section-title">3. Оберіть тему консультації (можна декілька)</h2>
+        <h2 class="section-title">3. Оберіть тип послуги</h2>
         <div class="section-box">
-          <div class="criteria-list">
-
-            <div class="criteria-item">
-              <label class="check-opt">
-                <input type="checkbox" id="topicState" [(ngModel)]="formData.consultationTopics.statePrograms" name="topicState" />
-                <span class="check-box"></span>
+          
+          <div class="mb-4">
+            <label class="block-label d-block mb-2">Напрям підтримки за Постановою КМУ №472 *</label>
+            <div class="radio-row-vertical" [class.radio-row--invalid]="submitted && !formData.applicationType">
+              
+              <label class="radio-opt mb-3 w-100 d-block text-start">
+                <input type="radio" name="applicationType" [(ngModel)]="formData.applicationType" value="TRAINING" id="appTypeTraining" />
+                <span class="radio-disc"></span>
+                <span><strong>Навчання</strong> (комплексне навчання: бізнес-планування, маркетинг, фінанси)</span>
               </label>
-              <span><strong>Державні програми</strong> підтримки бізнесу</span>
-            </div>
 
-            <div class="criteria-item">
-              <label class="check-opt">
-                <input type="checkbox" id="topicGrant" [(ngModel)]="formData.consultationTopics.grantSelection" name="topicGrant" />
-                <span class="check-box"></span>
+              <label class="radio-opt mb-3 w-100 d-block text-start">
+                <input type="radio" name="applicationType" [(ngModel)]="formData.applicationType" value="OFFICE_CONSULTATION" id="appTypeOffice" />
+                <span class="radio-disc"></span>
+                <span><strong>Консультації офісу «Зроблено в Україні»</strong> (практична та методична допомога від спеціалістів)</span>
               </label>
-              <span><strong>Підбір грантових програм</strong> на створення або розвиток власної справи</span>
-            </div>
 
-            <div class="criteria-item">
-              <label class="check-opt">
-                <input type="checkbox" id="topicMentor" [(ngModel)]="formData.consultationTopics.mentorSupport" name="topicMentor" />
-                <span class="check-box"></span>
+              <label class="radio-opt mb-3 w-100 d-block text-start">
+                <input type="radio" name="applicationType" [(ngModel)]="formData.applicationType" value="MENTORSHIP" id="appTypeMentorship" />
+                <span class="radio-disc"></span>
+                <span><strong>Менторство</strong> (індивідуальний супровід від досвідчених підприємців, ГО, закладів освіти)</span>
               </label>
-              <span><strong>Менторський супровід</strong> в отриманні мікрогранту/гранту</span>
+              
             </div>
-
-            <div class="criteria-item">
-              <label class="check-opt">
-                <input type="checkbox" id="topicOther" [(ngModel)]="formData.consultationTopics.other" name="topicOther" />
-                <span class="check-box"></span>
-              </label>
-              <span><strong>Інше</strong> (зазначити, що саме)</span>
+            <div class="mf-error mt-2" *ngIf="submitted && !formData.applicationType">
+              Будь ласка, оберіть тип послуги
             </div>
-
-          </div>
-          <div class="mf-error mt-2" *ngIf="submitted && !formData.consultationTopics.statePrograms && !formData.consultationTopics.grantSelection && !formData.consultationTopics.mentorSupport && !formData.consultationTopics.other">
-            Будь ласка, оберіть хоча б одну тему
           </div>
 
-          <div *ngIf="formData.consultationTopics.other" class="nested-box mt-3">
-            <div class="mf" [class.mf--invalid]="submitted && formData.consultationTopics.other && !formData.otherTopic.trim()">
-              <label class="mf-label" for="otherTopic">Зазначте що саме *</label>
-              <textarea id="otherTopic" class="mf-input mf-textarea" [(ngModel)]="formData.otherTopic" name="otherTopic" rows="2"></textarea>
-              <span class="mf-line"></span>
-              <div class="mf-error" *ngIf="submitted && formData.consultationTopics.other && !formData.otherTopic.trim()">Це поле є обов'язковим</div>
+          <!-- Додаткові напрями для Консультацій офісу (якщо вже отримував грант - п.5) -->
+          <div *ngIf="formData.applicationType === 'OFFICE_CONSULTATION' && formData.isBusinessActive === 'yes' && formData.receivedMicrogrant === 'yes'" class="nested-box mt-4 border-top pt-3">
+            <label class="block-label d-block mb-3 text-primary">Уточніть напрям консультації (можна обрати декілька) *</label>
+            <div class="criteria-list">
+
+              <div class="criteria-item">
+                <label class="check-opt">
+                  <input type="checkbox" id="topicBusinessPlans" [(ngModel)]="formData.officeConsultationTopics.businessPlans" name="topicBusinessPlans" />
+                  <span class="check-box"></span>
+                </label>
+                <span>Підготовка бізнес-планів (проєктів)</span>
+              </div>
+
+              <div class="criteria-item">
+                <label class="check-opt">
+                  <input type="checkbox" id="topicPersonnel" [(ngModel)]="formData.officeConsultationTopics.personnel" name="topicPersonnel" />
+                  <span class="check-box"></span>
+                </label>
+                <span>Підбір персоналу та організація праці</span>
+              </div>
+
+              <div class="criteria-item">
+                <label class="check-opt">
+                  <input type="checkbox" id="topicCredit" [(ngModel)]="formData.officeConsultationTopics.creditPrograms" name="topicCredit" />
+                  <span class="check-box"></span>
+                </label>
+                <span>Державні та регіональні кредитні програми</span>
+              </div>
+
+            </div>
+            <div class="mf-error mt-2" *ngIf="submitted && !formData.officeConsultationTopics.businessPlans && !formData.officeConsultationTopics.personnel && !formData.officeConsultationTopics.creditPrograms">
+              Будь ласка, оберіть хоча б один напрям консультації
             </div>
           </div>
 

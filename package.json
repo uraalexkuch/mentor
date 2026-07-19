@@ -1,0 +1,28 @@
+{
+  "name": "mentor-monorepo",
+  "version": "1.0.0",
+  "description": "Монорепозиторій проєкту державної служби зайнятості (Програма менторства, Постанова №472)",
+  "private": true,
+  "scripts": {
+    "start:public": "npm run start --prefix public-mentorship",
+    "start:admin": "npm run start --prefix admin-mentorship",
+    "start:api": "npm run start:dev --prefix mentorship-api",
+    "build:all": "npm run build --prefix public-mentorship && npm run build --prefix admin-mentorship && npm run build --prefix mentorship-api",
+    "start:all": "pm2 start ecosystem.config.js",
+    "stop:all": "pm2 stop all",
+    "delete:all": "pm2 delete all",
+    "logs:all": "pm2 logs",
+    "install:all": "npm run install:libs && npm run install:public && npm run install:admin && npm run install:api",
+    "install:libs": "npm install --prefix libs/shared-types",
+    "install:public": "npm install --prefix public-mentorship --legacy-peer-deps",
+    "install:admin": "npm install --prefix admin-mentorship --legacy-peer-deps",
+    "install:api": "npm install --prefix mentorship-api"
+  },
+  "devDependencies": {
+    "pm2": "^5.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

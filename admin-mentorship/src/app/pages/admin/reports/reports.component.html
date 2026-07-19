@@ -1,0 +1,145 @@
+<div class="reports-page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">📈 Звіти</h1>
+      <p class="page-subtitle">Статистика програми менторства по регіонах</p>
+    </div>
+    <div class="header-actions">
+      <div class="year-tabs">
+        @for (yr of years; track yr) {
+          <button
+            class="year-btn"
+            [class.active]="selectedYear() === yr"
+            (click)="selectedYear.set(yr)"
+          >{{ yr }}</button>
+        }
+      </div>
+      <button class="btn-export">
+        <span>📥</span> Експорт Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    <div class="summary-card blue">
+      <div class="summary-icon">📋</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalApplications() }}</span>
+        <span class="summary-label">Всього заявок</span>
+      </div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-icon">✅</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalConfirmed() }}</span>
+        <span class="summary-label">Підтверджено</span>
+      </div>
+    </div>
+    <div class="summary-card purple">
+      <div class="summary-icon">🎓</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalCompleted() }}</span>
+        <span class="summary-label">Завершили навчання</span>
+      </div>
+    </div>
+    <div class="summary-card red">
+      <div class="summary-icon">❌</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalRejected() }}</span>
+        <span class="summary-label">Відмовлено</span>
+      </div>
+    </div>
+    <div class="summary-card teal">
+      <div class="summary-icon">💬</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalConsultations() }}</span>
+        <span class="summary-label">Консультацій</span>
+      </div>
+    </div>
+    <div class="summary-card gold">
+      <div class="summary-icon">🏆</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ totalCertificates() }}</span>
+        <span class="summary-label">Сертифікатів</span>
+      </div>
+    </div>
+    <div class="summary-card indigo">
+      <div class="summary-icon">📊</div>
+      <div class="summary-info">
+        <span class="summary-value">{{ completionRate() }}%</span>
+        <span class="summary-label">Рівень завершення</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regional Chart + Table -->
+  <div class="content-grid">
+
+    <!-- Bar Chart -->
+    <div class="chart-card">
+      <h2 class="card-title">Заявки по регіонах</h2>
+      <div class="bar-chart">
+        @for (row of reportData(); track row.region) {
+          <div class="bar-row">
+            <span class="bar-label">{{ row.region }}</span>
+            <div class="bar-track">
+              <div class="bar-fill confirmed"   [style.width.%]="barWidth(row.confirmed)"   title="Підтверджено: {{ row.confirmed }}"></div>
+              <div class="bar-fill completed"   [style.width.%]="barWidth(row.completed)"   title="Завершено: {{ row.completed }}"></div>
+            </div>
+            <span class="bar-value">{{ row.total }}</span>
+          </div>
+        }
+        <div class="bar-legend">
+          <span class="legend-item confirmed">Підтверджено</span>
+          <span class="legend-item completed">Завершено</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <h2 class="card-title">Детальна таблиця</h2>
+      <div class="table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Регіон</th>
+              <th class="num">Заявок</th>
+              <th class="num">Підтв.</th>
+              <th class="num">Завершено</th>
+              <th class="num">Відмов.</th>
+              <th class="num">Консульт.</th>
+              <th class="num">Серт.</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of reportData(); track row.region) {
+              <tr>
+                <td>{{ row.region }}</td>
+                <td class="num bold">{{ row.total }}</td>
+                <td class="num green">{{ row.confirmed }}</td>
+                <td class="num purple">{{ row.completed }}</td>
+                <td class="num red">{{ row.rejected }}</td>
+                <td class="num teal">{{ row.consultations }}</td>
+                <td class="num gold">{{ row.certificates }}</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td><strong>РАЗОМ</strong></td>
+              <td class="num bold">{{ totalApplications() }}</td>
+              <td class="num green">{{ totalConfirmed() }}</td>
+              <td class="num purple">{{ totalCompleted() }}</td>
+              <td class="num red">{{ totalRejected() }}</td>
+              <td class="num teal">{{ totalConsultations() }}</td>
+              <td class="num gold">{{ totalCertificates() }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

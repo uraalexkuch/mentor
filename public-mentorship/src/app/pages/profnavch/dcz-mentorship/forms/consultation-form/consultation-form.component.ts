@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+export type ApplicationType = '' | 'TRAINING' | 'OFFICE_CONSULTATION' | 'MENTORSHIP';
+
 interface ConsultationFormData {
   lastName: string;
   firstName: string;
@@ -12,11 +14,14 @@ interface ConsultationFormData {
   email: string;
   isBusinessActive: '' | 'yes' | 'no';
   inactiveReason: string;
-  consultationTopics: {
-    statePrograms: boolean;
-    grantSelection: boolean;
-    mentorSupport: boolean;
-    other: boolean;
+  receivedMicrogrant: '' | 'yes' | 'no';       // Отримував мікрогрант/грант «Власна справа»
+  micrograntYear: string;                      // Рік отримання мікрогранту
+  primaryBusinessActivity: string;             // Основний вид діяльності
+  applicationType: ApplicationType;
+  officeConsultationTopics: {
+    businessPlans: boolean;
+    personnel: boolean;
+    creditPrograms: boolean;
   };
   otherTopic: string;
   desiredDate: string;
@@ -42,11 +47,14 @@ export class ConsultationFormComponent {
     email: '',
     isBusinessActive: '',
     inactiveReason: '',
-    consultationTopics: {
-      statePrograms: false,
-      grantSelection: false,
-      mentorSupport: false,
-      other: false
+    receivedMicrogrant: '',
+    micrograntYear: '',
+    primaryBusinessActivity: '',
+    applicationType: '',
+    officeConsultationTopics: {
+      businessPlans: false,
+      personnel: false,
+      creditPrograms: false
     },
     otherTopic: '',
     desiredDate: ''
@@ -57,15 +65,8 @@ export class ConsultationFormComponent {
   submitSuccess = false;
   today = new Date().toISOString().split('T')[0];
 
-  // Список областей
-  regions = [
-    'Вінницька область', 'Волинська область', 'Дніпропетровська область', 'Донецька область',
-    'Житомирська область', 'Закарпатська область', 'Запорізька область', 'Івано-Франківська область',
-    'Київська область', 'Кіровоградська область', 'Луганська область', 'Львівська область',
-    'Миколаївська область', 'Одеська область', 'Полтавська область', 'Рівненська область',
-    'Сумська область', 'Тернопільська область', 'Харківська область', 'Херсонська область',
-    'Хмельницька область', 'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'м. Київ'
-  ];
+  // \u0420\u043e\u043a\u0438 \u043e\u0442\u0440\u0438\u043c\u0430\u043d\u043d\u044f \u043c\u0456\u043a\u0440\u043e\u0433\u0440\u0430\u043d\u0442\u0443
+  micrograntYears = [2022, 2023, 2024, 2025, 2026];
 
   // Перевірка віку (не старше 25)
   get isAgeValid(): boolean {
@@ -82,21 +83,40 @@ export class ConsultationFormComponent {
       age--;
     }
     
-    return age <= 25;
+    return age >= 18 && age <= 25;
   }
 
   // Валідація форми
   get isFormValid(): boolean {
     const data = this.formData;
-    const hasConsultationTopic = 
-      data.consultationTopics.statePrograms ||
-      data.consultationTopics.grantSelection ||
-      data.consultationTopics.mentorSupport ||
-      (data.consultationTopics.other && data.otherTopic.trim().length > 0);
+    
+    // Перевірка наявності обраного типу послуги
+    let hasApplicationTypeValid = data.applicationType !== '';
+    
+    // Якщо обрано консультацію в офісі для діючого підприємця (п.5)
+    if (data.applicationType === 'OFFICE_CONSULTATION' && data.isBusinessActive === 'yes' && data.receivedMicrogrant === 'yes') {
+      const hasOfficeTopic = data.officeConsultationTopics.businessPlans || 
+                             data.officeConsultationTopics.personnel || 
+                             data.officeConsultationTopics.creditPrograms;
+      if (!hasOfficeTopic) {
+        hasApplicationTypeValid = false;
+      }
+    }
 
-    const businessValid = 
-      data.isBusinessActive === 'yes' ||
-      (data.isBusinessActive === 'no' && data.inactiveReason.trim().length > 0);
+    const businessValid =
+      data.isBusinessActive === 'no' ||
+      (
+        data.isBusinessActive === 'yes' &&
+        data.receivedMicrogrant !== '' &&
+        (
+          data.receivedMicrogrant === 'no' ||
+          (
+            data.receivedMicrogrant === 'yes' &&
+            data.micrograntYear !== '' &&
+            data.primaryBusinessActivity.trim().length > 0
+          )
+        )
+      );
 
     return (
       data.lastName.trim().length > 0 &&
@@ -106,7 +126,7 @@ export class ConsultationFormComponent {
       data.email.trim().length > 0 &&
       data.isBusinessActive !== '' &&
       businessValid &&
-      hasConsultationTopic &&
+      hasApplicationTypeValid &&
       this.isAgeValid &&
       data.desiredDate.length > 0
     );
@@ -186,7 +206,9 @@ export class ConsultationFormComponent {
     this.formData = {
       lastName: '', firstName: '', middleName: '', birthDate: '',
       phone: '', email: '', isBusinessActive: '', inactiveReason: '',
-      consultationTopics: { statePrograms: false, grantSelection: false, mentorSupport: false, other: false },
+      receivedMicrogrant: '', micrograntYear: '', primaryBusinessActivity: '',
+      applicationType: '',
+      officeConsultationTopics: { businessPlans: false, personnel: false, creditPrograms: false },
       otherTopic: '', desiredDate: ''
     };
   }

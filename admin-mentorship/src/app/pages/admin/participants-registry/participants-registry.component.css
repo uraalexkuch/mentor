@@ -1,0 +1,192 @@
+.participants-registry {
+  max-width: 1600px;
+}
+
+.header-section {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  margin-bottom: 16px;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 24px;
+  min-width: 140px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-item.confirmed {
+  border-left: 4px solid var(--success-color, #34a853);
+}
+
+.stat-item.pending {
+  border-left: 4px solid var(--warning-color, #fbbc04);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #64748b);
+}
+
+/* Search */
+.search-section {
+  margin-bottom: 16px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #1a73e8);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+/* Table */
+.table-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary, #64748b);
+  font-size: 1rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.data-table th {
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--bg-main, #f1f5f9);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(26, 115, 232, 0.04);
+}
+
+/* Вікове обмеження — візуальні індикатори */
+.data-table tbody tr.eligible {
+  border-left: 3px solid var(--success-color, #34a853);
+}
+
+.data-table tbody tr.not-eligible {
+  border-left: 3px solid var(--danger-color, #ea4335);
+}
+
+/* Column widths */
+.col-number { width: 70px; }
+.col-name { min-width: 250px; text-align: left !important; }
+.col-region { width: 120px; }
+.col-age { width: 60px; }
+.col-entrepreneur,
+.col-need-training,
+.col-need-mentorship,
+.col-need-practical,
+.col-need-grant { 
+  width: 80px; 
+}
+.col-status { min-width: 170px; }
+
+/* Age styling */
+.col-age span.eligible {
+  color: var(--success-color, #34a853);
+  font-weight: 600;
+}
+
+.col-age span.not-eligible {
+  color: var(--danger-color, #ea4335);
+  font-weight: 600;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color, #1a73e8);
+}
+
+/* Status select */
+.status-select {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  background: #fff;
+  cursor: pointer;
+  min-width: 150px;
+  width: 100%;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: var(--primary-color, #1a73e8);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+}
+
+/* Legend */
+.legend {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.legend p {
+  margin: 4px 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+}
+
+.prohibition {
+  color: var(--danger-color, #ea4335) !important;
+  font-weight: 600;
+}

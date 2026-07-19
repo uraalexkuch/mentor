@@ -1,0 +1,24 @@
+{
+  "name": "@mentor/shared-types",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Спільні TypeScript інтерфейси та типи для проєкту менторства",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.8"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.0"
+  }
+}

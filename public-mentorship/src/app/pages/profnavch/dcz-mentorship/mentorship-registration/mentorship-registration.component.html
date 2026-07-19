@@ -84,24 +84,25 @@
               </div>
             </div>
 
-            <!-- Вибір пільгової категорії -->
+            <!-- Множинний вибір пільгових категорій -->
             <div class="row g-4 mb-3">
               <div class="col-md-12">
                 <mat-form-field appearance="fill" class="w-100">
-                  <mat-label>Пільгова категорія заявника (за наявності)</mat-label>
-                  <mat-select formControlName="applicantCategory">
-                    <mat-option value="none">Не належу до пільгових категорій</mat-option>
+                  <mat-label>Пільгові категорії заявника (можна обрати декілька)</mat-label>
+                  <mat-select formControlName="applicantCategories" multiple>
+                    <mat-option value="idp">Внутрішньо переміщена особа (ВПО)</mat-option>
+                    <mat-option value="disability">Особа з інвалідністю</mat-option>
                     <mat-option value="combatant">Учасник бойових дій (УБД)</mat-option>
                     <mat-option value="war_disabled">Особа з інвалідністю внаслідок війни</mat-option>
-                    <mat-option value="family_member">Член сім'ї УБД / особи з інвалідністю</mat-option>
+                    <mat-option value="family_member">Член сім'ї УБД / особи з інвалідністю внаслідок війни</mat-option>
                     <mat-option value="veteran_enterprise">Суб'єкт ветеранського підприємництва</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
             </div>
 
-            <!-- Додаткові поля для членів сім'ї -->
-            <div *ngIf="wizardForm.get('step1_identity.applicantCategory')?.value === 'family_member'" class="p-4 mb-3 rounded" style="background-color: #e8eaf6; border: 1px solid #c5cae9;">
+            <!-- Умовний блок для члена сім'ї -->
+            <div *ngIf="wizardForm.get('step1_identity.applicantCategories')?.value?.includes('family_member')" class="p-4 mb-3 rounded" style="background-color: #e8eaf6; border: 1px solid #c5cae9;">
               <h5 class="mb-3" style="color: #1a237e; font-weight: 700;">Дані ветерана / особи з інвалідністю внаслідок війни</h5>
               <div class="row g-4 mb-3">
                 <div class="col-md-4">

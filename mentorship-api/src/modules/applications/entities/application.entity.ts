@@ -62,24 +62,8 @@ export class ApplicationEntity {
   primaryBusinessActivity: string;
 
   // === Пільгові категорії ===
-  @Column({ type: 'boolean', default: false })
-  isIDP: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  hasDisability: boolean;
-
-  // === Ветеранські категорії ===
-  @Column({ type: 'boolean', default: false })
-  isCombatant: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  isWarDisabled: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  isFamilyMember: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  isVeteranEnterprise: boolean;
+  @Column('simple-array', { nullable: true })
+  applicantCategories: string[];
 
   // === Дані ветерана (для членів сім'ї) ===
   @Column({ length: 255, nullable: true })

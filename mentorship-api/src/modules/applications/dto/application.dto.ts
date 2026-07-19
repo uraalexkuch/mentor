@@ -1,5 +1,5 @@
 import { ApplicationStatus } from '@mentor/shared-types';
-import { IsEnum, IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsOptional, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateApplicationDto {
@@ -22,6 +22,27 @@ export class CreateApplicationDto {
   @IsOptional()
   @IsString()
   comments?: string;
+
+  @ApiProperty({ required: false, type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  applicantCategories?: string[];
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  veteranFullName?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  veteranRnokpp?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  veteranContactInfo?: string;
 }
 
 export class UpdateApplicationDto {

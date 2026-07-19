@@ -157,8 +157,8 @@ export class MentorshipRegistrationComponent {
         email: ['', [Validators.required, Validators.email]],
         region: ['', Validators.required],
         
-        // Нові поля для категорій
-        applicantCategory: ['none'],
+        // Змінено на масив для множинного вибору
+        applicantCategories: [[]],
         veteranFullName: [''],
         veteranRnokpp: [''],
         veteranPhone: ['']
@@ -188,13 +188,14 @@ export class MentorshipRegistrationComponent {
     const step3 = this.wizardForm.get('step3_details');
 
     // Динамічна валідація для ветеранських категорій
-    const categoryControl = this.wizardForm.get('step1_identity.applicantCategory');
+    const categoriesControl = this.wizardForm.get('step1_identity.applicantCategories');
     const vetName = this.wizardForm.get('step1_identity.veteranFullName');
     const vetRnokpp = this.wizardForm.get('step1_identity.veteranRnokpp');
     const vetPhone = this.wizardForm.get('step1_identity.veteranPhone');
 
-    categoryControl?.valueChanges.subscribe(val => {
-      if (val === 'family_member') {
+    categoriesControl?.valueChanges.subscribe((categories: string[]) => {
+      // Перевіряємо, чи є в масиві обраних категорій 'family_member'
+      if (categories && categories.includes('family_member')) {
         vetName?.setValidators([Validators.required]);
         vetRnokpp?.setValidators([Validators.required, Validators.pattern(/^(?:\d{10}|\d{9}|[ A-Za-z]{2}\d{6})$/)]);
         vetPhone?.setValidators([Validators.required]);
@@ -266,11 +267,10 @@ export class MentorshipRegistrationComponent {
       dcz_applicant_phone: formData.step1_identity.phone,
       dcz_applicant_email: formData.step1_identity.email,
       dcz_region_code: formData.step1_identity.region,
-      
-      dcz_applicant_category: formData.step1_identity.applicantCategory,
-      dcz_veteran_fullname: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranFullName : null,
-      dcz_veteran_rnokpp: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranRnokpp : null,
-      dcz_veteran_phone: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranPhone : null,
+      dcz_applicant_categories: formData.step1_identity.applicantCategories,
+      dcz_veteran_fullname: formData.step1_identity.applicantCategories?.includes('family_member') ? formData.step1_identity.veteranFullName : null,
+      dcz_veteran_rnokpp: formData.step1_identity.applicantCategories?.includes('family_member') ? formData.step1_identity.veteranRnokpp : null,
+      dcz_veteran_phone: formData.step1_identity.applicantCategories?.includes('family_member') ? formData.step1_identity.veteranPhone : null,
 
       dcz_is_active_entrepreneur: formData.step2_needs.isActiveBusiness === 'yes',
       dcz_mentorship_needs_training: formData.step3_details.needsTraining || false,

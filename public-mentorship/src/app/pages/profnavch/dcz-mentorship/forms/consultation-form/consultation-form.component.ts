@@ -25,7 +25,14 @@ interface ConsultationFormData {
   };
   otherTopic: string;
   desiredDate: string;
-  applicantCategory: string;
+  applicantCategories: {
+    idp: boolean;
+    disability: boolean;
+    combatant: boolean;
+    warDisabled: boolean;
+    familyMember: boolean;
+    veteranEnterprise: boolean;
+  };
   veteranFullName: string;
   veteranRnokpp: string;
   veteranPhone: string;
@@ -62,7 +69,14 @@ export class ConsultationFormComponent {
     },
     otherTopic: '',
     desiredDate: '',
-    applicantCategory: 'none',
+    applicantCategories: {
+      idp: false,
+      disability: false,
+      combatant: false,
+      warDisabled: false,
+      familyMember: false,
+      veteranEnterprise: false
+    },
     veteranFullName: '',
     veteranRnokpp: '',
     veteranPhone: ''
@@ -126,7 +140,7 @@ export class ConsultationFormComponent {
         )
       );
 
-    const familyValid = data.applicantCategory !== 'family_member' || 
+    const familyValid = !data.applicantCategories.familyMember || 
       (data.veteranFullName.trim().length > 0 && 
        data.veteranRnokpp.trim().length > 0 && 
        data.veteranPhone.trim().length > 0);

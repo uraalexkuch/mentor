@@ -25,6 +25,10 @@ interface ConsultationFormData {
   };
   otherTopic: string;
   desiredDate: string;
+  applicantCategory: string;
+  veteranFullName: string;
+  veteranRnokpp: string;
+  veteranPhone: string;
 }
 
 @Component({
@@ -57,7 +61,11 @@ export class ConsultationFormComponent {
       creditPrograms: false
     },
     otherTopic: '',
-    desiredDate: ''
+    desiredDate: '',
+    applicantCategory: 'none',
+    veteranFullName: '',
+    veteranRnokpp: '',
+    veteranPhone: ''
   };
 
   officeData: { name: string; address: string; phone: string; email: string } | null = null;
@@ -118,6 +126,11 @@ export class ConsultationFormComponent {
         )
       );
 
+    const familyValid = data.applicantCategory !== 'family_member' || 
+      (data.veteranFullName.trim().length > 0 && 
+       data.veteranRnokpp.trim().length > 0 && 
+       data.veteranPhone.trim().length > 0);
+
     return (
       data.lastName.trim().length > 0 &&
       data.firstName.trim().length > 0 &&
@@ -128,6 +141,7 @@ export class ConsultationFormComponent {
       businessValid &&
       hasApplicationTypeValid &&
       this.isAgeValid &&
+      familyValid &&
       data.desiredDate.length > 0
     );
   }

@@ -38,7 +38,7 @@ export enum ConsultationTopic {
   OTHER = 'Інше'
 }
 
-export type ApplicationType = '' | 'TRAINING' | 'OFFICE_CONSULTATION' | 'MENTORSHIP';
+export type ApplicationType = '' | 'TRAINING' | 'OFFICE_CONSULTATION' | 'MENTORSHIP' | 'VETERAN_MENTORSHIP';
 
 /** Роки отримання мікрогранту */
 export type MicrograntYear = `${number} рік`;
@@ -91,8 +91,23 @@ export interface MentorshipApplicationDto {
   // === Інформація про бізнес ===
   isBusinessActive: boolean;           // Чи діючий підприємець (Так/Ні)
   receivedMicrogrant: boolean;         // Чи отримували мікрогрант "Власна справа" (Так/Ні)
-  micrograntYear?: MicrograntYear;     // ��ік отримання мікрогранту ("2022 рік", "2023 рік"...)
+  micrograntYear?: MicrograntYear;     // Рік отримання мікрогранту ("2022 рік", "2023 рік"...)
   primaryBusinessActivity?: string;    // Основний вид діяльності
+  
+  // === Пільгові категорії ===
+  isIDP: boolean;                      // ВПО
+  hasDisability: boolean;              // Особа з інвалідністю
+  
+  // === Ветеранські категорії ===
+  isCombatant: boolean;                // УБД
+  isWarDisabled: boolean;              // Особа з інвалідністю внаслідок війни
+  isFamilyMember: boolean;             // Член сім'ї
+  isVeteranEnterprise: boolean;        // Ветеранське підприємництво
+  
+  // === Дані ветерана (для членів сім'ї) ===
+  veteranFullName?: string;
+  veteranRnokpp?: string;
+  veteranContactInfo?: string;
   
   // === Потреби (ТІЛЬКИ ЧЕКБОКСИ) ===
   needs: {
@@ -132,8 +147,11 @@ export interface ConsultationOrderDto {
     businessPlans: boolean;
     personnel: boolean;
     creditPrograms: boolean;
+    stateCompensations: boolean;       // Державні компенсації
   };
   otherTopicDescription?: string;      // Опис для теми "Інше" (якщо потрібно)
+  consultationResult?: string;         // Результат консультації
+  consultantName?: string;             // Ім'я фахівця
   
   // === Бажана дата консультації ===
   preferredDate: string;               // Бажана дата (ISO)
@@ -161,6 +179,7 @@ export interface CertificateRegistryItemDto {
   
   issueDate: string;                   // Дата видачі (ISO)
   
+  region?: string;                     // Регіон
   note?: string;                       // Примітка
 }
 
@@ -195,6 +214,25 @@ export interface MentorDto extends UserDto {
   rating: number;                    // 0-5
   maxActiveMentees: number;          // Макс. кількість підопічних
   isAvailable: boolean;
+  organizationType: string;          // Класифікація (ГО, бізнес, заклад освіти)
+  isVolunteer: boolean;              // Підтвердження безоплатної основи
+}
+
+// ==================== MENTORSHIP PAIR DTO ====================
+
+export enum MentorshipStatus {
+  PLANNING = 'PLANNING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED'
+}
+
+export interface MentorshipPairDto {
+  id: string;
+  mentorId: string;
+  menteeId: string;
+  status: MentorshipStatus;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 // ==================== MENTEE DTO ====================

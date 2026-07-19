@@ -32,6 +32,14 @@ export const adminRoutes: Routes = [
         loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent)
       },
       {
+        path: 'mentors',
+        loadComponent: () => import('./mentors-registry/mentors-registry.component').then(m => m.MentorsRegistryComponent)
+      },
+      {
+        path: 'mentorship-pairs',
+        loadComponent: () => import('./mentorship-pairs/mentorship-pairs.component').then(m => m.MentorshipPairsComponent)
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
       }

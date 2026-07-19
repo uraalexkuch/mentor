@@ -18,6 +18,13 @@
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
     />
+    
+    <div class="filter-group">
+      <label><input type="checkbox" [checked]="filterIDP()" (change)="filterIDP.set(!filterIDP())" /> Тільки ВПО</label>
+      <label><input type="checkbox" [checked]="filterDisability()" (change)="filterDisability.set(!filterDisability())" /> Особи з інвалідністю</label>
+      <label><input type="checkbox" [checked]="filterYouth()" (change)="filterYouth.set(!filterYouth())" /> Цільовий вік (18-25)</label>
+      <label><input type="checkbox" [checked]="filterVeteranCategory()" (change)="filterVeteranCategory.set(!filterVeteranCategory())" /> Ветеранські категорії</label>
+    </div>
   </div>
 
   <div class="table-container">
@@ -27,6 +34,7 @@
       <table class="data-table">
         <thead>
           <tr>
+            <th class="col-actions">Дії</th>
             <th class="col-number">№</th>
             <th class="col-name">ПІБ</th>
             <th class="col-phone">Телефон</th>
@@ -40,8 +48,22 @@
         <tbody>
           @for (consultation of filteredConsultations(); track consultation.id) {
             <tr>
+              <td class="col-actions">
+                <button class="btn-icon" (click)="openEditModal(consultation)" title="Редагувати">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+              </td>
               <td class="col-number">{{ consultation.number }}</td>
-              <td class="col-name">{{ consultation.fullName }}</td>
+              <td class="col-name">
+                {{ consultation.fullName }}
+                <div class="badges-container">
+                  @if (consultation.isIDP) { <span class="badge badge-idp" title="ВПО">ВПО</span> }
+                  @if (consultation.hasDisability) { <span class="badge badge-disability" title="Особа з інвалідністю">ОзІ</span> }
+                  @if (consultation.isCombatant) { <span class="badge badge-veteran" title="УБД">УБД</span> }
+                  @if (consultation.isVeteranEnterprise) { <span class="badge badge-veteran-biz" title="Ветеранський бізнес">Ветеран. бізнес</span> }
+                  @if (consultation.isFamilyMember) { <span class="badge badge-family" title="Член сім'ї">Член сім'ї</span> }
+                </div>
+              </td>
               <td class="col-phone">{{ consultation.phone }}</td>
               <td class="col-region">{{ consultation.region }}</td>
               <td class="col-business">
@@ -59,14 +81,9 @@
               </td>
               <td class="col-preferred-date">{{ formatDate(consultation.preferredDate) }}</td>
               <td class="col-status">
-                <select 
-                  [value]="consultation.status"
-                  (change)="updateStatus(consultation.id, $any($event.target).value)"
-                  class="status-select">
-                  @for (status of statusOptions; track status) {
-                    <option [value]="status">{{ getStatusLabel(status) }}</option>
-                  }
-                </select>
+                <span class="status-badge" [ngClass]="getStatusClass(consultation.status)">
+                  {{ getStatusLabel(consultation.status) }}
+                </span>
               </td>
             </tr>
           }
@@ -77,6 +94,76 @@
 
   <div class="legend">
     <p><strong>Теми консультації:</strong> Визначаються виключно через чекбокси (згідно з бізнес-правилами ДЦЗ)</p>
-    <p class="prohibition"><strong>⚠ ЗАБОРОНЕНО:</strong> КЕКВ, ручний аналіз за Постановою 738</p>
+    <p class="prohibition"><strong>⚠ ЗАБОРОНЕНО:</strong> Ручний аналіз за Постановою 738</p>
   </div>
+
+  <!-- Модальне вікно редагування -->
+  @if (editingConsultation()) {
+    <div class="admin-modal-overlay">
+      <div class="admin-modal">
+        <h2>Редагування консультації</h2>
+        
+        <div class="form-group">
+          <label>ПІБ</label>
+          <input type="text" [(ngModel)]="editingConsultation()!.fullName" />
+        </div>
+        
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" [(ngModel)]="editingConsultation()!.email" />
+        </div>
+
+        <div class="form-group">
+          <label>Тип послуги</label>
+          <select [(ngModel)]="editingConsultation()!.applicationType">
+            <option value="TRAINING">Навчання</option>
+            <option value="OFFICE_CONSULTATION">Консультації офісу</option>
+            <option value="MENTORSHIP">Менторство</option>
+            <option value="VETERAN_MENTORSHIP">Менторський супровід ветеранів</option>
+          </select>
+        </div>
+
+        @if (editingConsultation()?.applicationType === 'OFFICE_CONSULTATION') {
+          <div class="form-group">
+            <label>Тематика консультацій</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" [(ngModel)]="editingConsultation()!.officeConsultationTopics!.businessPlans" /> Бізнес-план</label>
+              <label><input type="checkbox" [(ngModel)]="editingConsultation()!.officeConsultationTopics!.personnel" /> Персонал</label>
+              <label><input type="checkbox" [(ngModel)]="editingConsultation()!.officeConsultationTopics!.creditPrograms" /> Кредитування</label>
+              <label><input type="checkbox" [(ngModel)]="editingConsultation()!.officeConsultationTopics!.stateCompensations" /> Державні компенсації</label>
+            </div>
+          </div>
+        }
+
+        <div class="form-group">
+          <label>Фахівець (Консультант)</label>
+          <input type="text" [(ngModel)]="editingConsultation()!.consultantName" placeholder="ПІБ фахівця..." />
+        </div>
+
+        <div class="form-group">
+          <label>Результати (Примітки)</label>
+          <textarea [(ngModel)]="editingConsultation()!.consultationResult" rows="3" placeholder="Введіть результати консультації..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Бажана дата</label>
+          <input type="text" [(ngModel)]="editingConsultation()!.preferredDate" placeholder="YYYY-MM-DD" />
+        </div>
+
+        <div class="form-group">
+          <label>Статус</label>
+          <select [(ngModel)]="editingConsultation()!.status">
+            @for (status of statusOptions; track status) {
+              <option [value]="status">{{ getStatusLabel(status) }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="closeEditModal()">Скасувати</button>
+          <button class="btn-save" (click)="saveConsultation()">Зберегти</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

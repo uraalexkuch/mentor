@@ -24,6 +24,12 @@
       [value]="searchQuery()"
       (input)="searchQuery.set($any($event.target).value)"
     />
+    
+    <div class="filter-group">
+      <label><input type="checkbox" [checked]="filterIDP()" (change)="filterIDP.set(!filterIDP())" /> Тільки ВПО</label>
+      <label><input type="checkbox" [checked]="filterDisability()" (change)="filterDisability.set(!filterDisability())" /> Особи з інвалідністю</label>
+      <label><input type="checkbox" [checked]="filterVeteranCategory()" (change)="filterVeteranCategory.set(!filterVeteranCategory())" /> Ветеранські категорії</label>
+    </div>
   </div>
 
   <!-- Таблиця сертифікатів -->
@@ -34,12 +40,14 @@
       <table class="data-table">
         <thead>
           <tr>
+            <th class="col-actions">Дії</th>
             <th class="col-number">№</th>
             <th class="col-cert">Номер сертифіката</th>
             <th class="col-year">Рік</th>
             <th class="col-participant">ПІБ підприємця</th>
             <th class="col-program">Програма</th>
-            <th class="col-institution">Заклад</th>
+            <th class="col-institution">Заклад/Установа</th>
+            <th class="col-region">Регіон</th>
             <th class="col-edrpoU">ЄДРПОУ</th>
             <th class="col-date">Дата видачі</th>
             <th class="col-note">Примітка</th>
@@ -49,6 +57,11 @@
           @for (cert of filteredCertificates(); track cert.id) {
             <tr [class.valid-format]="isValidCertificateFormat(cert.certificateNumber)"
                 [class.invalid-format]="!isValidCertificateFormat(cert.certificateNumber)">
+              <td class="col-actions">
+                <button class="btn-icon" (click)="openEditModal(cert)" title="Редагувати">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+              </td>
               <td class="col-number">{{ cert.number }}</td>
               <td class="col-cert">
                 <span class="certificate-number" [title]="cert.certificateNumber">
@@ -59,9 +72,19 @@
                 }
               </td>
               <td class="col-year">{{ cert.year }}</td>
-              <td class="col-participant">{{ cert.participantFullName }}</td>
+              <td class="col-participant">
+                {{ cert.participantFullName }}
+                <div class="badges-container">
+                  @if (cert.isIDP) { <span class="badge badge-idp" title="ВПО">ВПО</span> }
+                  @if (cert.hasDisability) { <span class="badge badge-disability" title="Особа з інвалідністю">ОзІ</span> }
+                  @if (cert.isCombatant) { <span class="badge badge-veteran" title="УБД">УБД</span> }
+                  @if (cert.isVeteranEnterprise) { <span class="badge badge-veteran-biz" title="Ветеранський бізнес">Ветеран. бізнес</span> }
+                  @if (cert.isFamilyMember) { <span class="badge badge-family" title="Член сім'ї">Член сім'ї</span> }
+                </div>
+              </td>
               <td class="col-program">{{ cert.programName }}</td>
               <td class="col-institution">{{ cert.institutionName }}</td>
+              <td class="col-region">{{ cert.region }}</td>
               <td class="col-edrpoU">{{ cert.edrpoUCode }}</td>
               <td class="col-date">{{ formatDate(cert.issueDate) }}</td>
               <td class="col-note">{{ cert.note || '-' }}</td>
@@ -84,4 +107,48 @@
     </div>
     <p class="format-description">Приклад: 12345678/26-01 = 12345678 / 2026 рік / 01-й сертифікат</p>
   </div>
+
+  <!-- Модальне вікно редагування -->
+  @if (editingCertificate()) {
+    <div class="admin-modal-overlay">
+      <div class="admin-modal">
+        <h2>Редагування сертифіката</h2>
+        
+        <div class="form-group">
+          <label>Номер сертифіката</label>
+          <input type="text" [(ngModel)]="editingCertificate()!.certificateNumber" />
+        </div>
+        
+        <div class="form-group">
+          <label>ПІБ підприємця</label>
+          <input type="text" [(ngModel)]="editingCertificate()!.participantFullName" />
+        </div>
+
+        <div class="form-group">
+          <label>Регіон</label>
+          <input type="text" [(ngModel)]="editingCertificate()!.region" />
+        </div>
+
+        <div class="form-group">
+          <label>Рік</label>
+          <input type="number" [(ngModel)]="editingCertificate()!.year" />
+        </div>
+        
+        <div class="form-group">
+          <label>Програма</label>
+          <input type="text" [(ngModel)]="editingCertificate()!.programName" />
+        </div>
+
+        <div class="form-group">
+          <label>Примітка</label>
+          <input type="text" [(ngModel)]="editingCertificate()!.note" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="closeEditModal()">Скасувати</button>
+          <button class="btn-save" (click)="saveCertificate()">Зберегти</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

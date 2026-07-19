@@ -1,0 +1,30 @@
+<div class="pairs-container" style="padding: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h2>Менторські пари та групи підтримки</h2>
+    <button (click)="createVeteranGroup()" style="padding: 8px 16px; background-color: #2e7d32; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      Створити ветеранську групу підтримки
+    </button>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <thead style="background: #f8f9fa; border-bottom: 2px solid #e9ecef;">
+      <tr>
+        <th style="padding: 12px; text-align: left;">Ментор</th>
+        <th style="padding: 12px; text-align: left;">Підопічний / Група</th>
+        <th style="padding: 12px; text-align: left;">Тип</th>
+        <th style="padding: 12px; text-align: left;">Статус</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pair of pairs" style="border-bottom: 1px solid #e9ecef;">
+        <td style="padding: 12px;">{{ pair.mentor }}</td>
+        <td style="padding: 12px;">{{ pair.mentee }}</td>
+        <td style="padding: 12px;">
+          <span *ngIf="pair.isVeteranGroup" style="background: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Ветеранська група</span>
+          <span *ngIf="!pair.isVeteranGroup" style="background: #e3f2fd; color: #1565c0; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Індивідуальна пара</span>
+        </td>
+        <td style="padding: 12px;">{{ pair.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

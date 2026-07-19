@@ -1,5 +1,6 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CertificateRegistryItemDto } from '@mentor/shared-types';
 
 /** Рядок реєстру сертифікатів */
@@ -13,31 +14,43 @@ export interface CertificateRow {
   participantFullName: string;
   programName: string;
   issueDate: string;
+  region: string; // Додано для модераторів по регіону
+  isIDP?: boolean;
+  hasDisability?: boolean;
+  isCombatant?: boolean;
+  isVeteranEnterprise?: boolean;
+  isFamilyMember?: boolean;
   note?: string;
 }
 
 @Component({
   selector: 'app-certificate-registry',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './certificate-registry.component.html',
   styleUrls: ['./certificate-registry.component.css']
 })
-export class CertificateRegistryComponent {
+export class CertificateRegistryComponent implements OnInit {
   // Signals для стану
-  isLoading = signal(true);
-  searchQuery = signal('');
+  isLoading = signal<boolean>(true);
+  searchQuery = signal<string>('');
+  filterIDP = signal<boolean>(false);
+  filterDisability = signal<boolean>(false);
+  filterVeteranCategory = signal<boolean>(false);
+  editingCertificate = signal<CertificateRow | null>(null);
 
   // Дані сертифікатів (mock)
   certificates = signal<CertificateRow[]>([
     {
       id: '1', number: 1, year: 2026,
-      institutionName: 'Державний центр зайнято��ті',
+      institutionName: 'Державний центр зайнятості',
       edrpoUCode: '00000001',
       certificateNumber: '12345678/26-01',
       participantFullName: 'Шевченко Тарас Олександрович',
       programName: 'Менторство молодих підприємців',
       issueDate: '2026-07-15',
+      region: 'м. Київ',
+      isIDP: true, hasDisability: false, isCombatant: true, isVeteranEnterprise: false, isFamilyMember: false,
       note: 'Завершено навчання'
     },
     {
@@ -48,6 +61,8 @@ export class CertificateRegistryComponent {
       participantFullName: 'Коваленко Анна Сергіївна',
       programName: 'Підтримка мікрогрантів',
       issueDate: '2026-07-10',
+      region: 'Одеська обл.',
+      isIDP: false, hasDisability: true, isCombatant: false, isVeteranEnterprise: false, isFamilyMember: true,
       note: ''
     },
     {
@@ -58,6 +73,8 @@ export class CertificateRegistryComponent {
       participantFullName: 'Бондаренко Дмитро Ігорович',
       programName: 'Менторська підтримка',
       issueDate: '2025-12-20',
+      region: 'Київська обл.',
+      isIDP: false, hasDisability: false, isCombatant: false, isVeteranEnterprise: true, isFamilyMember: false,
       note: 'Підвищення кваліфікації'
     },
     {
@@ -68,6 +85,8 @@ export class CertificateRegistryComponent {
       participantFullName: 'Мельник Юрія Василівна',
       programName: 'Розвиток бізнесу',
       issueDate: '2025-11-15',
+      region: 'Харківська обл.',
+      isIDP: true, hasDisability: true, isCombatant: false, isVeteranEnterprise: false, isFamilyMember: false,
       note: ''
     },
     {
@@ -78,21 +97,37 @@ export class CertificateRegistryComponent {
       participantFullName: 'Петренко Максим Олегович',
       programName: 'Менторство молодих підприємців',
       issueDate: '2026-06-30',
+      region: 'Полтавська обл.',
+      isIDP: false, hasDisability: false, isCombatant: true, isVeteranEnterprise: false, isFamilyMember: false,
       note: 'Грантова підтримка'
     }
   ]);
 
   // Фільтровані сертифікати (computed signal)
   filteredCertificates = computed(() => {
+    let result = this.certificates();
+
+    if (this.filterIDP()) {
+      result = result.filter(c => c.isIDP);
+    }
+    if (this.filterDisability()) {
+      result = result.filter(c => c.hasDisability);
+    }
+    if (this.filterVeteranCategory()) {
+      result = result.filter(c => c.isCombatant || c.isVeteranEnterprise || c.isFamilyMember);
+    }
+
     const query = this.searchQuery().toLowerCase();
-    if (!query) return this.certificates();
-    
-    return this.certificates().filter(c => 
-      c.participantFullName.toLowerCase().includes(query) ||
-      c.certificateNumber.toLowerCase().includes(query) ||
-      c.programName.toLowerCase().includes(query) ||
-      c.institutionName.toLowerCase().includes(query)
-    );
+    if (query) {
+      result = result.filter(c => 
+        c.participantFullName.toLowerCase().includes(query) ||
+        c.certificateNumber.toLowerCase().includes(query) ||
+        c.programName.toLowerCase().includes(query) ||
+        c.institutionName.toLowerCase().includes(query) ||
+        c.region.toLowerCase().includes(query)
+      );
+    }
+    return result;
   });
 
   // Статистика (computed signals)
@@ -101,6 +136,10 @@ export class CertificateRegistryComponent {
   certificatesThisYear = computed(() => 
     this.filteredCertificates().filter(c => c.year === new Date().getFullYear()).length
   );
+
+  ngOnInit(): void {
+    setTimeout(() => this.isLoading.set(false), 500);
+  }
 
   /** Парсинг номера сертифіката */
   parseCertificateNumber(number: string): { eightDigits: string; year: string; sequence: string } | null {
@@ -131,5 +170,24 @@ export class CertificateRegistryComponent {
       month: '2-digit',
       year: 'numeric'
     });
+  }
+
+  // Логіка модального вікна
+  openEditModal(cert: CertificateRow): void {
+    this.editingCertificate.set({ ...cert });
+  }
+
+  closeEditModal(): void {
+    this.editingCertificate.set(null);
+  }
+
+  saveCertificate(): void {
+    const edited = this.editingCertificate();
+    if (!edited) return;
+
+    this.certificates.update(items =>
+      items.map(c => c.id === edited.id ? edited : c)
+    );
+    this.closeEditModal();
   }
 }

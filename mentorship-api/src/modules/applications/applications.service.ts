@@ -70,4 +70,21 @@ export class ApplicationsService {
     }
     this.applications.delete(id);
   }
+
+  /**
+   * Калькулятор гранту (п. 6 Порядку)
+   * Розраховує максимальну суму гранту для започаткування або масштабування бізнесу.
+   * Якщо це ветеранське підприємництво, база збільшується на 20%.
+   */
+  calculateMaxGrantAmount(isVeteranEnterprise: boolean, isScaling: boolean): number {
+    const baseAmount = isScaling ? 1500000 : 300000;
+    const maxLimit = isScaling ? 2500000 : 500000;
+    
+    let calculatedAmount = baseAmount;
+    if (isVeteranEnterprise) {
+      calculatedAmount = baseAmount * 1.2;
+    }
+    
+    return Math.min(calculatedAmount, maxLimit);
+  }
 }

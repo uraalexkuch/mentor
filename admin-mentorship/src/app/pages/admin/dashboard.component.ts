@@ -31,7 +31,8 @@ export class DashboardComponent {
       employmentCenterId: 'ec-001', isBusinessActive: true, receivedMicrogrant: false,
       primaryBusinessActivity: 'IT-консалтинг',
       needs: { training: true, mentorshipSupport: true, practicalHelp: false, micrograntMentorship: false },
-      status: ApplicationStatus.SUBMITTED, createdAt: '2025-07-15T10:30:00Z'
+      status: ApplicationStatus.SUBMITTED, createdAt: '2025-07-15T10:30:00Z',
+      isIDP: false, hasDisability: false, isCombatant: true, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
     },
     {
       id: '2', fullName: 'Коваленко Марія Ігорівна', birthDate: '2000-08-22',
@@ -40,7 +41,8 @@ export class DashboardComponent {
       employmentCenterId: 'ec-002', isBusinessActive: false, receivedMicrogrant: true,
       micrograntYear: '2024 рік', primaryBusinessActivity: 'Кулінарія',
       needs: { training: false, mentorshipSupport: true, practicalHelp: true, micrograntMentorship: true },
-      status: ApplicationStatus.IN_PROCESSING, createdAt: '2025-07-14T14:20:00Z'
+      status: ApplicationStatus.IN_PROCESSING, createdAt: '2025-07-14T14:20:00Z',
+      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: true, isVeteranEnterprise: false
     },
     {
       id: '3', fullName: 'Шевченко Олександр Васильович', birthDate: '1999-03-10',
@@ -49,7 +51,8 @@ export class DashboardComponent {
       employmentCenterId: 'ec-003', isBusinessActive: true, receivedMicrogrant: false,
       primaryBusinessActivity: 'Виробництво',
       needs: { training: true, mentorshipSupport: false, practicalHelp: true, micrograntMentorship: false },
-      status: ApplicationStatus.CONFIRMED, createdAt: '2025-07-13T09:15:00Z'
+      status: ApplicationStatus.CONFIRMED, createdAt: '2025-07-13T09:15:00Z',
+      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: true
     },
     {
       id: '4', fullName: 'Бондаренко Анна Сергіївна', birthDate: '2002-11-05',
@@ -58,7 +61,8 @@ export class DashboardComponent {
       employmentCenterId: 'ec-004', isBusinessActive: true, receivedMicrogrant: false,
       primaryBusinessActivity: 'Торгівля',
       needs: { training: true, mentorshipSupport: true, practicalHelp: true, micrograntMentorship: true },
-      status: ApplicationStatus.REJECTED, createdAt: '2025-07-12T16:45:00Z'
+      status: ApplicationStatus.RESERVE, createdAt: '2025-07-12T11:45:00Z',
+      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
     },
     {
       id: '5', fullName: 'Ткаченко Дмитро Олексійович', birthDate: '2001-01-20',
@@ -67,7 +71,8 @@ export class DashboardComponent {
       employmentCenterId: 'ec-005', isBusinessActive: true, receivedMicrogrant: true,
       micrograntYear: '2025 рік', primaryBusinessActivity: 'Сільське господарство',
       needs: { training: false, mentorshipSupport: false, practicalHelp: false, micrograntMentorship: true },
-      status: ApplicationStatus.COMPLETED, createdAt: '2025-07-11T11:00:00Z'
+      status: ApplicationStatus.COMPLETED, createdAt: '2025-07-11T11:00:00Z',
+      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
     }
   ]);
 
@@ -108,6 +113,10 @@ export class DashboardComponent {
   totalApplications = computed(() => this.applications().length);
   totalConsultations = computed(() => this.consultations().length);
   totalCertificates = computed(() => this.certificates().length);
+  
+  veteranApplicationsCount = computed(() => 
+    this.applications().filter(a => a.isCombatant || a.isWarDisabled || a.isFamilyMember || a.isVeteranEnterprise).length
+  );
 
   submittedCount = computed(() =>
     this.applications().filter(a => a.status === ApplicationStatus.SUBMITTED).length

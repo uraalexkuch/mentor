@@ -39,7 +39,7 @@
     <div class="summary-card purple">
       <div class="summary-icon">🎓</div>
       <div class="summary-info">
-        <span class="summary-value">{{ totalCompleted() }}</span>
+        <span class="summary-value">{{ totalTrainingCompleted() }}</span>
         <span class="summary-label">Завершили навчання</span>
       </div>
     </div>
@@ -68,7 +68,30 @@
       <div class="summary-icon">📊</div>
       <div class="summary-info">
         <span class="summary-value">{{ completionRate() }}%</span>
-        <span class="summary-label">Рівень завершення</span>
+        <span class="summary-label">Рівень завершення навчання</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Воронка конверсії -->
+  <div class="funnel-container" style="margin: 24px 0; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <h2 class="card-title">Воронка конверсії</h2>
+    <div style="display: flex; gap: 16px; margin-top: 16px; align-items: center;">
+      <div style="flex: 1; text-align: center; background: #e0e7ff; padding: 16px; border-radius: 8px;">
+        <h3>Навчання</h3>
+        <div style="font-size: 24px; font-weight: bold; color: #4338ca;">{{ totalTrainingCompleted() }}</div>
+      </div>
+      <div style="font-size: 24px; color: #9ca3af;">➔</div>
+      <div style="flex: 1; text-align: center; background: #dbeafe; padding: 16px; border-radius: 8px;">
+        <h3>Менторство</h3>
+        <div style="font-size: 24px; font-weight: bold; color: #1d4ed8;">{{ totalMentorshipCompleted() }}</div>
+        <div style="font-size: 14px; color: #6b7280;">{{ mentorshipRate() }}% від навчання</div>
+      </div>
+      <div style="font-size: 24px; color: #9ca3af;">➔</div>
+      <div style="flex: 1; text-align: center; background: #dcfce7; padding: 16px; border-radius: 8px;">
+        <h3>Отримали грант</h3>
+        <div style="font-size: 24px; font-weight: bold; color: #15803d;">{{ totalGrantsReceived() }}</div>
+        <div style="font-size: 14px; color: #6b7280;">{{ grantRate() }}% від менторства</div>
       </div>
     </div>
   </div>
@@ -85,7 +108,7 @@
             <span class="bar-label">{{ row.region }}</span>
             <div class="bar-track">
               <div class="bar-fill confirmed"   [style.width.%]="barWidth(row.confirmed)"   title="Підтверджено: {{ row.confirmed }}"></div>
-              <div class="bar-fill completed"   [style.width.%]="barWidth(row.completed)"   title="Завершено: {{ row.completed }}"></div>
+              <div class="bar-fill completed"   [style.width.%]="barWidth(row.trainingCompleted)"   title="Навчання: {{ row.trainingCompleted }}"></div>
             </div>
             <span class="bar-value">{{ row.total }}</span>
           </div>
@@ -107,8 +130,9 @@
               <th>Регіон</th>
               <th class="num">Заявок</th>
               <th class="num">Підтв.</th>
-              <th class="num">Завершено</th>
-              <th class="num">Відмов.</th>
+              <th class="num">Навчання</th>
+              <th class="num">Менторство</th>
+              <th class="num">Грант</th>
               <th class="num">Консульт.</th>
               <th class="num">Серт.</th>
             </tr>
@@ -119,8 +143,9 @@
                 <td>{{ row.region }}</td>
                 <td class="num bold">{{ row.total }}</td>
                 <td class="num green">{{ row.confirmed }}</td>
-                <td class="num purple">{{ row.completed }}</td>
-                <td class="num red">{{ row.rejected }}</td>
+                <td class="num purple">{{ row.trainingCompleted }}</td>
+                <td class="num blue">{{ row.mentorshipCompleted }}</td>
+                <td class="num green">{{ row.grantsReceived }}</td>
                 <td class="num teal">{{ row.consultations }}</td>
                 <td class="num gold">{{ row.certificates }}</td>
               </tr>
@@ -131,8 +156,9 @@
               <td><strong>РАЗОМ</strong></td>
               <td class="num bold">{{ totalApplications() }}</td>
               <td class="num green">{{ totalConfirmed() }}</td>
-              <td class="num purple">{{ totalCompleted() }}</td>
-              <td class="num red">{{ totalRejected() }}</td>
+              <td class="num purple">{{ totalTrainingCompleted() }}</td>
+              <td class="num blue">{{ totalMentorshipCompleted() }}</td>
+              <td class="num green">{{ totalGrantsReceived() }}</td>
               <td class="num teal">{{ totalConsultations() }}</td>
               <td class="num gold">{{ totalCertificates() }}</td>
             </tr>

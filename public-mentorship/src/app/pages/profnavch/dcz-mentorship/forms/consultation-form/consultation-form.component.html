@@ -101,6 +101,51 @@
             </div>
           </div>
 
+          <!-- Блок 3: Пільгові категорії -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-12">
+              <div class="mf">
+                <label class="mf-label" for="applicantCategory">Пільгова категорія (за наявності)</label>
+                <select id="applicantCategory" class="mf-input mf-select" [(ngModel)]="formData.applicantCategory" name="applicantCategory">
+                  <option value="none">Не належу до пільгових категорій</option>
+                  <option value="combatant">Учасник бойових дій (УБД)</option>
+                  <option value="war_disabled">Особа з інвалідністю внаслідок війни</option>
+                  <option value="family_member">Член сім'ї УБД / особи з інвалідністю</option>
+                  <option value="veteran_enterprise">Суб'єкт ветеранського підприємництва</option>
+                </select>
+                <span class="mf-line"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Додаткові поля для членів сім'ї -->
+          <div *ngIf="formData.applicantCategory === 'family_member'" class="nested-box mb-4" style="background: #e8eaf6; border-color: #c5cae9;">
+            <label class="block-label d-block mb-3 text-primary">Дані ветерана / особи з інвалідністю внаслідок війни *</label>
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="mf" [class.mf--invalid]="submitted && formData.applicantCategory === 'family_member' && !formData.veteranFullName.trim()">
+                  <label class="mf-label" for="veteranFullName">ПІБ ветерана *</label>
+                  <input id="veteranFullName" type="text" class="mf-input" [(ngModel)]="formData.veteranFullName" name="veteranFullName" />
+                  <span class="mf-line"></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mf" [class.mf--invalid]="submitted && formData.applicantCategory === 'family_member' && !formData.veteranRnokpp.trim()">
+                  <label class="mf-label" for="veteranRnokpp">РНОКПП ветерана *</label>
+                  <input id="veteranRnokpp" type="text" class="mf-input" [(ngModel)]="formData.veteranRnokpp" name="veteranRnokpp" maxlength="10" />
+                  <span class="mf-line"></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mf" [class.mf--invalid]="submitted && formData.applicantCategory === 'family_member' && !formData.veteranPhone.trim()">
+                  <label class="mf-label" for="veteranPhone">Телефон ветерана *</label>
+                  <input id="veteranPhone" type="tel" class="mf-input" [(ngModel)]="formData.veteranPhone" name="veteranPhone" placeholder="+38 (0__) ___-__-__" />
+                  <span class="mf-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 

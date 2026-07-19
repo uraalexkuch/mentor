@@ -27,6 +27,8 @@ export class AdminLayoutComponent {
     { id: 'participants', label: 'Учасники',       icon: '👥', route: '/admin/participants' },
     { id: 'certificates', label: 'Сертифікати',   icon: '🏆', route: '/admin/certificates' },
     { id: 'consultations',label: 'Консультації',  icon: '💬', route: '/admin/consultations'},
+    { id: 'mentors',      label: 'Ментори',       icon: '🤝', route: '/admin/mentors'      },
+    { id: 'mentorship-pairs', label: 'Менторські пари', icon: '🔗', route: '/admin/mentorship-pairs' },
     { id: 'reports',      label: 'Звіти',         icon: '📈', route: '/admin/reports'      },
     { id: 'settings',     label: 'Налаштування',  icon: '⚙️', route: '/admin/settings'     }
   ];

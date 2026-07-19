@@ -21,6 +21,8 @@ export class MentorsService {
       isAvailable: data.isAvailable ?? true,
       maxActiveMentees: data.maxActiveMentees ?? 5,
       isActive: data.isActive ?? true,
+      organizationType: data.organizationType || 'NGO',
+      isVolunteer: data.isVolunteer ?? true,
       createdAt: new Date().toISOString()
     };
     this.mentors.set(id, mentor);

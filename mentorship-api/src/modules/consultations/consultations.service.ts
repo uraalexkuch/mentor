@@ -20,7 +20,13 @@ export class ConsultationsService {
       throw new Error('Необхідно обрати тип заявки');
     }
 
-    // Якщо обрано "Консультація офісу" для діючого підприємця, бажано вказати напрям (хоча тут ми просто зберігаємо)
+    // Валідація: для OFFICE_CONSULTATION потрібно хоча б одну тему
+    if (data.applicationType === 'OFFICE_CONSULTATION') {
+      const topics = data.officeConsultationTopics;
+      if (!topics || (!topics.businessPlans && !topics.personnel && !topics.creditPrograms && !topics.stateCompensations)) {
+        throw new Error('Для консультації офісу необхідно обрати хоча б одну тему');
+      }
+    }
 
     const consultation: ConsultationOrderDto = {
       id,
@@ -36,8 +42,11 @@ export class ConsultationsService {
         businessPlans: false,
         personnel: false,
         creditPrograms: false,
+        stateCompensations: false
       },
       otherTopicDescription: data.otherTopicDescription,
+      consultationResult: data.consultationResult,
+      consultantName: data.consultantName,
       preferredDate: data.preferredDate || new Date().toISOString(),
       status: ApplicationStatus.SUBMITTED,
       createdAt: new Date().toISOString()

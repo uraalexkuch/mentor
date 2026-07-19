@@ -153,6 +153,29 @@ input[type="checkbox"] {
   accent-color: var(--primary-color, #1a73e8);
 }
 
+/* Badges */
+.badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.badge-idp { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+.badge-disability { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+.badge-veteran { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+.badge-veteran-biz { background: #fce4ec; color: #c2185b; border: 1px solid #f8bbd0; }
+.badge-family { background: #ede7f6; color: #4527a0; border: 1px solid #d1c4e9; }
+
 /* Status select */
 .status-select {
   padding: 6px 12px;

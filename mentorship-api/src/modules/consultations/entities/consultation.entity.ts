@@ -51,8 +51,17 @@ export class ConsultationEntity {
   @Column({ type: 'boolean', default: false })
   topicOther: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  topicStateCompensations: boolean; // Державні компенсації
+
   @Column({ type: 'text', nullable: true })
   otherTopicDescription: string; // Тільки для теми "Інше"
+
+  @Column({ type: 'text', nullable: true })
+  consultationResult: string; // Результат консультації
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  consultantName: string; // Ім'я фахівця
 
   // === Бажана дата консультації ===
   @Column({ type: 'date' })

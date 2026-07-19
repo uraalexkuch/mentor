@@ -155,7 +155,13 @@ export class MentorshipRegistrationComponent {
         rnokpp: ['', [Validators.required, Validators.pattern(/^(?:\d{10}|\d{9}|[А-ЯІЇЄҐа-яіїєґA-Za-z]{2}\d{6})$/)]],
         phone: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        region: ['', Validators.required]
+        region: ['', Validators.required],
+        
+        // Нові поля для категорій
+        applicantCategory: ['none'],
+        veteranFullName: [''],
+        veteranRnokpp: [''],
+        veteranPhone: ['']
       }),
       // Крок 2: Статус та Вибір напрямку
       step2_needs: this.fb.group({
@@ -180,6 +186,27 @@ export class MentorshipRegistrationComponent {
     const typeControl = this.wizardForm.get('step2_needs.applicationType');
     const businessControl = this.wizardForm.get('step2_needs.isActiveBusiness');
     const step3 = this.wizardForm.get('step3_details');
+
+    // Динамічна валідація для ветеранських категорій
+    const categoryControl = this.wizardForm.get('step1_identity.applicantCategory');
+    const vetName = this.wizardForm.get('step1_identity.veteranFullName');
+    const vetRnokpp = this.wizardForm.get('step1_identity.veteranRnokpp');
+    const vetPhone = this.wizardForm.get('step1_identity.veteranPhone');
+
+    categoryControl?.valueChanges.subscribe(val => {
+      if (val === 'family_member') {
+        vetName?.setValidators([Validators.required]);
+        vetRnokpp?.setValidators([Validators.required, Validators.pattern(/^(?:\d{10}|\d{9}|[ A-Za-z]{2}\d{6})$/)]);
+        vetPhone?.setValidators([Validators.required]);
+      } else {
+        vetName?.clearValidators();
+        vetRnokpp?.clearValidators();
+        vetPhone?.clearValidators();
+      }
+      vetName?.updateValueAndValidity();
+      vetRnokpp?.updateValueAndValidity();
+      vetPhone?.updateValueAndValidity();
+    });
 
     // Автоматичний вибір напрямку в залежності від статусу бізнесу прибрано,
     // щоб дозволити вільний вибір обох опцій для всіх користувачів.
@@ -239,6 +266,12 @@ export class MentorshipRegistrationComponent {
       dcz_applicant_phone: formData.step1_identity.phone,
       dcz_applicant_email: formData.step1_identity.email,
       dcz_region_code: formData.step1_identity.region,
+      
+      dcz_applicant_category: formData.step1_identity.applicantCategory,
+      dcz_veteran_fullname: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranFullName : null,
+      dcz_veteran_rnokpp: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranRnokpp : null,
+      dcz_veteran_phone: formData.step1_identity.applicantCategory === 'family_member' ? formData.step1_identity.veteranPhone : null,
+
       dcz_is_active_entrepreneur: formData.step2_needs.isActiveBusiness === 'yes',
       dcz_mentorship_needs_training: formData.step3_details.needsTraining || false,
       dcz_mentorship_needs_support: formData.step3_details.needsMentorship || false,

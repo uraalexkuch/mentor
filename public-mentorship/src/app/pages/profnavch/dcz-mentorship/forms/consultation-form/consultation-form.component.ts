@@ -237,7 +237,18 @@ export class ConsultationFormComponent {
       receivedMicrogrant: '', micrograntYear: '', primaryBusinessActivity: '',
       applicationType: '',
       officeConsultationTopics: { businessPlans: false, personnel: false, creditPrograms: false },
-      otherTopic: '', desiredDate: ''
+      otherTopic: '', desiredDate: '',
+      applicantCategories: {
+        idp: false,
+        disability: false,
+        combatant: false,
+        warDisabled: false,
+        familyMember: false,
+        veteranEnterprise: false
+      },
+      veteranFullName: '',
+      veteranRnokpp: '',
+      veteranPhone: ''
     };
   }
 }

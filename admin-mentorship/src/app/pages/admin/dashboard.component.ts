@@ -1,156 +1,307 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ApplicationStatus, MentorshipApplicationDto, ConsultationOrderDto, CertificateRegistryItemDto } from '@mentor/shared-types';
 
-export interface DashboardStatCard {
-  title: string;
-  value: number;
-  icon: string;
-  color: string;
-}
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
+
+import {
+  ApplicationStatus,
+  MentorshipApplicationDto,
+  ConsultationOrderDto,
+  CertificateRegistryItemDto,
+  MentorDto,
+  MentorshipPairDto,
+  MentorshipStatus,
+  UserRole,
+} from '@mentor/shared-types';
+import { DashboardService } from '../../core/services/dashboard.service';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DatePipe, RouterLink],
+  imports: [
+    CommonModule,
+    DatePipe,
+    RouterLink,
+    BaseChartDirective,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatChipsModule,
+  ],
   providers: [DatePipe],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   ApplicationStatus = ApplicationStatus;
   today = new Date();
+  activeTab = signal<'participants' | 'consultations' | 'mentors' | 'pairs' | 'certificates'>('participants');
 
-  // Mock data - в реальном приложении будет приходить с API
-  applications = signal<MentorshipApplicationDto[]>([
-    {
-      id: '1', fullName: 'Іванов Петро Миколайович', birthDate: '2001-05-15',
-      passportSeries: 'AB123456', passportNumber: '789012', rnokpp: '1234567890',
-      phone: '+380501234567', email: 'ivanov@example.com', regionCode: '46',
-      employmentCenterId: 'ec-001', isBusinessActive: true, receivedMicrogrant: false,
-      primaryBusinessActivity: 'IT-консалтинг',
-      needs: { training: true, mentorshipSupport: true, practicalHelp: false, micrograntMentorship: false },
-      status: ApplicationStatus.SUBMITTED, createdAt: '2025-07-15T10:30:00Z',
-      isIDP: false, hasDisability: false, isCombatant: true, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
-    },
-    {
-      id: '2', fullName: 'Коваленко Марія Ігорівна', birthDate: '2000-08-22',
-      passportSeries: 'CD234567', passportNumber: '890123', rnokpp: '2345678901',
-      phone: '+380672345678', email: 'kovalenko@example.com', regionCode: '08',
-      employmentCenterId: 'ec-002', isBusinessActive: false, receivedMicrogrant: true,
-      micrograntYear: '2024 рік', primaryBusinessActivity: 'Кулінарія',
-      needs: { training: false, mentorshipSupport: true, practicalHelp: true, micrograntMentorship: true },
-      status: ApplicationStatus.IN_PROCESSING, createdAt: '2025-07-14T14:20:00Z',
-      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: true, isVeteranEnterprise: false
-    },
-    {
-      id: '3', fullName: 'Шевченко Олександр Васильович', birthDate: '1999-03-10',
-      passportSeries: 'EF345678', passportNumber: '901234', rnokpp: '3456789012',
-      phone: '+380933456789', email: 'shevchenko@example.com', regionCode: '14',
-      employmentCenterId: 'ec-003', isBusinessActive: true, receivedMicrogrant: false,
-      primaryBusinessActivity: 'Виробництво',
-      needs: { training: true, mentorshipSupport: false, practicalHelp: true, micrograntMentorship: false },
-      status: ApplicationStatus.CONFIRMED, createdAt: '2025-07-13T09:15:00Z',
-      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: true
-    },
-    {
-      id: '4', fullName: 'Бондаренко Анна Сергіївна', birthDate: '2002-11-05',
-      passportSeries: 'GH456789', passportNumber: '012345', rnokpp: '4567890123',
-      phone: '+380664567890', email: 'bondarenko@example.com', regionCode: '30',
-      employmentCenterId: 'ec-004', isBusinessActive: true, receivedMicrogrant: false,
-      primaryBusinessActivity: 'Торгівля',
-      needs: { training: true, mentorshipSupport: true, practicalHelp: true, micrograntMentorship: true },
-      status: ApplicationStatus.RESERVE, createdAt: '2025-07-12T11:45:00Z',
-      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
-    },
-    {
-      id: '5', fullName: 'Ткаченко Дмитро Олексійович', birthDate: '2001-01-20',
-      passportSeries: 'IJ567890', passportNumber: '123456', rnokpp: '5678901234',
-      phone: '+380995678901', email: 'tkachenko@example.com', regionCode: '68',
-      employmentCenterId: 'ec-005', isBusinessActive: true, receivedMicrogrant: true,
-      micrograntYear: '2025 рік', primaryBusinessActivity: 'Сільське господарство',
-      needs: { training: false, mentorshipSupport: false, practicalHelp: false, micrograntMentorship: true },
-      status: ApplicationStatus.COMPLETED, createdAt: '2025-07-11T11:00:00Z',
-      isIDP: false, hasDisability: false, isCombatant: false, isWarDisabled: false, isFamilyMember: false, isVeteranEnterprise: false
-    }
-  ]);
+  // ==================== API DATA ====================
 
-  consultations = signal<ConsultationOrderDto[]>([
-    {
-      id: 'c1', fullName: 'Сидоренко Віктор Олегович', birthDate: '2000-06-15',
-      phone: '+380501112233', email: 'sidorenko@example.com', regionCode: '26',
-      isBusinessActive: true,
-      applicationType: 'TRAINING',
-      preferredDate: '2025-08-01', status: ApplicationStatus.CONSULTATION_DATE, createdAt: '2025-07-16T09:00:00Z'
-    },
-    {
-      id: 'c2', fullName: 'Поліщук Юлія Андріївна', birthDate: '2001-09-28',
-      phone: '+380674445566', email: 'polishchuk@example.com', regionCode: '32',
-      isBusinessActive: false, businessInactiveReason: 'Закрила ФОП 2024 року',
-      applicationType: 'OFFICE_CONSULTATION',
-      otherTopicDescription: 'Допомога з відновленням бізнесу',
-      preferredDate: '2025-08-05', status: ApplicationStatus.SUBMITTED, createdAt: '2025-07-16T14:30:00Z'
-    }
-  ]);
+  applications = signal<MentorshipApplicationDto[]>([]);
+  consultations = signal<ConsultationOrderDto[]>([]);
+  certificates = signal<CertificateRegistryItemDto[]>([]);
+  mentors = signal<MentorDto[]>([]);
+  pairs = signal<MentorshipPairDto[]>([]);
+  mentees = signal<any[]>([]);
 
-  certificates = signal<CertificateRegistryItemDto[]>([
-    {
-      id: 'cert1', year: 2025, institutionName: 'Коледж технологій Київ',
-      edrpoUCode: '12345678', certificateNumber: '12345678/25-01',
-      participantFullName: 'Ментор Іван Петрович', programName: 'Осноки менторства',
-      issueDate: '2025-06-15'
-    },
-    {
-      id: 'cert2', year: 2025, institutionName: 'Одеський навчальний центр',
-      edrpoUCode: '87654321', certificateNumber: '87654321/25-02',
-      participantFullName: 'Ментор Сидор Братієвич', programName: 'Фінансова грамотність',
-      issueDate: '2025-06-20'
-    }
-  ]);
+  constructor(private dashboardService: DashboardService) {}
 
-  // Computed signals для статистики
+  ngOnInit(): void {
+    this.dashboardService.getDashboardData().subscribe({
+      next: (data) => {
+        this.applications.set(data.recent.applications);
+        this.consultations.set(data.recent.consultations);
+        this.certificates.set(data.recent.certificates);
+        this.mentors.set(data.recent.mentors);
+        this.pairs.set(data.recent.pairs);
+        this.mentees.set(data.recent.mentees);
+      },
+      error: (err) => console.error('Failed to load dashboard data:', err)
+    });
+  }
+
+  // Пільгові категорії — computed (замість pipe)
+  idpCount = computed(() => this.applications().filter((a: any) => a.applicantCategories?.includes('ВПО')).length);
+  disabilityCount = computed(() => this.applications().filter((a: any) => a.applicantCategories?.includes('Особа з інвалідністю')).length);
+  combatantCount = computed(() => this.applications().filter((a: any) => a.applicantCategories?.includes('УБД')).length);
+  veteranEnterpriseCount = computed(() => this.applications().filter((a: any) => a.applicantCategories?.includes('Ветеранське підприємство')).length);
+  familyMemberCount = computed(() => this.applications().filter((a: any) => a.applicantCategories?.includes('Член сім\'ї ветерана')).length);
+
   totalApplications = computed(() => this.applications().length);
   totalConsultations = computed(() => this.consultations().length);
+  totalMentors = computed(() => this.mentors().length);
+  totalPairs = computed(() => this.pairs().length);
   totalCertificates = computed(() => this.certificates().length);
-  
-  veteranApplicationsCount = computed(() => 
-    this.applications().filter(a => a.isCombatant || a.isWarDisabled || a.isFamilyMember || a.isVeteranEnterprise).length
-  );
 
-  submittedCount = computed(() =>
-    this.applications().filter(a => a.status === ApplicationStatus.SUBMITTED).length
-  );
-
-  processingCount = computed(() =>
-    this.applications().filter(a => a.status === ApplicationStatus.IN_PROCESSING).length
-  );
-
-  confirmedCount = computed(() =>
-    this.applications().filter(a => a.status === ApplicationStatus.CONFIRMED).length
-  );
-
-  completedCount = computed(() =>
-    this.applications().filter(a => a.status === ApplicationStatus.COMPLETED).length
-  );
-
-  rejectionCount = computed(() =>
-    this.applications().filter(a => a.status === ApplicationStatus.REJECTED).length
-  );
+  submittedCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.SUBMITTED).length);
+  processingCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.IN_PROCESSING).length);
+  confirmedCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.CONFIRMED).length);
+  completedCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.COMPLETED).length);
+  rejectionCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.REJECTED).length);
+  reserveCount = computed(() => this.applications().filter(a => a.status === ApplicationStatus.RESERVE).length);
 
   completionRate = computed(() => {
     const total = this.totalApplications();
-    if (total === 0) return 0;
-    const completed = this.completedCount();
-    return Math.round((completed / total) * 100);
+    return total === 0 ? 0 : Math.round((this.completedCount() / total) * 100);
   });
 
-  // Останні 5 заявок для preview на дашборді
   recentApplications = computed(() =>
     [...this.applications()]
       .sort((a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())
       .slice(0, 5)
   );
+
+  // ==================== CHART.JS DATA ====================
+
+  // --- Учасники: статуси (doughnut) ---
+  participantsStatusChartData = computed<ChartData<'doughnut'>>(() => ({
+    labels: ['Подано', 'Опрацьовується', 'Підтверджено', 'Резерв', 'Завершено', 'Відхилено'],
+    datasets: [{
+      data: [
+        this.submittedCount(),
+        this.processingCount(),
+        this.confirmedCount(),
+        this.reserveCount(),
+        this.completedCount(),
+        this.rejectionCount(),
+      ],
+      backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#0ea5e9', '#8b5cf6', '#ef4444'],
+      borderWidth: 2,
+      borderColor: '#fff',
+    }],
+  }));
+
+  doughnutOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { padding: 12, font: { size: 12 } } },
+    },
+    cutout: '65%',
+  };
+
+  // --- Учасники: потреби (bar) ---
+  needsChartData = computed<ChartData<'bar'>>(() => {
+    const apps = this.applications();
+    return {
+      labels: ['Навчання', 'Менторська підтримка', 'Практична допомога', 'Мікрогрант'],
+      datasets: [{
+        label: 'Кількість',
+        data: [
+          apps.filter((a: any) => a.needsTraining).length,
+          apps.filter((a: any) => a.needsMentorshipSupport).length,
+          apps.filter((a: any) => a.needsPracticalHelp).length,
+          apps.filter((a: any) => a.needsMicrograntMentorship).length,
+        ],
+        backgroundColor: ['#6366f1', '#0ea5e9', '#14b8a6', '#f59e0b'],
+        borderRadius: 6,
+      }],
+    };
+  });
+
+  horizontalBarOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } },
+      y: { grid: { display: false } },
+    },
+  };
+
+  // --- Консультації: типи (pie) ---
+  consultationTypesChartData = computed<ChartData<'pie'>>(() => {
+    const cs = this.consultations();
+    return {
+      labels: ['Навчання', 'Очна консультація', 'Менторство', 'Вет. менторство'],
+      datasets: [{
+        data: [
+          cs.filter(c => c.applicationType === 'TRAINING').length,
+          cs.filter(c => c.applicationType === 'OFFICE_CONSULTATION').length,
+          cs.filter(c => c.applicationType === 'MENTORSHIP').length,
+          cs.filter(c => c.applicationType === 'VETERAN_MENTORSHIP').length,
+        ],
+        backgroundColor: ['#6366f1', '#f59e0b', '#10b981', '#ef4444'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }],
+    };
+  });
+
+  pieOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'right', labels: { padding: 10, font: { size: 12 } } } },
+  };
+
+  // --- Консультації: статуси (bar) ---
+  consultationStatusChartData = computed<ChartData<'bar'>>(() => {
+    const cs = this.consultations();
+    return {
+      labels: ['Подано', 'Опрацьовується', 'Підтверджено', 'Дата консультації'],
+      datasets: [{
+        label: 'Консультацій',
+        data: [
+          cs.filter(c => c.status === ApplicationStatus.SUBMITTED).length,
+          cs.filter(c => c.status === ApplicationStatus.IN_PROCESSING).length,
+          cs.filter(c => c.status === ApplicationStatus.CONFIRMED).length,
+          cs.filter(c => c.status === ApplicationStatus.CONSULTATION_DATE).length,
+        ],
+        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6'],
+        borderRadius: 6,
+      }],
+    };
+  });
+
+  verticalBarOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { precision: 0 } },
+      x: { grid: { display: false } },
+    },
+  };
+
+  // --- Ментори: спеціалізації (bar) ---
+  mentorSpecChartData = computed<ChartData<'bar'>>(() => {
+    const ms = this.mentors();
+    const specs: Record<string, number> = {};
+    ms.forEach(m => { specs[m.specialization] = (specs[m.specialization] || 0) + 1; });
+    return {
+      labels: Object.keys(specs),
+      datasets: [{
+        label: 'Ментори',
+        data: Object.values(specs),
+        backgroundColor: '#6366f1',
+        borderRadius: 6,
+      }],
+    };
+  });
+
+  // --- Ментори: доступність (pie) ---
+  mentorAvailabilityChartData = computed<ChartData<'pie'>>(() => ({
+    labels: ['Вільні', 'Зайняті'],
+    datasets: [{
+      data: [
+        this.mentors().filter(m => m.isAvailable).length,
+        this.mentors().filter(m => !m.isAvailable).length,
+      ],
+      backgroundColor: ['#10b981', '#f59e0b'],
+      borderWidth: 2,
+      borderColor: '#fff',
+    }],
+  }));
+
+  smallDoughnutOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { padding: 10, font: { size: 12 } } } },
+    cutout: '60%',
+  };
+
+  // --- Пари: статуси (bar) ---
+  pairsStatusChartData = computed<ChartData<'bar'>>(() => ({
+    labels: ['Планується', 'В процесі', 'Завершено'],
+    datasets: [{
+      label: 'Кількість',
+      data: [
+        this.pairs().filter(p => p.status === MentorshipStatus.PLANNING).length,
+        this.pairs().filter(p => p.status === MentorshipStatus.IN_PROGRESS).length,
+        this.pairs().filter(p => p.status === MentorshipStatus.COMPLETED).length,
+      ],
+      backgroundColor: ['#f59e0b', '#3b82f6', '#10b981'],
+      borderRadius: 6,
+    }],
+  }));
+
+  // --- Сертифікати: по роках (bar) ---
+  certYearChartData = computed<ChartData<'bar'>>(() => {
+    const certs = this.certificates();
+    const byYear: Record<number, number> = {};
+    certs.forEach(c => { byYear[c.year] = (byYear[c.year] || 0) + 1; });
+    const years = Object.keys(byYear).sort();
+    return {
+      labels: years,
+      datasets: [{
+        label: 'Сертифікатів',
+        data: years.map(y => byYear[+y]),
+        backgroundColor: '#f59e0b',
+        borderRadius: 6,
+      }],
+    };
+  });
+
+  // --- Сертифікати: валідність (doughnut) ---
+  certValidityChartData = computed<ChartData<'doughnut'>>(() => {
+    const certs = this.certificates();
+    const valid = certs.filter(c => this.isValidCertificateFormat(c.certificateNumber)).length;
+    return {
+      labels: ['Коректні', 'Некоректні'],
+      datasets: [{
+        data: [valid, certs.length - valid],
+        backgroundColor: ['#10b981', '#ef4444'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }],
+    };
+  });
+
+  // ==================== HELPERS ====================
 
   getStatusLabel(status: ApplicationStatus): string {
     const labels: Record<ApplicationStatus, string> = {
@@ -159,8 +310,8 @@ export class DashboardComponent {
       [ApplicationStatus.CONFIRMED]: 'Підтверджено',
       [ApplicationStatus.RESERVE]: 'Резерв',
       [ApplicationStatus.REJECTED]: 'Відмовлено',
-      [ApplicationStatus.COMPLETED]: 'Завершено навчання',
-      [ApplicationStatus.CONSULTATION_DATE]: 'Дата консультації'
+      [ApplicationStatus.COMPLETED]: 'Завершено',
+      [ApplicationStatus.CONSULTATION_DATE]: 'Дата консультації',
     };
     return labels[status];
   }
@@ -173,48 +324,53 @@ export class DashboardComponent {
       [ApplicationStatus.RESERVE]: 'status-reserve',
       [ApplicationStatus.REJECTED]: 'status-rejected',
       [ApplicationStatus.COMPLETED]: 'status-completed',
-      [ApplicationStatus.CONSULTATION_DATE]: 'status-consultation'
+      [ApplicationStatus.CONSULTATION_DATE]: 'status-consultation',
     };
     return classes[status];
   }
 
+  getConsultationTypeLabel(type: string): string {
+    const labels: Record<string, string> = {
+      TRAINING: 'Навчання',
+      OFFICE_CONSULTATION: 'Очна консультація',
+      MENTORSHIP: 'Менторство',
+      VETERAN_MENTORSHIP: 'Вет. менторство',
+      '': 'Не вказано',
+    };
+    return labels[type] ?? type;
+  }
+
   getRegionName(code: string): string {
     const regions: Record<string, string> = {
-      '08': 'Вінницька',
-      '14': 'Дніпропетровська',
-      '21': 'Житомирська',
-      '23': 'Закарпатська',
-      '26': 'Харківська',
-      '30': 'Київська',
-      '32': 'Кіровоградська',
-      '35': 'Луганська',
-      '46': 'Одеська',
-      '48': 'Полтавська',
-      '56': 'Рівненська',
-      '60': 'Сумська',
-      '61': 'Тернопільська',
-      '63': 'Херсонська',
-      '65': 'Хмельницька',
-      '68': 'Черкаська',
-      '71': 'Чернівецька',
-      '74': 'Чернігівська'
+      '08': 'Вінницька', '14': 'Дніпропетровська', '26': 'Харківська',
+      '30': 'Київська', '32': 'Кіровоградська', '46': 'Одеська',
+      '48': 'Полтавська', '68': 'Черкаська',
     };
     return regions[code] || `Регіон ${code}`;
   }
 
-  isAgeEligible(birthDateStr: string): boolean {
-    const birthDate = new Date(birthDateStr);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age >= 18 && age <= 25;
+  isValidCertificateFormat(number: string): boolean {
+    return /^\d{8}\/\d{2}-\d{2}$/.test(number);
   }
 
-  isValidCertificateFormat(number: string): boolean {
-    const regex = /^\d{8}\/\d{2}-\d{2}$/;
-    return regex.test(number);
+  getPairStatus(status: MentorshipStatus): string {
+    return { PLANNING: 'Планується', IN_PROGRESS: 'В процесі', COMPLETED: 'Завершено' }[status] ?? status;
   }
+
+  getMentorName(id: string): string {
+    const mentor = this.mentors().find(m => m.id === id);
+    return mentor ? `${mentor.firstName} ${mentor.lastName}` : id;
+  }
+
+  getMenteeName(id: string): string {
+    // Поки немає реального списку mentees, беремо з заявок або форматуємо ID
+    const app = this.applications().find(a => a.id === id.replace('mentee-', ''));
+    if (app) return app.fullName;
+    return id.replace('mentee-00', 'Підопічний ').replace('mentee-0', 'Підопічний ');
+  }
+
+  getPairStatusClass(status: MentorshipStatus): string {
+    return { PLANNING: 'status-reserve', IN_PROGRESS: 'status-processing', COMPLETED: 'status-completed' }[status] ?? '';
+  }
+
 }

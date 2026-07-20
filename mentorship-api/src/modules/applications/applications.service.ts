@@ -1,74 +1,151 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ApplicationStatus } from '@mentor/shared-types';
-import { CreateApplicationDto, UpdateApplicationDto } from './dto/application.dto';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Application } from '../../models/application.model';
+import { Op } from 'sequelize';
 
 export interface AppRecord {
   id: string;
-  applicantName: string;
+  fullName: string;
   regionCode: string;
-  applicationType: string;
-  status: ApplicationStatus;
+  status: string;
   comments?: string;
-  createdAt: string;
-  updatedAt?: string;
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
 @Injectable()
 export class ApplicationsService {
-  private applications: Map<string, AppRecord> = new Map();
-  private counter = 0;
+  /**
+   * Створити нову заявку
+   */
+  async create(data: Partial<Application>): Promise<AppRecord> {
+    const application = await Application.create({
+      fullName: data.fullName,
+      birthDate: data.birthDate ? new Date(data.birthDate as any) : new Date(),
+      passportSeries: data.passportSeries,
+      passportNumber: data.passportNumber,
+      phone: data.phone,
+      email: data.email,
+      regionCode: data.regionCode,
+      employmentCenterId: data.employmentCenterId,
+      isBusinessActive: data.isBusinessActive ?? false,
+      receivedMicrogrant: data.receivedMicrogrant ?? false,
+      micrograntYear: data.micrograntYear,
+      primaryBusinessActivity: data.primaryBusinessActivity,
+      applicantCategories: data.applicantCategories ?? [],
+      needsTraining: data.needsTraining ?? false,
+      needsMentorshipSupport: data.needsMentorshipSupport ?? false,
+      needsPracticalHelp: data.needsPracticalHelp ?? false,
+      needsMicrograntMentorship: data.needsMicrograntMentorship ?? false,
+      status: 'подано',
+    });
 
-  async create(createApplicationDto: CreateApplicationDto): Promise<AppRecord> {
-    this.counter++;
-    const id = String(this.counter);
-    const application: AppRecord = {
-      id,
-      applicantName: createApplicationDto.applicantName,
-      regionCode: createApplicationDto.regionCode,
-      applicationType: createApplicationDto.applicationType,
-      status: ApplicationStatus.SUBMITTED,
-      createdAt: new Date().toISOString()
+    return this.toAppRecord(application);
+  }
+
+  /**
+   * Отримати всі заявки з пагінацією та пошуком
+   */
+  async findAll(page: number = 1, limit: number = 20, search?: string): Promise<{ data: AppRecord[]; total: number }> {
+    const offset = (page - 1) * limit;
+    
+    const where: any = {};
+    if (search) {
+      where[Op.or] = [
+        { fullName: { [Op.like]: `%${search}%` } },
+        { phone: { [Op.like]: `%${search}%` } },
+        { email: { [Op.like]: `%${search}%` } },
+      ];
+    }
+
+    const { count, rows } = await Application.findAndCountAll({
+      where,
+      order: [['createdAt', 'DESC']],
+      limit,
+      offset,
+    });
+
+    return {
+      data: rows.map(item => this.toAppRecord(item)),
+      total: count,
     };
-    this.applications.set(id, application);
-    return application;
   }
 
-  async findAll(page: number = 1, limit: number = 20): Promise<AppRecord[]> {
-    const all = Array.from(this.applications.values());
-    const start = (page - 1) * limit;
-    return all.slice(start, start + limit);
-  }
-
+  /**
+   * Отримати заявку за ID
+   */
   async findOne(id: string): Promise<AppRecord> {
-    const application = this.applications.get(id);
+    const application = await Application.findByPk(id);
+    
     if (!application) {
       throw new NotFoundException(`Application with id ${id} not found`);
     }
-    return application;
+
+    return this.toAppRecord(application);
   }
 
-  async update(id: string, updateApplicationDto: UpdateApplicationDto): Promise<AppRecord> {
-    const application = this.applications.get(id);
+  /**
+   * Отримати заявку за rnokpp
+   */
+  async findByRnokpp(rnokpp: string): Promise<AppRecord | null> {
+    const application = await Application.findOne({ where: { rnokpp } });
+    return application ? this.toAppRecord(application) : null;
+  }
+
+  /**
+   * Оновити заявку
+   */
+  async update(id: string, data: Partial<Application>): Promise<AppRecord> {
+    const application = await Application.findByPk(id);
+    
     if (!application) {
       throw new NotFoundException(`Application with id ${id} not found`);
     }
+
+    await application.update(data);
     
-    const updated = {
-      ...application,
-      ...(updateApplicationDto.status && { status: updateApplicationDto.status }),
-      updatedAt: new Date().toISOString()
-    };
-    
-    this.applications.set(id, updated);
-    return updated;
+    return this.toAppRecord(application);
   }
 
+  /**
+   * Видалити заявку
+   */
   async remove(id: string): Promise<void> {
-    const application = this.applications.get(id);
+    const application = await Application.findByPk(id);
+    
     if (!application) {
       throw new NotFoundException(`Application with id ${id} not found`);
     }
-    this.applications.delete(id);
+
+    await application.destroy();
   }
 
+  /**
+   * Змінити статус заявки
+   */
+  async updateStatus(id: string, status: string): Promise<AppRecord> {
+    const application = await Application.findByPk(id);
+    
+    if (!application) {
+      throw new NotFoundException(`Application with id ${id} not found`);
+    }
+
+    await application.update({ status });
+    
+    return this.toAppRecord(application);
+  }
+
+  /**
+   * Конвертувати модель в AppRecord
+   */
+  private toAppRecord(model: Application): AppRecord {
+    return {
+      id: model.id,
+      fullName: model.fullName,
+      regionCode: model.regionCode,
+      status: model.status,
+      comments: model.rnokppRefusalNote || undefined,
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt || undefined,
+    };
+  }
 }

@@ -1,60 +1,75 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { MentorDto, UserRole } from '@mentor/shared-types';
+import { Mentor } from '../../models/mentor.model';
 
 @Injectable()
 export class MentorsService {
-  private mentors: Map<string, MentorDto> = new Map();
-  private counter = 0;
-
   async create(data: Partial<MentorDto>): Promise<MentorDto> {
-    this.counter++;
-    const id = String(this.counter);
-    const mentor: MentorDto = {
-      id,
+    const mentor = await Mentor.create({
       email: data.email || '',
       firstName: data.firstName || '',
       lastName: data.lastName || '',
-      role: UserRole.MENTOR,
       specialization: data.specialization || '',
       experienceYears: data.experienceYears || 0,
       rating: data.rating || 0,
-      isAvailable: data.isAvailable ?? true,
       maxActiveMentees: data.maxActiveMentees ?? 5,
-      isActive: data.isActive ?? true,
+      isAvailable: data.isAvailable ?? true,
       organizationType: data.organizationType || 'NGO',
       isVolunteer: data.isVolunteer ?? true,
-      createdAt: new Date().toISOString()
-    };
-    this.mentors.set(id, mentor);
-    return mentor;
+      isActive: data.isActive ?? true,
+    });
+    return this.toMentorDto(mentor);
   }
 
   async findAll(): Promise<MentorDto[]> {
-    return Array.from(this.mentors.values());
+    const mentors = await Mentor.findAll({
+      order: [['createdAt', 'DESC']],
+    });
+    return mentors.map(m => this.toMentorDto(m));
   }
 
   async findOne(id: string): Promise<MentorDto> {
-    const mentor = this.mentors.get(id);
+    const mentor = await Mentor.findByPk(id);
     if (!mentor) {
       throw new NotFoundException(`Mentor with id ${id} not found`);
     }
-    return mentor;
+    return this.toMentorDto(mentor);
   }
 
   async update(id: string, data: Partial<MentorDto>): Promise<MentorDto> {
-    const mentor = this.mentors.get(id);
+    const mentor = await Mentor.findByPk(id);
     if (!mentor) {
       throw new NotFoundException(`Mentor with id ${id} not found`);
     }
-    const updated = { ...mentor, ...data };
-    this.mentors.set(id, updated);
-    return updated;
+    await mentor.update(data);
+    return this.toMentorDto(mentor);
   }
 
   async remove(id: string): Promise<void> {
-    if (!this.mentors.has(id)) {
+    const mentor = await Mentor.findByPk(id);
+    if (!mentor) {
       throw new NotFoundException(`Mentor with id ${id} not found`);
     }
-    this.mentors.delete(id);
+    await mentor.destroy();
+  }
+
+  private toMentorDto(model: Mentor): MentorDto {
+    return {
+      id: model.id,
+      email: model.email,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      role: UserRole.MENTOR,
+      specialization: model.specialization,
+      experienceYears: model.experienceYears,
+      rating: model.rating,
+      isAvailable: model.isAvailable,
+      maxActiveMentees: model.maxActiveMentees,
+      isActive: model.isActive,
+      organizationType: model.organizationType,
+      isVolunteer: model.isVolunteer,
+      createdAt: model.createdAt.toISOString(),
+    };
   }
 }
+

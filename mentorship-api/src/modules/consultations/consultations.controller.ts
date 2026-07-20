@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Patch, Delete, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ConsultationsService } from './consultations.service';
-import { ConsultationOrderDto, ApplicationStatus } from '@mentor/shared-types';
+import { ConsultationsService, ConsultationRecord } from './consultations.service';
 
 @ApiTags('consultations')
 @Controller('consultations')
@@ -11,7 +10,7 @@ export class ConsultationsController {
   @Post()
   @ApiOperation({ summary: 'Створити заявку на онлайн-консультацію' })
   @ApiResponse({ status: 201, description: 'Заявку прийнято' })
-  async create(@Body() data: Partial<ConsultationOrderDto>): Promise<{ id: string; status: ApplicationStatus }> {
+  async create(@Body() data: any): Promise<ConsultationRecord> {
     return this.consultationsService.create(data);
   }
 
@@ -23,7 +22,7 @@ export class ConsultationsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Отримати заявку на консультацію за ID' })
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<ConsultationRecord> {
     return this.consultationsService.findOne(id);
   }
 
@@ -31,14 +30,14 @@ export class ConsultationsController {
   @ApiOperation({ summary: 'Оновити статус заявки на консультацію' })
   async updateStatus(
     @Param('id') id: string,
-    @Body('status') status: ApplicationStatus
-  ) {
+    @Body('status') status: string
+  ): Promise<ConsultationRecord> {
     return this.consultationsService.updateStatus(id, status);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Видалити заявку на консультацію' })
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<void> {
     return this.consultationsService.remove(id);
   }
 }

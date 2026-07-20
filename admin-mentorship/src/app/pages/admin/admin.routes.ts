@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../../guards/auth.guard';
+import { roleGuard } from '../../guards/role.guard';
 import { AdminLayoutComponent } from './admin-layout.component';
 
 export const adminRoutes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -29,7 +32,8 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'reports',
-        loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent)
+        loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent),
+        data: { roles: ['SUPER_ADMIN'] }
       },
       {
         path: 'mentors',
@@ -41,7 +45,9 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent)
+        loadComponent: () => import('./settings/settings.component').then(m => m.SettingsComponent),
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ['SUPER_ADMIN'] }
       }
     ]
   }

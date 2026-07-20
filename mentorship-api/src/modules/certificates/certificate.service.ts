@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CertificateEntity } from './entities/certificate.entity';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { Certificate } from '../../models/certificate.model';
 
 /**
  * Сервіс для генерації та управління сертифікатами
@@ -32,32 +32,29 @@ export class CertificateService {
   /**
    * Створення запису сертифіката
    */
-  createCertificate(data: Partial<CertificateEntity>): CertificateEntity {
-    const certificate = new CertificateEntity();
-    
+  async createCertificate(data: Partial<Certificate>): Promise<Certificate> {
     if (!data.certificateNumber) {
       data.edrpoUCode = data.edrpoUCode || '00000000';
       data.year = data.year || new Date().getFullYear();
-      certificate.certificateNumber = this.generateCertificateNumber(
+      data.certificateNumber = this.generateCertificateNumber(
         data.edrpoUCode, 
         data.year
       );
     } else {
       if (!this.validateCertificateNumber(data.certificateNumber)) {
-        throw new Error('Невірний формат номера сертифіката. Очікується: ХХХХХХХХ/УУ-ZZ');
+        throw new BadRequestException('Невірний формат номера сертифіката. Очікується: ХХХХХХХХ/УУ-ZZ');
       }
-      certificate.certificateNumber = data.certificateNumber;
     }
 
-    certificate.year = data.year || new Date().getFullYear();
-    certificate.institutionName = data.institutionName || '';
-    certificate.edrpoUCode = data.edrpoUCode || '';
-    certificate.participantFullName = data.participantFullName || '';
-    certificate.programName = data.programName || '';
-    certificate.issueDate = data.issueDate ? new Date(data.issueDate) : new Date();
-    certificate.note = data.note ?? '';
+    data.year = data.year || new Date().getFullYear();
+    data.institutionName = data.institutionName || '';
+    data.edrpoUCode = data.edrpoUCode || '';
+    data.participantFullName = data.participantFullName || '';
+    data.programName = data.programName || '';
+    data.issueDate = data.issueDate ? new Date(data.issueDate as any) : new Date();
+    data.note = data.note ?? '';
 
-    return certificate;
+    return Certificate.create(data as Partial<Certificate>);
   }
 
   /**

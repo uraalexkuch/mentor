@@ -6,7 +6,7 @@ import {
 var require_dist = __commonJS({
   "../libs/shared-types/dist/index.js"(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.SessionStatus = exports.UserRole = exports.ConsultationTopic = exports.ParticipantNeed = exports.ApplicationStatus = void 0;
+    exports.SessionStatus = exports.MentorshipStatus = exports.UserRole = exports.ConsultationTopic = exports.ParticipantNeed = exports.ApplicationStatus = void 0;
     exports.isEligibleAge = isEligibleAge;
     exports.isValidCertificateNumber = isValidCertificateNumber;
     exports.generateCertificateNumber = generateCertificateNumber;
@@ -60,6 +60,12 @@ var require_dist = __commonJS({
       UserRole2["MENTOR"] = "mentor";
       UserRole2["MENTEE"] = "mentee";
     })(UserRole || (exports.UserRole = UserRole = {}));
+    var MentorshipStatus;
+    (function(MentorshipStatus2) {
+      MentorshipStatus2["PLANNING"] = "PLANNING";
+      MentorshipStatus2["IN_PROGRESS"] = "IN_PROGRESS";
+      MentorshipStatus2["COMPLETED"] = "COMPLETED";
+    })(MentorshipStatus || (exports.MentorshipStatus = MentorshipStatus = {}));
     var SessionStatus;
     (function(SessionStatus2) {
       SessionStatus2["PLANNED"] = "планується";

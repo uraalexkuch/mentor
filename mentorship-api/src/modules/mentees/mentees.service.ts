@@ -1,56 +1,66 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { MenteeDto, UserRole } from '@mentor/shared-types';
+import { Mentee } from '../../models/mentee.model';
 
 @Injectable()
 export class MenteesService {
-  private mentees: Map<string, MenteeDto> = new Map();
-  private counter = 0;
-
   async create(data: Partial<MenteeDto>): Promise<MenteeDto> {
-    this.counter++;
-    const id = String(this.counter);
-    const mentee: MenteeDto = {
-      id,
+    const mentee = await Mentee.create({
       email: data.email || '',
       firstName: data.firstName || '',
       lastName: data.lastName || '',
-      role: UserRole.MENTEE,
       profession: data.profession || '',
       desiredSpecialization: data.desiredSpecialization || '',
       businessType: data.businessType || 'planned',
       isActive: data.isActive ?? true,
-      createdAt: new Date().toISOString()
-    };
-    this.mentees.set(id, mentee);
-    return mentee;
+    });
+    return this.toMenteeDto(mentee);
   }
 
   async findAll(): Promise<MenteeDto[]> {
-    return Array.from(this.mentees.values());
+    const mentees = await Mentee.findAll({
+      order: [['createdAt', 'DESC']],
+    });
+    return mentees.map(m => this.toMenteeDto(m));
   }
 
   async findOne(id: string): Promise<MenteeDto> {
-    const mentee = this.mentees.get(id);
+    const mentee = await Mentee.findByPk(id);
     if (!mentee) {
       throw new NotFoundException(`Mentee with id ${id} not found`);
     }
-    return mentee;
+    return this.toMenteeDto(mentee);
   }
 
   async update(id: string, data: Partial<MenteeDto>): Promise<MenteeDto> {
-    const mentee = this.mentees.get(id);
+    const mentee = await Mentee.findByPk(id);
     if (!mentee) {
       throw new NotFoundException(`Mentee with id ${id} not found`);
     }
-    const updated = { ...mentee, ...data };
-    this.mentees.set(id, updated);
-    return updated;
+    await mentee.update(data);
+    return this.toMenteeDto(mentee);
   }
 
   async remove(id: string): Promise<void> {
-    if (!this.mentees.has(id)) {
+    const mentee = await Mentee.findByPk(id);
+    if (!mentee) {
       throw new NotFoundException(`Mentee with id ${id} not found`);
     }
-    this.mentees.delete(id);
+    await mentee.destroy();
+  }
+
+  private toMenteeDto(model: Mentee): MenteeDto {
+    return {
+      id: model.id,
+      email: model.email,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      role: UserRole.MENTEE,
+      profession: model.profession,
+      desiredSpecialization: model.desiredSpecialization,
+      businessType: model.businessType as 'existing' | 'planned',
+      isActive: model.isActive,
+      createdAt: model.createdAt.toISOString(),
+    };
   }
 }

@@ -1,153 +1,203 @@
-<div class="dashboard">
-  <div class="dash-header">
-    <div>
-      <h1 class="page-title">Панель керування</h1>
-      <p class="page-subtitle">Програма менторства молодих підприємців ДЦЗ · {{ today | date:'dd.MM.yyyy' }}</p>
-    </div>
+<div class="admin-content" style="padding: 2rem;">
+  <h2>Глибока аналітика Програми Менторства</h2>
+
+  <!-- Filters Row -->
+  <div class="filters-card" style="margin-bottom: 2rem; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; gap: 1rem; align-items: center;">
+    <select style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+      <option value="">Вся Україна</option>
+    </select>
+    <select style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+      <option value="">Всі напрямки</option>
+    </select>
+    <input type="date" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    <span style="color: #666;">—</span>
+    <input type="date" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
   </div>
 
-  <!-- ===== Статистичні картки ===== -->
-  <div class="stats-grid">
-
-    <div class="stat-card total" routerLink="/admin/participants">
-      <div class="stat-icon">📋</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ totalApplications() }}</span>
-        <span class="stat-label">Всього заявок</span>
-      </div>
-      <span class="stat-arrow">›</span>
+  <div class="dashboard-sections">
+    <!-- Tabs -->
+    <div class="row"
+      style="border: #000036 solid 1px; border-radius: 1rem; justify-items: center; margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.5rem; background: white;">
+      <button (click)="activeTab.set('participants')" class="btn nextbtn col-auto"
+        [class.active-tab]="activeTab() === 'participants'">👥 Учасники та Заявки</button>
+      <button (click)="activeTab.set('consultations')" class="btn nextbtn col-auto"
+        [class.active-tab]="activeTab() === 'consultations'">💬 Консультації</button>
+      <button (click)="activeTab.set('mentors')" class="btn nextbtn col-auto"
+        [class.active-tab]="activeTab() === 'mentors'">🤝 Ментори</button>
+      <button (click)="activeTab.set('pairs')" class="btn nextbtn col-auto"
+        [class.active-tab]="activeTab() === 'pairs'">🔗 Менторські пари</button>
+      <button (click)="activeTab.set('certificates')" class="btn nextbtn col-auto"
+        [class.active-tab]="activeTab() === 'certificates'">🏆 Сертифікати</button>
     </div>
 
-    <div class="stat-card new" routerLink="/admin/participants">
-      <div class="stat-icon">🆕</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ submittedCount() }}</span>
-        <span class="stat-label">Нових заявок</span>
+    <!-- KPI Metrics Row -->
+    <div class="kpi-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+      <div class="kpi-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem;">
+        <div class="kpi-icon-wrap" style="background: #e0e7ff; color: #4f46e5; padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+          <span style="font-size: 1.5rem;">📋</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label" style="display: block; color: #64748b; font-size: 0.875rem;">Заявки</span>
+          <span class="kpi-value" style="display: block; font-size: 1.5rem; font-weight: bold; color: #1e293b;">{{ totalApplications() }}</span>
+        </div>
       </div>
-      <span class="stat-arrow">›</span>
+      <div class="kpi-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem;">
+        <div class="kpi-icon-wrap" style="background: #dcfce7; color: #16a34a; padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+          <span style="font-size: 1.5rem;">💬</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label" style="display: block; color: #64748b; font-size: 0.875rem;">Консультації</span>
+          <span class="kpi-value" style="display: block; font-size: 1.5rem; font-weight: bold; color: #1e293b;">{{ totalConsultations() }}</span>
+        </div>
+      </div>
+      <div class="kpi-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem;">
+        <div class="kpi-icon-wrap" style="background: #fef3c7; color: #d97706; padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+          <span style="font-size: 1.5rem;">🤝</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label" style="display: block; color: #64748b; font-size: 0.875rem;">Ментори</span>
+          <span class="kpi-value" style="display: block; font-size: 1.5rem; font-weight: bold; color: #1e293b;">{{ totalMentors() }}</span>
+        </div>
+      </div>
+      <div class="kpi-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem;">
+        <div class="kpi-icon-wrap" style="background: #fce7f3; color: #db2777; padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+          <span style="font-size: 1.5rem;">🔗</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label" style="display: block; color: #64748b; font-size: 0.875rem;">Пари</span>
+          <span class="kpi-value" style="display: block; font-size: 1.5rem; font-weight: bold; color: #1e293b;">{{ totalPairs() }}</span>
+        </div>
+      </div>
+      <div class="kpi-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1rem;">
+        <div class="kpi-icon-wrap" style="background: #ccfbf1; color: #0d9488; padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px;">
+          <span style="font-size: 1.5rem;">📊</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label" style="display: block; color: #64748b; font-size: 0.875rem;">Завершення</span>
+          <span class="kpi-value" style="display: block; font-size: 1.5rem; font-weight: bold; color: #1e293b;">{{ completionRate() }}%</span>
+        </div>
+      </div>
     </div>
 
-    <div class="stat-card veteran" routerLink="/admin/participants">
-      <div class="stat-icon" style="background: rgba(46, 125, 50, 0.1); color: #2e7d32;">🎖️</div>
-      <div class="stat-info">
-        <span class="stat-value" style="color: #2e7d32;">{{ veteranApplicationsCount() }}</span>
-        <span class="stat-label">Від ветеранів/УБД</span>
-      </div>
-      <span class="stat-arrow" style="color: #2e7d32;">›</span>
-    </div>
+    <!-- ===== PARTICIPANTS TAB ===== -->
+    @if (activeTab() === 'participants') {
+      <div class="dashboard-panel">
+        <h3 class="panel-title" style="text-align: center; font-weight: bold; margin-bottom: 2rem; font-size: 1.5rem;">Аналітика Учасників</h3>
 
-    <div class="stat-card pending" routerLink="/admin/participants">
-      <div class="stat-icon">⏳</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ processingCount() }}</span>
-        <span class="stat-label">На перевірці</span>
-      </div>
-      <span class="stat-arrow">›</span>
-    </div>
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          <div class="stat-card" style="background: #fff; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.5rem;">Подано / В обробці / Підтверджено</p>
+            <p class="big-num" style="font-size: 1.5rem; font-weight: bold;">
+              <span style="color: #64748b;">{{ submittedCount() }}</span> / <span style="color: #f59e0b;">{{ processingCount() }}</span> / <span style="color: #10b981;">{{ confirmedCount() }}</span>
+            </p>
+          </div>
+          <div class="stat-card" style="background: #fff; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.5rem;">УБД / ВПО / З інвалідністю</p>
+            <p class="big-num" style="font-size: 1.5rem; font-weight: bold;">
+              <span style="color: #10b981;">{{ combatantCount() }}</span> / <span style="color: #3b82f6;">{{ idpCount() }}</span> / <span style="color: #8b5cf6;">{{ disabilityCount() }}</span>
+            </p>
+          </div>
+          <div class="stat-card" style="background: #fff; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.5rem;">Резерв / Відхилено / Завершили</p>
+            <p class="big-num" style="font-size: 1.5rem; font-weight: bold;">
+              <span style="color: #64748b;">{{ reserveCount() }}</span> / <span style="color: #ef4444;">{{ rejectionCount() }}</span> / <span style="color: #10b981;">{{ completedCount() }}</span>
+            </p>
+          </div>
+        </div>
 
-    <div class="stat-card approved" routerLink="/admin/participants">
-      <div class="stat-icon">✅</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ confirmedCount() }}</span>
-        <span class="stat-label">Підтверджено</span>
-      </div>
-      <span class="stat-arrow">›</span>
-    </div>
+        <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">📊 Статуси заявок</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="participantsStatusChartData()" [options]="doughnutOptions" type="doughnut"></canvas>
+            </div>
+          </div>
 
-    <div class="stat-card rejected" routerLink="/admin/participants">
-      <div class="stat-icon">❌</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ rejectionCount() }}</span>
-        <span class="stat-label">Відхилено</span>
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">🎯 Потреби учасників</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="needsChartData()" [options]="horizontalBarOptions" type="bar"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
-      <span class="stat-arrow">›</span>
-    </div>
+    }
 
-    <div class="stat-card completion" routerLink="/admin/reports">
-      <div class="stat-icon">📊</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ completionRate() }}%</span>
-        <span class="stat-label">Рівень завершення</span>
+    <!-- ===== CONSULTATIONS TAB ===== -->
+    @if (activeTab() === 'consultations') {
+      <div class="dashboard-panel">
+        <h3 class="panel-title" style="text-align: center; font-weight: bold; margin-bottom: 2rem; font-size: 1.5rem;">Аналітика Консультацій</h3>
+        <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">📋 Типи послуг</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="consultationTypesChartData()" [options]="pieOptions" type="pie"></canvas>
+            </div>
+          </div>
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">⏳ Статуси консультацій</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="consultationStatusChartData()" [options]="verticalBarOptions" type="bar"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
-      <span class="stat-arrow">›</span>
-    </div>
+    }
 
-    <div class="stat-card consult" routerLink="/admin/consultations">
-      <div class="stat-icon">💬</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ totalConsultations() }}</span>
-        <span class="stat-label">Консультацій</span>
+    <!-- ===== MENTORS TAB ===== -->
+    @if (activeTab() === 'mentors') {
+      <div class="dashboard-panel">
+        <h3 class="panel-title" style="text-align: center; font-weight: bold; margin-bottom: 2rem; font-size: 1.5rem;">Аналітика Менторів</h3>
+        <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">👨‍🏫 Спеціалізації</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="mentorSpecChartData()" [options]="horizontalBarOptions" type="bar"></canvas>
+            </div>
+          </div>
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">✅ Готовність приймати</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="mentorAvailabilityChartData()" [options]="pieOptions" type="pie"></canvas>
+            </div>
+          </div>
+        </div>
       </div>
-      <span class="stat-arrow">›</span>
-    </div>
+    }
 
-    <div class="stat-card certs" routerLink="/admin/certificates">
-      <div class="stat-icon">🏆</div>
-      <div class="stat-info">
-        <span class="stat-value">{{ totalCertificates() }}</span>
-        <span class="stat-label">Сертифікатів</span>
+    <!-- ===== PAIRS TAB ===== -->
+    @if (activeTab() === 'pairs') {
+      <div class="dashboard-panel">
+        <h3 class="panel-title" style="text-align: center; font-weight: bold; margin-bottom: 2rem; font-size: 1.5rem;">Аналітика Менторських Пар</h3>
+        <div class="summary-card full-width" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto;">
+          <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">📈 Статуси пар</h3>
+          <div class="chart-container" style="position: relative; height: 400px;">
+            <canvas baseChart [data]="pairsStatusChartData()" [options]="verticalBarOptions" type="bar"></canvas>
+          </div>
+        </div>
       </div>
-      <span class="stat-arrow">›</span>
-    </div>
+    }
+
+    <!-- ===== CERTIFICATES TAB ===== -->
+    @if (activeTab() === 'certificates') {
+      <div class="dashboard-panel">
+        <h3 class="panel-title" style="text-align: center; font-weight: bold; margin-bottom: 2rem; font-size: 1.5rem;">Аналітика Сертифікатів</h3>
+        <div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">📅 Роки видачі</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="certYearChartData()" [options]="verticalBarOptions" type="bar"></canvas>
+            </div>
+          </div>
+          <div class="summary-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 class="summary-card-title" style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">⚖️ Валідність (Формат)</h3>
+            <div class="chart-container" style="position: relative; height: 350px;">
+              <canvas baseChart [data]="certValidityChartData()" [options]="doughnutOptions" type="doughnut"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
 
   </div>
-
-  <!-- ===== Швидкий перехід ===== -->
-  <div class="quick-nav">
-    <a class="quick-nav-card" routerLink="/admin/participants">
-      <span class="qn-icon">👥</span>
-      <span class="qn-label">Учасники</span>
-    </a>
-    <a class="quick-nav-card" routerLink="/admin/consultations">
-      <span class="qn-icon">💬</span>
-      <span class="qn-label">Консультації</span>
-    </a>
-    <a class="quick-nav-card" routerLink="/admin/certificates">
-      <span class="qn-icon">🏆</span>
-      <span class="qn-label">Сертифікати</span>
-    </a>
-    <a class="quick-nav-card" routerLink="/admin/reports">
-      <span class="qn-icon">📈</span>
-      <span class="qn-label">Звіти</span>
-    </a>
-    <a class="quick-nav-card" routerLink="/admin/settings">
-      <span class="qn-icon">⚙️</span>
-      <span class="qn-label">Налаштування</span>
-    </a>
-  </div>
-
-  <!-- ===== Останні заявки (preview) ===== -->
-  <div class="recent-section">
-    <div class="recent-header">
-      <h2 class="recent-title">Останні заявки</h2>
-      <a class="recent-link" routerLink="/admin/participants">Переглянути всі →</a>
-    </div>
-    <div class="table-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>ПІБ</th>
-            <th>Регіон</th>
-            <th>Статус</th>
-            <th>Дата</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (app of recentApplications(); track app.id) {
-            <tr>
-              <td>{{ app.fullName }}</td>
-              <td>{{ getRegionName(app.regionCode) }}</td>
-              <td>
-                <span class="status-badge" [class]="getStatusClass(app.status)">
-                  {{ getStatusLabel(app.status) }}
-                </span>
-              </td>
-              <td>{{ app.createdAt | date:'dd.MM.yyyy' }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </div>
-
 </div>

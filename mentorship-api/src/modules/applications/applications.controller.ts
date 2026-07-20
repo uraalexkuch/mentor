@@ -18,7 +18,7 @@ export class ApplicationsController {
   @Get()
   @ApiOperation({ summary: 'Отримати список всіх заявок' })
   @ApiResponse({ status: 200, description: 'Список заявок' })
-  async findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 20): Promise<AppRecord[]> {
+  async findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 20) {
     return this.applicationsService.findAll(page, limit);
   }
 
